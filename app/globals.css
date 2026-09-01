@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-sans), "Noto Sans SC", "PingFang SC", "Source Han Sans SC", sans-serif;
+  --font-serif: var(--font-serif), "Noto Serif SC", "Songti SC", "SimSun", serif;
+}
+
+html,
+body {
+  background: #ffffff;
+  color: #1a1a1a;
+}

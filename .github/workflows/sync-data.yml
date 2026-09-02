@@ -1,0 +1,38 @@
+name: Sync China CDC data
+
+on:
+  schedule:
+    # Friday 12:00 Asia/Shanghai, after CDC weekly bulletins typically land
+    - cron: "0 4 * * 5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-cdc-data
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - name: Ingest sentinel, notifiable, and variant CSVs
+        id: ingest
+        run: node scripts/sync-data.mjs
+      - uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: "chore: ingest CDC data (${{ steps.ingest.outputs.summary }})"
+          file_pattern: data
+      - name: Trigger Vercel deploy
+        env:
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -n "$VERCEL_DEPLOY_HOOK" ]; then
+            curl -fsS -X POST "$VERCEL_DEPLOY_HOOK"
+          fi

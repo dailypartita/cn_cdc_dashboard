@@ -6,12 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync-data": "node scripts/sync-data.mjs",
+    "sync-data:local": "node scripts/sync-data.mjs --snapshots-only",
+    "sync-notifiable": "node scripts/sync-notifiable.mjs",
+    "sync-sentinel": "node scripts/sync-sentinel.mjs",
+    "qa-data": "node scripts/qa-data.mjs",
+    "sync-covid-variants": "node scripts/sync-covid-variants.mjs",
+    "write-catalog": "node scripts/catalog.mjs"
   },
   "dependencies": {
+    "hyparquet-writer": "^0.16.9",
     "next": "16.3.4",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

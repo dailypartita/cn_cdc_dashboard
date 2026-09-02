@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
+}
+
+html,
+body {
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+.csv-menu-panel {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(0.25rem) scale(0.98);
+  transition:
+    opacity 200ms ease-out,
+    transform 200ms ease-out,
+    visibility 0ms linear 200ms;
+}
+
+.group:hover .csv-menu-panel,
+.group:focus-within .csv-menu-panel {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 200ms ease-out,
+    transform 200ms ease-out,
+    visibility 0ms linear 0ms;
+}

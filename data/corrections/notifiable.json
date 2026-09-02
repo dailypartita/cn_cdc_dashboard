@@ -1,0 +1,29 @@
+[
+  {
+    "month": "2024-09",
+    "disease": "甲型肝炎",
+    "field": "cases",
+    "from": 0,
+    "to": 1084,
+    "reason": "HTML 发病数写成「10 84」被读成 0；官方 1,084。肝炎分型合计比集团少正好 1,084",
+    "source": "https://www.chinacdc.cn/jksj/jksj01/202410/t20241022_301872.html"
+  },
+  {
+    "month": "2025-01",
+    "disease": "甲乙类传染病合计",
+    "field": "deaths",
+    "from": 0,
+    "to": 1691,
+    "reason": "HTML 死亡数写成「16 91」被读成 0；正文乙类死亡 1,691 人",
+    "source": "https://www.chinacdc.cn/jksj/jksj01/202502/t20250220_304463.html"
+  },
+  {
+    "month": "2025-01",
+    "disease": "甲乙丙类总计",
+    "field": "deaths",
+    "from": 0,
+    "to": 1701,
+    "reason": "HTML 死亡数写成「1 701」被读成 0；正文共死亡 1,701 人",
+    "source": "https://www.chinacdc.cn/jksj/jksj01/202502/t20250220_304463.html"
+  }
+]

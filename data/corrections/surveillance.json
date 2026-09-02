@@ -1,0 +1,128 @@
+[
+  {
+    "reference_date": "2024-11-11",
+    "pathogen": "博卡病毒",
+    "field": "ili_percent",
+    "from": 11.0,
+    "to": 1.1,
+    "reason": "OCR 小数点错位；官方 2024-W46 表1 门急诊 1.1%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202411/t20241121_302759.html"
+  },
+  {
+    "reference_date": "2024-11-18",
+    "pathogen": "鼻病毒",
+    "field": "ili_percent",
+    "from": 94.0,
+    "to": 9.4,
+    "reason": "OCR 小数点错位；官方 2024-W47 表1 门急诊 9.4%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202411/t20241127_302911.html"
+  },
+  {
+    "reference_date": "2024-12-02",
+    "pathogen": "鼻病毒",
+    "field": "ili_percent",
+    "from": 75.0,
+    "to": 7.5,
+    "reason": "OCR 小数点错位；官方 2024-W49 表1 门急诊 7.5%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202412/t20241211_303253.html"
+  },
+  {
+    "reference_date": "2024-12-16",
+    "pathogen": "腺病毒",
+    "field": "ili_percent",
+    "from": 45.0,
+    "to": 4.5,
+    "reason": "OCR 小数点错位；官方 2024-W51 表1 门急诊 4.5%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202412/t20241225_303508.html"
+  },
+  {
+    "reference_date": "2025-01-13",
+    "pathogen": "普通冠状病毒",
+    "field": "ili_percent",
+    "from": 23.0,
+    "to": 2.3,
+    "reason": "OCR 小数点错位；官方 2025-W03 表1 门急诊 2.3%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202501/t20250123_304023.html"
+  },
+  {
+    "reference_date": "2025-01-27",
+    "pathogen": "人偏肺病毒",
+    "field": "ili_percent",
+    "from": 43.0,
+    "to": 4.3,
+    "reason": "OCR 小数点错位；官方 2025-W05 表1 门急诊 4.3%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202502/t20250206_304164.html"
+  },
+  {
+    "reference_date": "2025-02-03",
+    "pathogen": "腺病毒",
+    "field": "ili_percent",
+    "from": 33.0,
+    "to": 3.3,
+    "reason": "OCR 小数点错位；官方 2025-W06 表1 门急诊 3.3%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202502/t20250213_304236.html"
+  },
+  {
+    "reference_date": "2025-03-31",
+    "pathogen": "新型冠状病毒",
+    "field": "sari_percent",
+    "from": 11.1,
+    "to": 3.3,
+    "reason": "主表把 W16 ILI 11.1% 写进 W14 SARI；官方 4 月月报 W14 SARI 3.3%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202505/t20250508_306641.html"
+  },
+  {
+    "reference_date": "2025-03-31",
+    "pathogen": "新型冠状病毒",
+    "field": "target_end_date",
+    "from": "2025-05-04",
+    "to": "2025-04-06",
+    "reason": "W14 结束日被写成整月；官方监测周 3/31–4/6",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202505/t20250508_306641.html"
+  },
+  {
+    "reference_date": "2025-05-05",
+    "pathogen": "新型冠状病毒",
+    "field": "sari_percent",
+    "from": 24.5,
+    "to": 7.1,
+    "reason": "主表把 W21 ILI 24.5% 写进 W19 SARI；官方 5 月月报 W19 SARI 7.1%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202506/t20250605_307352.html"
+  },
+  {
+    "reference_date": "2025-05-05",
+    "pathogen": "新型冠状病毒",
+    "field": "target_end_date",
+    "from": "2025-06-01",
+    "to": "2025-05-11",
+    "reason": "W19 结束日被写成整月；官方监测周 5/5–5/11",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202506/t20250605_307352.html"
+  },
+  {
+    "reference_date": "2025-09-08",
+    "pathogen": "博卡病毒",
+    "field": "sari_percent",
+    "from": 13.0,
+    "to": 1.3,
+    "reason": "OCR 小数点错位；官方 2025-W37 表1 住院 1.3%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202509/t20250918_310622.html"
+  },
+  {
+    "reference_date": "2025-09-29",
+    "pathogen": "博卡病毒",
+    "field": "ili_percent",
+    "from": 11.0,
+    "to": 1.1,
+    "reason": "OCR 小数点错位；官方 2025-W40 表1 门急诊 1.1%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202510/t20251009_312852.html"
+  },
+  {
+    "reference_date": "2025-10-06",
+    "pathogen": "流感病毒",
+    "field": "sari_percent",
+    "from": 11.0,
+    "to": 1.1,
+    "reason": "OCR 小数点错位；官方 2025-W41 表1 住院 1.1%",
+    "source": "https://www.chinacdc.cn/jksj/jksj04_14275/202510/t20251015_312973.html"
+  }
+]

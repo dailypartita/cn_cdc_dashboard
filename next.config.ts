@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  outputFileTracingIncludes: {
+    "*": ["./data/**/*"],
+  },
+  async redirects() {
+    return [{ source: "/data", destination: "/csv", permanent: false }];
+  },
 };
 
 export default nextConfig;

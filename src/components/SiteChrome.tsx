@@ -1,0 +1,115 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { CHART_DOWNLOAD_GROUPS, chartDownloadPath } from "@/lib/chart-downloads";
+import { FORECAST_HUB, SITE_GITHUB, SITE_NAME } from "@/lib/links";
+
+const TOOLS = [
+  { href: FORECAST_HUB, label: "预测竞技场" },
+  { href: SITE_GITHUB, label: "GitHub" },
+] as const;
+
+export function TopNav() {
+  const pathname = usePathname();
+
+  return (
+    <header className="sticky top-0 z-20 bg-[#1b6bb8] text-white">
+      <div className="flex h-[4.25rem] items-center gap-6 px-5 text-[16px]">
+        <Link href="/" className="min-w-0 truncate text-[18px] font-bold">
+          {SITE_NAME}
+        </Link>
+        <nav className="ml-auto flex shrink-0 items-center gap-5 font-bold whitespace-nowrap">
+          <CsvMenu active={pathname === "/csv"} />
+          {TOOLS.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/80 hover:text-white"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+const CSV_ITEM_CLASS =
+  "block px-4 py-2.5 text-[15px] font-medium leading-snug whitespace-normal transition-colors duration-150 ease-out hover:bg-white hover:text-[#1b6bb8]";
+
+function CsvMenu({ active }: { active: boolean }) {
+  return (
+    <div className="group relative flex h-[4.25rem] items-center">
+      <Link
+        href="/csv"
+        className={`inline-flex items-center gap-1 ${active ? "text-white" : "text-white/80 group-hover:text-white"}`}
+        aria-haspopup="menu"
+      >
+        CSV
+        <svg
+          aria-hidden
+          viewBox="0 0 12 12"
+          className="size-[0.72em] translate-y-px transition-transform duration-200 ease-out group-hover:rotate-90 group-focus-within:rotate-90"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M4 2.2 8.3 6 4 9.8" />
+        </svg>
+      </Link>
+      <div
+        role="menu"
+        className="csv-menu-panel absolute top-full right-0 z-30 w-[min(20rem,calc(100vw-2.5rem))] origin-top-right pt-0.5 max-md:fixed max-md:top-[4.25rem] max-md:right-4 max-md:left-4 max-md:w-auto"
+      >
+        <div className="bg-[#155a9c] py-2 font-normal whitespace-normal shadow-[0_16px_40px_rgba(8,30,70,0.28)]">
+          {CHART_DOWNLOAD_GROUPS.map((group) => (
+            <div key={group.section} className="py-1">
+              <p className="px-4 pb-1 pt-2 text-[13px] font-medium leading-snug text-white/55">{group.section}</p>
+              {group.items.map((item) => (
+                <a
+                  key={item.id}
+                  role="menuitem"
+                  href={chartDownloadPath(item.id)}
+                  download={item.filename}
+                  className={`${CSV_ITEM_CLASS} text-white`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          ))}
+          <div className="mt-1 border-t border-white/20">
+            <Link href="/csv" role="menuitem" className={`${CSV_ITEM_CLASS} text-white/80`}>
+              全部文件与字段说明
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function SiteFooter() {
+  return (
+    <footer className="border-t border-neutral-200 bg-white">
+      <div className="px-4 py-4 text-[11px] leading-relaxed text-neutral-400">
+        本站依据中国 CDC 公开数据整理，为开源研究项目，非正式官方站点。欢迎在{" "}
+        <a
+          className="text-neutral-500 hover:text-[#1b6bb8] hover:underline"
+          href={FORECAST_HUB}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          预测竞技场
+        </a>
+        提交预测。原始数据知识产权属于中国疾病预防控制中心。
+      </div>
+    </footer>
+  );
+}

@@ -26,14 +26,12 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Setup Pages
-        id: setup_pages
-        uses: actions/configure-pages@v5
       - name: Build static site
         run: npm run build
         env:
-          PAGES_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}
-          NEXT_PUBLIC_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}
+          # Project site: https://dailypartita.github.io/cn_cdc_dashboard/
+          PAGES_BASE_PATH: /cn_cdc_dashboard
+          NEXT_PUBLIC_BASE_PATH: /cn_cdc_dashboard
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

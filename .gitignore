@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# generated static downloads (rebuilt by scripts/prepare-static.mjs)
+/public/download/
+
 # production
 /build
 

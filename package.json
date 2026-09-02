@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/prepare-static.mjs",
+    "prebuild": "node scripts/prepare-static.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "prepare-static": "node scripts/prepare-static.mjs",
     "sync-data": "node scripts/sync-data.mjs",
     "sync-data:local": "node scripts/sync-data.mjs --snapshots-only",
     "sync-notifiable": "node scripts/sync-notifiable.mjs",

@@ -1,13 +1,10 @@
-import { CDC_BULLETINS, CDC_NOTIFIABLE } from "@/lib/links";
+import { CDC_BULLETINS, CDC_NOTIFIABLE, SITE_PAGES, withBase } from "@/lib/links";
 import { loadAll, loadNotifiable } from "@/lib/data/load";
 import { DATA_FILES, NOTIFIABLE_FILE, VARIANT_FILE } from "@/lib/data/files";
 import { CHART_DOWNLOADS, chartDownloadPath } from "@/lib/chart-downloads";
 import { uniqueWeeks } from "@/lib/data/parse";
 import { uniqueMonths } from "@/lib/data/notifiable";
 import { buildTable1 } from "@/lib/data/table1";
-import { DATA_REVALIDATE } from "@/lib/data/cache";
-
-export const revalidate = DATA_REVALIDATE;
 
 const COLUMNS = [
   ["reference_date", "监测周起始日（周一）"],
@@ -96,7 +93,7 @@ export default function CsvPage() {
       <ul className="mt-3 space-y-2 text-[16px]">
         {DATA_FILES.map((file) => (
           <li key={file}>
-            <a className="text-neutral-800 underline decoration-neutral-300 underline-offset-2" href={`/download/${file}`}>
+            <a className="text-neutral-800 underline decoration-neutral-300 underline-offset-2" href={withBase(`/download/${file}`)}>
               {file}
             </a>
             <span className="ml-2 text-[15px] text-neutral-400">
@@ -112,7 +109,7 @@ export default function CsvPage() {
           <li>
             <a
               className="text-neutral-800 underline decoration-neutral-300 underline-offset-2"
-              href={`/download/snapshots/${latest.key}.csv`}
+              href={withBase(`/download/snapshots/${latest.key}.csv`)}
             >
               {latest.key}.csv
             </a>
@@ -131,7 +128,7 @@ export default function CsvPage() {
         <li>
           <a
             className="text-neutral-800 underline decoration-neutral-300 underline-offset-2"
-            href={`/download/${NOTIFIABLE_FILE}`}
+            href={withBase(`/download/${NOTIFIABLE_FILE}`)}
           >
             {NOTIFIABLE_FILE}
           </a>
@@ -141,7 +138,7 @@ export default function CsvPage() {
           <li>
             <a
               className="text-neutral-800 underline decoration-neutral-300 underline-offset-2"
-              href={`/download/notifiable/${latestNid.month}.csv`}
+              href={withBase(`/download/notifiable/${latestNid.month}.csv`)}
             >
               {latestNid.month}.csv
             </a>
@@ -158,7 +155,7 @@ export default function CsvPage() {
         <li>
           <a
             className="text-neutral-800 underline decoration-neutral-300 underline-offset-2"
-            href={`/download/${VARIANT_FILE}`}
+            href={withBase(`/download/${VARIANT_FILE}`)}
           >
             {VARIANT_FILE}
           </a>
@@ -168,8 +165,8 @@ export default function CsvPage() {
 
       <pre className="mt-6 overflow-x-auto border border-neutral-200 bg-neutral-50 p-4 text-[14px] leading-relaxed text-neutral-700">
 {`import pandas as pd
-df = pd.read_csv("https://<this-host>/download/notifiable_all.csv")
-df = pd.read_parquet("https://<this-host>/download/notifiable_all.parquet")`}
+df = pd.read_csv("${SITE_PAGES}/download/notifiable_all.csv")
+df = pd.read_parquet("${SITE_PAGES}/download/notifiable_all.parquet")`}
       </pre>
 
       <h2 className="mt-10 text-[18px] font-bold">哨点字段</h2>

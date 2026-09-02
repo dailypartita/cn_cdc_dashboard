@@ -1,13 +1,10 @@
 import type { ReactNode } from "react";
-import { CDC_HEALTH_DATA, CDC_NAV, FORECAST_HUB, SITE_ISSUES, SITE_NAME } from "@/lib/links";
+import { CDC_HEALTH_DATA, CDC_NAV, FORECAST_HUB, SITE_ISSUES, SITE_NAME, withBase } from "@/lib/links";
 import { loadAll, loadCovid, loadNotifiable } from "@/lib/data/load";
-import { DATA_REVALIDATE } from "@/lib/data/cache";
 import { dataStatus } from "@/lib/data/status";
 import { BulletinCharts } from "@/components/BulletinCharts";
 import { CovidCharts } from "@/components/CovidCharts";
 import { NotifiableCharts } from "@/components/NotifiableCharts";
-
-export const revalidate = DATA_REVALIDATE;
 
 export default function HomePage() {
   const records = loadAll();
@@ -83,7 +80,7 @@ export default function HomePage() {
         <ol className="space-y-2">
           {toc.map((item) => (
             <li key={item.id}>
-              <a href={item.href} className="group flex items-baseline gap-3 text-[16px] hover:text-[#1b6bb8]">
+              <a href={withBase(item.href)} className="group flex items-baseline gap-3 text-[16px] hover:text-[#1b6bb8]">
                 <span className="w-6 shrink-0 tabular-nums text-neutral-400">{item.index}.</span>
                 <span className="font-medium text-neutral-800 group-hover:text-[#1b6bb8]">{item.name}</span>
                 {item.meta ? (

@@ -1,9 +1,7 @@
 name: Sync China CDC data
 
+# Airflow is the weekly runner. Keep this as a manual backup if the scheduler is down.
 on:
-  schedule:
-    # Friday 12:00 Asia/Shanghai, after CDC weekly bulletins typically land
-    - cron: "0 4 * * 5"
   workflow_dispatch:
 
 permissions:
@@ -29,10 +27,3 @@ jobs:
         with:
           commit_message: "chore: ingest CDC data (${{ steps.ingest.outputs.summary }})"
           file_pattern: data
-      - name: Trigger Vercel deploy
-        env:
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-        run: |
-          if [ -n "$VERCEL_DEPLOY_HOOK" ]; then
-            curl -fsS -X POST "$VERCEL_DEPLOY_HOOK"
-          fi

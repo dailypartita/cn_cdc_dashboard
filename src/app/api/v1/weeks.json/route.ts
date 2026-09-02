@@ -1,17 +1,11 @@
 import { loadAll } from "@/lib/data/load";
 import { uniqueWeeks } from "@/lib/data/parse";
-import { jsonResponse, optionsResponse } from "@/lib/api/http";
-import { DATA_REVALIDATE } from "@/lib/data/cache";
 
-export const revalidate = DATA_REVALIDATE;
-
-export function OPTIONS() {
-  return optionsResponse();
-}
+export const dynamic = "force-static";
 
 export function GET() {
   const weeks = uniqueWeeks(loadAll());
-  return jsonResponse({
+  return Response.json({
     count: weeks.length,
     weeks: weeks.map((w) => ({
       key: w.key,

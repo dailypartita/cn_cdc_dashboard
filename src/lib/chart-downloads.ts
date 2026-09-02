@@ -1,4 +1,4 @@
-import { CDC_NAV } from "@/lib/links";
+import { CDC_NAV, withBase } from "@/lib/links";
 
 export type ChartDownload = {
   id: "notifiable-cases" | "notifiable-deaths" | "sentinel-ili" | "sentinel-sari" | "covid-positivity";
@@ -46,7 +46,7 @@ export const CHART_DOWNLOAD_GROUPS = CDC_NAV.map((nav) => ({
 }));
 
 export function chartDownloadPath(id: ChartDownload["id"]) {
-  return `/download/charts/${id}.csv`;
+  return withBase(`/download/charts/${id}.csv`);
 }
 
 export function isChartDownloadId(id: string): id is ChartDownload["id"] {

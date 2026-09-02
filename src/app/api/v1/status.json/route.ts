@@ -1,16 +1,10 @@
 import { dataStatus } from "@/lib/data/status";
-import { DATA_REVALIDATE } from "@/lib/data/cache";
-import { jsonResponse, optionsResponse } from "@/lib/api/http";
 
-export const revalidate = DATA_REVALIDATE;
-
-export function OPTIONS() {
-  return optionsResponse();
-}
+export const dynamic = "force-static";
 
 export function GET() {
   const status = dataStatus();
-  return jsonResponse({
+  return Response.json({
     synced_at: status.synced_at,
     sentinel: status.sentinel
       ? {

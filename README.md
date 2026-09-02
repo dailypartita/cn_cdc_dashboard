@@ -1,12 +1,13 @@
 # 中国疾控结构化数据库（非官方开源项目）
 
-把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报、新冠疫情通报整理成可交互图表，并提供 CSV / Parquet 与只读 API。
+把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报、新冠疫情通报整理成可交互图表，并提供 CSV / Parquet 与只读 JSON。
 
 本站由社区维护，**不是中国 CDC 官方网站**。引用请以 [中国 CDC 健康数据](https://www.chinacdc.cn/jksj/) 原文为准。原始数据知识产权属于中国疾病预防控制中心，仅供非商业研究使用。
 
+- 站点：[https://dailypartita.github.io/cn_cdc_dashboard/](https://dailypartita.github.io/cn_cdc_dashboard/)
 - 主页：`/`（法定传染病、哨点监测、新冠）
-- CSV：`/csv`（`/data` 会跳转到这里）
-- API 说明：`/api-docs`
+- CSV：`/csv/`（`/data/` 会跳转到这里）
+- API 说明：`/api-docs/`
 
 欢迎在 [预测竞技场](https://dailypartita.github.io/China-COVID-19-Forecast-Dashboard/) 提交预测。
 
@@ -16,12 +17,13 @@
 
 ```
 src/
-  app/                   Next.js 路由：首页、CSV、API、下载
+  app/                   Next.js 路由：首页、CSV、API JSON、下载页
   components/            页面组件与图表
   lib/                   链接、病原体目录、读盘与解析
-scripts/                 同步、抽取、校正
+scripts/                 同步、抽取、校正、静态文件准备、Airflow 入库
 data/                    存档 CSV、快照、校正补丁、catalog.json
-.github/workflows/       每周五自动入库
+airflow/dags/            每周入库 DAG
+.github/workflows/       推送后构建 GitHub Pages；手动入库备份
 ```
 
 `package.json`、`next.config.ts`、`tsconfig.json` 必须放在仓库根目录，Next.js 才会识别。`AGENTS.md` / `CLAUDE.md` 由 `next dev` 自动生成，删了会再出现。
@@ -35,16 +37,32 @@ npm install
 npm run dev
 ```
 
-打开 [http://localhost:3000](http://localhost:3000)。
+打开 [http://localhost:3000](http://localhost:3000)。`predev` 会把 `data/` 拷到 `public/download/` 并生成 Parquet。
+
+静态导出（与 GitHub Pages 相同）：
 
 ```bash
 npm run build
-npm start
+npx serve out
 ```
 
-## 数据同步
+## 每周流水线
 
-GitHub Action 每周五 12:00（Asia/Shanghai）跑 `sync-data`：抽哨点周报表1、法定传染病月报、新冠流行株，校正后写入 `data/catalog.json` 并提交。Vercel 随提交重建后，首页图、CSV 下载、目录后的最新期会一起换成新数据。没有新周报时不产生空提交。哨点抽取失败则整次任务失败，站点继续用上次存档。
+1. **Airflow**（周五 12:00 Asia/Shanghai，调度器为 UTC 时 cron 为 `0 4 * * 5`）在 worker 上跑 `scripts/airflow_ingest.sh`：`git pull` → `node scripts/sync-data.mjs` → 若 `data/` 有变更则 commit 并 `git push origin main`。
+2. **GitHub Actions** `pages.yml` 在 `main` 每次推送后 `next build`（`output: "export"`），把 `out/` 发布到 GitHub Pages。
+
+把 DAG 链到调度器：
+
+```bash
+export CDC_DASHBOARD_ROOT=/path/to/cn_cdc_dashboard
+ln -s "$CDC_DASHBOARD_ROOT/airflow/dags/cn_cdc_dashboard_weekly.py" "$AIRFLOW_HOME/dags/"
+```
+
+Worker 需要 Node 18+、git，以及能推这个仓库的凭据（SSH deploy key 或 HTTPS token）。仓库 **Settings → Pages → Source** 选 **GitHub Actions**。
+
+没有新周报时 Airflow 任务成功但不产生空提交，Pages 也不会无故重建。哨点抽取失败则整次任务失败，站点继续用上次存档。
+
+若调度器暂时不可用，可在 Actions 里手动跑 **Sync China CDC data**。
 
 ```bash
 npm run sync-data            # 完整入库（哨点 + 法定传染病 + 流行株）
@@ -54,15 +72,14 @@ npm run sync-notifiable      # 只抽法定传染病月报
 npm run sync-covid-variants  # 只抽新冠流行株周占比
 npm run qa-data              # 不重新下载，只重跑校正与校验
 npm run write-catalog        # 按当前 CSV 重写 catalog.json
+npm run prepare-static       # 仅生成 public/download
 ```
-
-若站点不跟 GitHub 自动部署，把 Vercel Deploy Hook 配成仓库密钥 `VERCEL_DEPLOY_HOOK`。
 
 同步后会套用 `data/corrections/` 里已核对的官方表1 / 月报补丁，并自动处理两类复发错误：哨点单周变成邻周约 10 倍（OCR 丢掉小数点），以及月报数字带空格（`10 84`）或合计行对不上分病原。2025 年 W14–W22 的 11 病原体周序列按官方月报回写入主表。上游若已修好，补丁不会覆盖。
 
 ## 下载
 
-同一路径把 `.csv` 换成 `.parquet` 即可。
+站点根为 `https://dailypartita.github.io/cn_cdc_dashboard`。同一路径把 `.csv` 换成 `.parquet` 即可。
 
 | 路径 | 说明 |
 | --- | --- |
@@ -76,27 +93,27 @@ npm run write-catalog        # 按当前 CSV 重写 catalog.json
 
 ```python
 import pandas as pd
-df = pd.read_csv("http://localhost:3000/download/cncdc_surveillance_all.csv")
-df = pd.read_parquet("http://localhost:3000/download/cncdc_surveillance_all.parquet")
+df = pd.read_csv("https://dailypartita.github.io/cn_cdc_dashboard/download/cncdc_surveillance_all.csv")
+df = pd.read_parquet("https://dailypartita.github.io/cn_cdc_dashboard/download/cncdc_surveillance_all.parquet")
 ```
 
 ## API
 
-只读、免密钥、开放 CORS。默认 JSON，加 `format=csv` 或 `format=parquet` 可改格式。说明页：`/api-docs`。
+构建时写出的静态 JSON。说明页：`/api-docs/`。
 
 | 路径 | 说明 |
 | --- | --- |
-| `GET /api/v1/surveillance` | 哨点长表。`pathogen`、`start`、`end` |
-| `GET /api/v1/latest` | 最新周（表1 结构，含较上周） |
-| `GET /api/v1/status` | 各数据集最新期 |
-| `GET /api/v1/weeks` | 监测周列表 |
-| `GET /api/v1/pathogens` | 哨点病原体目录 |
-| `GET /api/v1/notifiable` | 法定传染病长表。`disease` / `class` / `start` / `end` |
-| `GET /api/v1/covid-variants` | 流行株长表。`lineage` / `start` / `end` |
+| `GET /api/v1/surveillance.json` | 哨点长表 |
+| `GET /api/v1/latest.json` | 最新周（表1 结构，含较上周） |
+| `GET /api/v1/status.json` | 各数据集最新期 |
+| `GET /api/v1/weeks.json` | 监测周列表 |
+| `GET /api/v1/pathogens.json` | 哨点病原体目录 |
+| `GET /api/v1/notifiable.json` | 法定传染病长表（不含总计行） |
+| `GET /api/v1/covid-variants.json` | 流行株长表 |
 
 ```bash
-curl "http://localhost:3000/api/v1/surveillance?pathogen=sars-cov-2&start=2026-01-01&format=csv"
-curl "http://localhost:3000/api/v1/latest"
+curl "https://dailypartita.github.io/cn_cdc_dashboard/api/v1/latest.json"
+curl "https://dailypartita.github.io/cn_cdc_dashboard/api/v1/surveillance.json"
 ```
 
 ## 未收录

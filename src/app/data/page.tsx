@@ -12,7 +12,7 @@ export default function DataRedirectPage() {
 
   return (
     <main className="px-6 py-8">
-      <p className="text-[16px] text-muted-ink">
+      <p className="text-base text-muted-ink">
         下载页已移至{" "}
         <Link href="/csv" className="text-primary hover:underline">
           CSV

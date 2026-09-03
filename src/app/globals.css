@@ -47,6 +47,10 @@
   --color-warning: var(--warning);
 }
 
+html {
+  font-size: 150%;
+}
+
 html,
 body {
   background: var(--page);
@@ -63,8 +67,8 @@ h3 {
 a:focus-visible,
 button:focus-visible,
 summary:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  outline: 0.125rem solid var(--primary);
+  outline-offset: 0.125rem;
 }
 
 .csv-menu-panel {

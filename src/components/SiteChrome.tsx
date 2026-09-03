@@ -16,9 +16,9 @@ export function TopNav() {
 
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-page text-ink">
-      <div className="flex h-[4.25rem] items-center gap-3 px-4 text-[15px] sm:gap-6 sm:px-5 sm:text-[16px]">
+      <div className="flex h-[4.25rem] items-center gap-3 px-4 text-[0.9375rem] sm:gap-6 sm:px-5 sm:text-base">
         <Link href="/" className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-[16px] font-semibold tracking-tight sm:text-[18px]">{SITE_NAME}</span>
+          <span className="truncate text-base font-semibold tracking-tight sm:text-lg">{SITE_NAME}</span>
           <UnofficialBadge variant="nav" />
         </Link>
         <nav className="ml-auto flex shrink-0 items-center gap-3 font-medium whitespace-nowrap sm:gap-5">
@@ -45,7 +45,7 @@ export function TopNav() {
 }
 
 const CSV_ITEM_CLASS =
-  "block px-4 py-2.5 text-[15px] font-medium leading-snug whitespace-normal transition-colors duration-150 ease-out hover:bg-hover-wash hover:text-primary";
+  "block px-4 py-2.5 text-[0.9375rem] font-medium leading-snug whitespace-normal transition-colors duration-150 ease-out hover:bg-hover-wash hover:text-primary";
 
 function CsvMenu({ active }: { active: boolean }) {
   return (
@@ -80,7 +80,7 @@ function CsvMenu({ active }: { active: boolean }) {
         <div className="border border-line bg-surface py-2 font-normal whitespace-normal">
           {CHART_DOWNLOAD_GROUPS.map((group) => (
             <div key={group.section} className="py-1">
-              <p className="px-4 pb-1 pt-2 text-[13px] font-medium tracking-wide text-muted-ink uppercase">{group.section}</p>
+              <p className="px-4 pb-1 pt-2 text-[0.8125rem] font-medium tracking-wide text-muted-ink uppercase">{group.section}</p>
               {group.items.map((item) => (
                 <a
                   key={item.id}
@@ -108,7 +108,7 @@ function CsvMenu({ active }: { active: boolean }) {
 export function SiteFooter() {
   return (
     <footer className="border-t border-line bg-page">
-      <div className="px-4 py-4 text-[11px] leading-relaxed text-muted-ink">
+      <div className="px-4 py-4 text-[0.6875rem] leading-relaxed text-muted-ink">
         本站为社区维护的<strong className="font-medium text-ink">非官方开源项目</strong>
         ，非正式中国 CDC 网站。依据中国 CDC 公开数据整理，原始数据知识产权属于中国疾病预防控制中心。欢迎在{" "}
         <a

@@ -89,7 +89,7 @@ export function ChartToolbar({
   }
 
   return (
-    <div className="mb-4 space-y-2.5 text-[12px]">
+    <div className="mb-4 space-y-2.5 text-xs">
       <div>
         <Seg
           value={String(timeWindow)}
@@ -140,7 +140,7 @@ export function ChartToolbar({
                   }`}
                 >
                   <span
-                    className="inline-block h-[2px] w-3.5 shrink-0"
+                    className="inline-block h-[0.125rem] w-3.5 shrink-0"
                     style={{ background: item.color, opacity: on ? 1 : 0.35 }}
                   />
                   {item.name}

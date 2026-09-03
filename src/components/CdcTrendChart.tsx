@@ -114,42 +114,42 @@ export function CdcTrendChart({
 
   return (
     <section id={id} className="mt-6 scroll-mt-20">
-      <h3 className="mb-2 text-center text-[15px] font-semibold text-ink">{title}</h3>
+      <h3 className="mb-2 text-center text-[0.9375rem] font-semibold text-ink">{title}</h3>
       <div className="border border-line bg-surface">
         <div className="flex flex-col lg:flex-row lg:items-stretch">
           <div className="flex min-w-0 flex-1 flex-col">
-            <div className="h-[380px] w-full">
+            <div className="h-[23.75rem] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={rows}
-                  margin={{ top: 8, right: 16, bottom: rotateTicks ? 8 : 0, left: 8 }}
+                  margin={{ top: 12, right: 24, bottom: rotateTicks ? 12 : 0, left: 12 }}
                   onMouseMove={onMove}
                   onMouseLeave={() => setHoverIndex(null)}
                 >
                   <CartesianGrid stroke="#eef1f5" vertical={false} />
                   <XAxis
                     dataKey="label"
-                    tick={{ fontSize: 11, fill: "#5a6578" }}
+                    tick={{ fontSize: 16.5, fill: "#5a6578" }}
                     tickLine={false}
                     axisLine={{ stroke: "#d8dee6" }}
-                    minTickGap={22}
-                    height={rotateTicks ? 58 : 32}
+                    minTickGap={33}
+                    height={rotateTicks ? 87 : 48}
                     angle={rotateTicks ? -40 : 0}
                     textAnchor={rotateTicks ? "end" : "middle"}
                   />
                   <YAxis
                     domain={[0, ymax]}
-                    tick={{ fontSize: 11, fill: "#5a6578" }}
+                    tick={{ fontSize: 16.5, fill: "#5a6578" }}
                     tickLine={false}
                     axisLine={false}
-                    width={52}
+                    width={78}
                     tickFormatter={tick}
                     label={{
                       value: yLabel,
                       angle: -90,
                       position: "insideLeft",
-                      offset: 2,
-                      style: { fontSize: 11, fill: "#5a6578" },
+                      offset: 3,
+                      style: { fontSize: 16.5, fill: "#5a6578" },
                     }}
                   />
                   <Tooltip
@@ -164,9 +164,9 @@ export function CdcTrendChart({
                       dataKey={s.name}
                       name={s.name}
                       stroke={s.color}
-                      strokeWidth={series.length <= 3 ? 2 : 1.5}
-                      dot={showDots ? { r: 3, strokeWidth: 0, fill: s.color } : false}
-                      activeDot={{ r: 4, strokeWidth: 0, fill: s.color }}
+                      strokeWidth={series.length <= 3 ? 3 : 2.25}
+                      dot={showDots ? { r: 4.5, strokeWidth: 0, fill: s.color } : false}
+                      activeDot={{ r: 6, strokeWidth: 0, fill: s.color }}
                       isAnimationActive={false}
                       connectNulls={false}
                     />
@@ -219,20 +219,20 @@ function RankedBarPanel({
   return (
     <aside
       data-rank-panel
-      className="flex w-full shrink-0 flex-col border-t border-line lg:w-[280px] lg:border-t-0 lg:border-l"
+      className="flex w-full shrink-0 flex-col border-t border-line lg:w-[17.5rem] lg:border-t-0 lg:border-l"
     >
       <div className="px-3 py-1.5">
-        <p className="font-mono text-[13px] font-medium leading-tight text-ink">
+        <p className="font-mono text-[0.8125rem] font-medium leading-tight text-ink">
           {label}
           {hint ? `（${hint}）` : ""}
         </p>
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-1">
         {shown.length === 0 ? (
-          <p className="text-[12px] text-muted-ink">该时点无检出或未选病原</p>
+          <p className="text-xs text-muted-ink">该时点无检出或未选病原</p>
         ) : (
           shown.map((item, i) => (
-            <div key={item.name} className="py-[3px] text-[11px] leading-tight">
+            <div key={item.name} className="py-[0.1875rem] text-[0.6875rem] leading-tight">
               <div className="flex items-baseline justify-between gap-1.5">
                 <span className="min-w-0 truncate" title={item.name} style={{ color: item.color }}>
                   {i + 1}. {item.name}
@@ -257,7 +257,7 @@ function RankedBarPanel({
           <button
             type="button"
             onClick={onToggle}
-            className="cursor-pointer text-[12px] text-primary hover:underline"
+            className="cursor-pointer text-xs text-primary hover:underline"
           >
             {expanded ? "收起，仅前 10 种" : `展开其余 ${hidden} 种`}
           </button>

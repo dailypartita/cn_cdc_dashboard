@@ -15,7 +15,7 @@ export default function ApiDocsPage() {
   const origin = SITE_PAGES;
   return (
     <main className="px-6 py-8 lg:px-10">
-      <h1 className="text-xl font-semibold">API</h1>
+      <h1 className="text-xl font-semibold tracking-tight">API</h1>
       <p className="mt-3 text-[0.8125rem] leading-relaxed text-muted-ink">
         静态 JSON，随每周入库重建。筛选请在客户端做，或改下{" "}
         <Link className="text-primary hover:underline" href="/csv">
@@ -26,7 +26,7 @@ export default function ApiDocsPage() {
 
       <table className="mt-8 w-full border-collapse text-[0.8125rem]">
         <thead>
-          <tr className="bg-muted tracking-wide text-muted-ink uppercase">
+          <tr className="bg-muted text-muted-ink">
             <th className="border border-line px-2 py-1.5 text-left font-medium">路径</th>
             <th className="border border-line px-2 py-1.5 text-left font-medium">说明</th>
           </tr>

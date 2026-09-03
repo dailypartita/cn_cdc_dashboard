@@ -157,7 +157,7 @@ df = pd.read_parquet("${SITE_PAGES}/download/notifiable_all.parquet")`}
         </p>
         {CHART_DOWNLOAD_GROUPS.map((group) => (
           <div key={group.section} className="mt-5">
-            <h3 className="text-sm font-medium tracking-wide text-muted-ink uppercase">{group.section}</h3>
+            <h3 className="text-sm font-medium text-muted-ink">{group.section}</h3>
             <FileList
               items={group.items.map((item) => ({
                 href: chartDownloadPath(item.id),
@@ -213,11 +213,11 @@ df = pd.read_parquet("${SITE_PAGES}/download/notifiable_all.parquet")`}
 
       <section className="mt-10 max-w-3xl border-t border-line pt-8">
         <h2 className="text-lg font-semibold text-ink">字段说明</h2>
-        <h3 className="mt-6 text-[0.9375rem] font-medium tracking-wide text-muted-ink uppercase">哨点监测</h3>
+        <h3 className="mt-6 text-[0.9375rem] font-medium text-muted-ink">哨点监测</h3>
         <FieldTable rows={COLUMNS} />
-        <h3 className="mt-8 text-[0.9375rem] font-medium tracking-wide text-muted-ink uppercase">法定传染病</h3>
+        <h3 className="mt-8 text-[0.9375rem] font-medium text-muted-ink">法定传染病</h3>
         <FieldTable rows={NID_COLUMNS} />
-        <h3 className="mt-8 text-[0.9375rem] font-medium tracking-wide text-muted-ink uppercase">新冠流行株</h3>
+        <h3 className="mt-8 text-[0.9375rem] font-medium text-muted-ink">新冠流行株</h3>
         <FieldTable rows={VARIANT_COLUMNS} />
       </section>
     </main>
@@ -252,7 +252,7 @@ function FieldTable({ rows }: { rows: string[][] }) {
     <div className="mt-3 overflow-x-auto">
       <table className="w-full border-collapse text-[0.9375rem]">
         <thead>
-          <tr className="bg-muted text-left text-[0.8125rem] tracking-wide text-muted-ink uppercase">
+          <tr className="bg-muted text-left text-[0.8125rem] text-muted-ink">
             <th className="border border-line px-3 py-1.5 font-medium">字段</th>
             <th className="border border-line px-3 py-1.5 font-medium">说明</th>
           </tr>

@@ -10,14 +10,14 @@ import {
 export function UnofficialBadge({ variant = "page" }: { variant?: "page" | "nav" }) {
   if (variant === "nav") {
     return (
-      <span className="hidden shrink-0 border border-warning/25 bg-warning/10 px-1.5 py-px font-mono text-[0.6875rem] font-medium tracking-wide text-warning sm:inline">
+      <span className="hidden shrink-0 border border-line bg-muted px-1.5 py-px font-mono text-[0.6875rem] font-medium text-warning sm:inline">
         非官方
       </span>
     );
   }
 
   return (
-    <p className="inline-flex items-center border border-warning/25 bg-warning/10 px-2 py-0.5 font-mono text-xs font-medium tracking-wide text-warning">
+    <p className="inline-flex items-center border border-line bg-muted px-2 py-0.5 font-mono text-xs font-medium text-warning">
       {SITE_TAGLINE}
     </p>
   );

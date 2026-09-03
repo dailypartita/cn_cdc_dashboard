@@ -1,0 +1,41 @@
+---
+description: Institutional lab-register visual system (NCBI / UniProt / PDB paper). Style only.
+alwaysApply: true
+---
+
+# 机构实验室登记册风
+
+气质：纸面、档案、可扫读、克制。只换风格，不改布局、文案、功能。不要规定宽高、间距、圆角、字号。
+
+禁止：毛玻璃、投影、渐变、霓虹、大圆角悬浮卡、大图标色块、彩色状态胶囊、展示字体、Inter、Ant / MUI / Mantine / Chakra / DaisyUI / Polaris / 默认 shadcn。已有 Tailwind 与自有组件，不换库；密度与组件气质对齐 EMBL-EBI Visual Framework，不借其品牌色。
+
+## 色（勿换亮蓝/亮红/亮绿，勿再加高饱和色）
+
+页面 `#f6f8fa` / 暗 `#16181c` · 正文 `#1a2332` / 暗 `#e8eaed` · 表面 `#ffffff` / 暗 `#1c1f24` · 次级底 `#eef1f5` / 暗 `#262a31` · 说明 `#5a6578` / 暗 `#8b93a1` · 主色 `#1f4e79` / 暗 `#7a9cc2` · hover 底 `#e8eef4` · 边框 `#d8dee6` / 暗 `#2f343c` · 危险 `#9b2c2c` · 成功 `#2f5d50` · 警告 `#8a6d3b` · 主按钮字：浅色白，暗色 `#12151a`
+
+## 字
+
+一套 UI + 一套等宽。西文 UI/标题：IBM Plex Sans 400/500/600。中文 UI/标题：Noto Sans SC 400/500/700，回退 PingFang SC、Microsoft YaHei。等宽（ID/版本/状态/代码/数字）：IBM Plex Mono，中文等宽回退 Noto Sans Mono CJK SC。
+
+栈：`IBM Plex Sans, Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif`  
+等宽：`IBM Plex Mono, Noto Sans Mono CJK SC, ui-monospace, monospace`
+
+西文标题略收字距；拉丁标签可大写加字距；中文不加字距。数字 `tabular-nums`。层级：标题 > 正文 > 元数据。
+
+## 图标与表面
+
+只用 Lucide（outline、`currentColor`、描边约 1.75–2）。禁止混用其他图标库或 emoji。小尺寸，衬文字或放浅主色方井。禁止大图标砖；除控件选中态外不填实。
+
+表面：不透明底 + 1px 发丝边。圆角取当前系统偏小档。hover 只加深主色边 + 浅底。禁用降透明度。顶栏与页面同色、底边分割；激活用下划线或字重，不用填充胶囊。动效仅短促变色；入场最多淡入微上移。焦点环主色。链接 hover 才下划线。
+
+信息：分类用左边细条或圆点标签，整卡不染色。状态用等宽小写单词靠字色，不用饱和 pill。列表一格一事。Badge 浅底芯片。空状态：小图标 + 一行字 + 一个次要按钮。
+
+```tsx
+// ❌ BAD
+className="rounded-2xl shadow-lg bg-primary/90 backdrop-blur tracking-wide" // 中文标签
+<HeroIcon /> // 大图标砖或 emoji
+
+// ✅ GOOD
+className="border border-line bg-surface hover:border-primary hover:bg-hover-wash"
+<span className="font-mono text-warning">unofficial</span>
+```

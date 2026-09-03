@@ -187,7 +187,7 @@ export function Seg({
 
 export function chipClass(on: boolean) {
   return `cursor-pointer border px-2 py-1 ${
-    on ? "border-primary bg-hover-wash font-medium text-primary" : "border-line bg-surface text-muted-ink hover:bg-hover-wash"
+    on ? "border-primary bg-hover-wash font-medium text-primary" : "border-line bg-surface text-muted-ink hover:border-primary hover:bg-hover-wash"
   }`;
 }
 

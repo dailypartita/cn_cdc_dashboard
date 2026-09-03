@@ -31,8 +31,8 @@
 }
 
 @theme inline {
-  --font-sans: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --font-sans: var(--font-plex-sans), var(--font-noto-sans-sc), "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: var(--font-plex-mono), "Noto Sans Mono CJK SC", ui-monospace, monospace;
   --color-page: var(--page);
   --color-ink: var(--ink);
   --color-surface: var(--surface);
@@ -61,7 +61,7 @@ body {
 h1,
 h2,
 h3 {
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 a:focus-visible,

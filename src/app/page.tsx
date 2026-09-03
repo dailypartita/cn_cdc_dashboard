@@ -6,7 +6,7 @@ import { dataStatus } from "@/lib/data/status";
 import { BulletinCharts } from "@/components/BulletinCharts";
 import { CovidCharts } from "@/components/CovidCharts";
 import { NotifiableCharts } from "@/components/NotifiableCharts";
-import { DisclaimerNotice, ForecastHubIntro, UnofficialBadge } from "@/components/SiteCopy";
+import { DisclaimerNotice, ForecastHubIntro } from "@/components/SiteCopy";
 
 export default function HomePage() {
   const records = loadAll();
@@ -43,8 +43,7 @@ export default function HomePage() {
     <main className="px-6 py-6 lg:px-10 lg:py-8">
       <div className="mx-auto max-w-3xl text-left">
         <header>
-          <UnofficialBadge />
-          <h1 className="mt-3 text-[1.75rem] font-semibold leading-snug text-ink">{SITE_NAME}</h1>
+          <h1 className="text-[1.75rem] font-semibold leading-snug text-ink">{SITE_NAME}</h1>
           <p className="mt-3 text-base leading-relaxed text-muted-ink">
             把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报与新冠疫情通报，整理成可交互图表，并提供 CSV /
             Parquet 与只读 API。
@@ -53,7 +52,7 @@ export default function HomePage() {
           <div className="mt-5 flex flex-wrap justify-center gap-3">
             <Link
               href="/csv"
-              className="inline-flex cursor-pointer border border-primary bg-primary px-3.5 py-2 text-[0.9375rem] text-primary-fg hover:bg-primary/90"
+              className="inline-flex cursor-pointer border border-primary bg-primary px-3.5 py-2 text-[0.9375rem] text-primary-fg hover:border-primary hover:bg-primary"
             >
               下载 CSV / Parquet
             </Link>
@@ -71,11 +70,11 @@ export default function HomePage() {
         <ForecastHubIntro />
 
         <nav aria-label="本页目录" className="mt-8">
-          <p className="text-[0.8125rem] font-medium tracking-wide text-muted-ink uppercase">本页图表</p>
+          <p className="text-[0.8125rem] font-medium text-muted-ink">本页图表</p>
           <ol className="mt-2 space-y-2">
             {toc.map((item) => (
               <li key={item.id}>
-                <a href={withBase(item.href)} className="group flex items-baseline gap-3 text-base hover:text-primary">
+                <a href={withBase(item.href)} className="group flex items-baseline gap-3 text-base hover:text-primary hover:underline">
                   <span className="w-6 shrink-0 font-mono tabular-nums text-muted-ink">{item.index}.</span>
                   <span className="font-medium text-ink group-hover:text-primary">{item.name}</span>
                   {item.meta ? (

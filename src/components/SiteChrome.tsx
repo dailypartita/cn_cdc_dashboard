@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 import { CHART_DOWNLOAD_GROUPS, chartDownloadPath } from "@/lib/chart-downloads";
 import { FORECAST_HUB, SITE_GITHUB, SITE_NAME } from "@/lib/links";
 import { UnofficialBadge } from "@/components/SiteCopy";
@@ -18,7 +19,7 @@ export function TopNav() {
     <header className="sticky top-0 z-20 border-b border-line bg-page text-ink">
       <div className="flex h-[4.25rem] items-center gap-3 px-4 text-[0.9375rem] sm:gap-6 sm:px-5 sm:text-base">
         <Link href="/" className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-base font-semibold tracking-tight sm:text-lg">{SITE_NAME}</span>
+          <span className="truncate text-base font-semibold sm:text-lg">{SITE_NAME}</span>
           <UnofficialBadge variant="nav" />
         </Link>
         <nav className="ml-auto flex shrink-0 items-center gap-3 font-medium whitespace-nowrap sm:gap-5">
@@ -55,23 +56,16 @@ function CsvMenu({ active }: { active: boolean }) {
         className={`inline-flex items-center gap-1 ${
           active
             ? "font-semibold text-primary underline decoration-primary decoration-2 underline-offset-[0.7em]"
-            : "text-muted-ink group-hover:text-primary"
+            : "text-muted-ink group-hover:text-primary group-hover:underline"
         }`}
         aria-haspopup="menu"
       >
         CSV
-        <svg
+        <ChevronRight
           aria-hidden
-          viewBox="0 0 12 12"
           className="size-[0.72em] translate-y-px transition-transform duration-200 ease-out group-hover:rotate-90 group-focus-within:rotate-90"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M4 2.2 8.3 6 4 9.8" />
-        </svg>
+          strokeWidth={1.75}
+        />
       </Link>
       <div
         role="menu"
@@ -80,7 +74,7 @@ function CsvMenu({ active }: { active: boolean }) {
         <div className="border border-line bg-surface py-2 font-normal whitespace-normal">
           {CHART_DOWNLOAD_GROUPS.map((group) => (
             <div key={group.section} className="py-1">
-              <p className="px-4 pb-1 pt-2 text-[0.8125rem] font-medium tracking-wide text-muted-ink uppercase">{group.section}</p>
+              <p className="px-4 pb-1 pt-2 text-[0.8125rem] font-medium text-muted-ink">{group.section}</p>
               {group.items.map((item) => (
                 <a
                   key={item.id}

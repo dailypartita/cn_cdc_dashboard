@@ -11,7 +11,7 @@
 
 ## 预测竞技场
 
-同源哨点数据也用于 [预测竞技场](https://dailypartita.github.io/China-COVID-19-Forecast-Dashboard/)：基于 [Hubverse](https://hubverse.io/) 的交互式预测与评估平台，展示并比较多家模型对中国门急诊流感样病例（ILI）中 SARS-CoV-2 阳性率的概率预测。欢迎按周提交 23 分位数预测，并在站点上查看各模型与评估排名。说明见 [GitHub](https://github.com/dailypartita/China-COVID-19-Forecast-Dashboard)。
+同源哨点数据也用于 [预测竞技场](https://dailypartita.github.io/China-COVID-19-Forecast-Dashboard/)：基于 [Hubverse](https://hubverse.io/) 的交互式预测与评估平台，展示并比较多家模型对中国门急诊流感样病例（ILI）中 SARS-CoV-2 阳性率的概率预测。欢迎按周提交预测，并在站点上查看各模型与评估排名。说明见 [GitHub](https://github.com/dailypartita/China-COVID-19-Forecast-Dashboard)。
 
 ## 项目结构
 

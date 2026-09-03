@@ -60,7 +60,7 @@ export function ForecastHubIntro() {
           Hubverse
         </a>{" "}
         框架的交互式预测与评估平台，展示并比较多家模型对中国门急诊流感样病例（ILI）中
-        SARS-CoV-2 阳性率的概率预测。欢迎按周提交 23 分位数预测，并在站点上查看各模型与评估排名。
+        SARS-CoV-2 阳性率的概率预测。欢迎按周提交预测，并在站点上查看各模型与评估排名。
       </p>
       <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[15px]">
         <a

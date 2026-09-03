@@ -122,34 +122,34 @@ export function CdcTrendChart({
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={rows}
-                  margin={{ top: 12, right: 24, bottom: rotateTicks ? 12 : 0, left: 12 }}
+                  margin={{ top: 8, right: 17, bottom: rotateTicks ? 8 : 0, left: 8 }}
                   onMouseMove={onMove}
                   onMouseLeave={() => setHoverIndex(null)}
                 >
                   <CartesianGrid stroke="#eef1f5" vertical={false} />
                   <XAxis
                     dataKey="label"
-                    tick={{ fontSize: 16.5, fill: "#5a6578" }}
+                    tick={{ fontSize: 11.5, fill: "#5a6578" }}
                     tickLine={false}
                     axisLine={{ stroke: "#d8dee6" }}
-                    minTickGap={33}
-                    height={rotateTicks ? 87 : 48}
+                    minTickGap={23}
+                    height={rotateTicks ? 61 : 34}
                     angle={rotateTicks ? -40 : 0}
                     textAnchor={rotateTicks ? "end" : "middle"}
                   />
                   <YAxis
                     domain={[0, ymax]}
-                    tick={{ fontSize: 16.5, fill: "#5a6578" }}
+                    tick={{ fontSize: 11.5, fill: "#5a6578" }}
                     tickLine={false}
                     axisLine={false}
-                    width={78}
+                    width={55}
                     tickFormatter={tick}
                     label={{
                       value: yLabel,
                       angle: -90,
                       position: "insideLeft",
-                      offset: 3,
-                      style: { fontSize: 16.5, fill: "#5a6578" },
+                      offset: 2,
+                      style: { fontSize: 11.5, fill: "#5a6578" },
                     }}
                   />
                   <Tooltip
@@ -164,9 +164,9 @@ export function CdcTrendChart({
                       dataKey={s.name}
                       name={s.name}
                       stroke={s.color}
-                      strokeWidth={series.length <= 3 ? 3 : 2.25}
-                      dot={showDots ? { r: 4.5, strokeWidth: 0, fill: s.color } : false}
-                      activeDot={{ r: 6, strokeWidth: 0, fill: s.color }}
+                      strokeWidth={series.length <= 3 ? 2.1 : 1.6}
+                      dot={showDots ? { r: 3.2, strokeWidth: 0, fill: s.color } : false}
+                      activeDot={{ r: 4.2, strokeWidth: 0, fill: s.color }}
                       isAnimationActive={false}
                       connectNulls={false}
                     />

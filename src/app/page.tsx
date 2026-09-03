@@ -41,50 +41,52 @@ export default function HomePage() {
 
   return (
     <main className="px-6 py-6 lg:px-10 lg:py-8">
-      <header className="max-w-3xl">
-        <UnofficialBadge />
-        <h1 className="mt-3 text-[1.75rem] font-semibold leading-snug text-ink">{SITE_NAME}</h1>
-        <p className="mt-3 text-base leading-relaxed text-muted-ink">
-          把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报与新冠疫情通报，整理成可交互图表，并提供 CSV /
-          Parquet 与只读 API。
-        </p>
-        <DisclaimerNotice />
-        <div className="mt-5 flex flex-wrap gap-3">
-          <Link
-            href="/csv"
-            className="inline-flex cursor-pointer border border-primary bg-primary px-3.5 py-2 text-[0.9375rem] text-primary-fg hover:bg-primary/90"
-          >
-            下载 CSV / Parquet
-          </Link>
-          <a
-            href={SITE_ISSUES}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex cursor-pointer border border-primary bg-surface px-3.5 py-2 text-[0.9375rem] text-primary hover:border-primary hover:bg-hover-wash"
-          >
-            反馈问题
-          </a>
-        </div>
-      </header>
+      <div className="mx-auto max-w-3xl text-left">
+        <header>
+          <UnofficialBadge />
+          <h1 className="mt-3 text-[1.75rem] font-semibold leading-snug text-ink">{SITE_NAME}</h1>
+          <p className="mt-3 text-base leading-relaxed text-muted-ink">
+            把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报与新冠疫情通报，整理成可交互图表，并提供 CSV /
+            Parquet 与只读 API。
+          </p>
+          <DisclaimerNotice />
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/csv"
+              className="inline-flex cursor-pointer border border-primary bg-primary px-3.5 py-2 text-[0.9375rem] text-primary-fg hover:bg-primary/90"
+            >
+              下载 CSV / Parquet
+            </Link>
+            <a
+              href={SITE_ISSUES}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex cursor-pointer border border-primary bg-surface px-3.5 py-2 text-[0.9375rem] text-primary hover:border-primary hover:bg-hover-wash"
+            >
+              反馈问题
+            </a>
+          </div>
+        </header>
 
-      <ForecastHubIntro />
+        <ForecastHubIntro />
 
-      <nav aria-label="本页目录" className="mt-8 max-w-3xl">
-        <p className="text-[0.8125rem] font-medium tracking-wide text-muted-ink uppercase">本页图表</p>
-        <ol className="mt-2 space-y-2">
-          {toc.map((item) => (
-            <li key={item.id}>
-              <a href={withBase(item.href)} className="group flex items-baseline gap-3 text-base hover:text-primary">
-                <span className="w-6 shrink-0 font-mono tabular-nums text-muted-ink">{item.index}.</span>
-                <span className="font-medium text-ink group-hover:text-primary">{item.name}</span>
-                {item.meta ? (
-                  <span className="font-mono text-[0.9375rem] font-medium text-primary">{item.meta}</span>
-                ) : null}
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
+        <nav aria-label="本页目录" className="mt-8">
+          <p className="text-[0.8125rem] font-medium tracking-wide text-muted-ink uppercase">本页图表</p>
+          <ol className="mt-2 space-y-2">
+            {toc.map((item) => (
+              <li key={item.id}>
+                <a href={withBase(item.href)} className="group flex items-baseline gap-3 text-base hover:text-primary">
+                  <span className="w-6 shrink-0 font-mono tabular-nums text-muted-ink">{item.index}.</span>
+                  <span className="font-medium text-ink group-hover:text-primary">{item.name}</span>
+                  {item.meta ? (
+                    <span className="font-mono text-[0.9375rem] font-medium text-primary">{item.meta}</span>
+                  ) : null}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
 
       <Chapter id="notifiable" title={`1. ${CDC_NAV[0].name}`} meta={toc[0].meta} sourceHref={CDC_NAV[0].source}>
         <NotifiableCharts records={notifiable} />

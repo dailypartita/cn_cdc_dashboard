@@ -47,7 +47,7 @@ export function DisclaimerNotice({ children }: { children?: ReactNode }) {
 
 export function ForecastHubIntro() {
   return (
-    <section className="mt-8 max-w-3xl border border-line bg-surface px-5 py-5">
+    <section className="mt-8 w-full border border-line bg-surface px-5 py-5">
       <h2 className="text-base font-semibold text-ink">预测竞技场</h2>
       <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-ink">
         基于{" "}

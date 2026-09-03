@@ -104,16 +104,7 @@ export function SiteFooter() {
     <footer className="border-t border-line bg-page">
       <div className="px-4 py-4 text-[0.6875rem] leading-relaxed text-muted-ink">
         本站为社区维护的<strong className="font-medium text-ink">非官方开源项目</strong>
-        ，非正式中国 CDC 网站。依据中国 CDC 公开数据整理，原始数据知识产权属于中国疾病预防控制中心。欢迎在{" "}
-        <a
-          className="text-primary hover:underline"
-          href={FORECAST_HUB}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          预测竞技场
-        </a>
-        提交预测。
+        ，非正式中国 CDC 网站。依据中国 CDC 公开数据整理，原始数据知识产权属于中国疾病预防控制中心。
       </div>
     </footer>
   );

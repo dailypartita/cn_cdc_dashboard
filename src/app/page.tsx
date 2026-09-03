@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
-import { CDC_HEALTH_DATA, CDC_NAV, FORECAST_HUB, SITE_ISSUES, SITE_NAME, withBase } from "@/lib/links";
+import Link from "next/link";
+import { CDC_NAV, SITE_ISSUES, SITE_NAME, withBase } from "@/lib/links";
 import { loadAll, loadCovid, loadNotifiable } from "@/lib/data/load";
 import { dataStatus } from "@/lib/data/status";
 import { BulletinCharts } from "@/components/BulletinCharts";
 import { CovidCharts } from "@/components/CovidCharts";
 import { NotifiableCharts } from "@/components/NotifiableCharts";
+import { DisclaimerNotice, ForecastHubIntro, UnofficialBadge } from "@/components/SiteCopy";
 
 export default function HomePage() {
   const records = loadAll();
@@ -40,44 +42,36 @@ export default function HomePage() {
   return (
     <main className="px-6 py-6 lg:px-10 lg:py-8">
       <header className="max-w-3xl">
-        <h1 className="text-[28px] font-bold leading-snug text-neutral-900">{SITE_NAME}</h1>
+        <UnofficialBadge />
+        <h1 className="mt-3 text-[28px] font-bold leading-snug text-neutral-900">{SITE_NAME}</h1>
         <p className="mt-3 text-[16px] leading-relaxed text-neutral-600">
-          把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报整理成可交互图表，并提供 CSV 与只读
-          API。本站由社区维护，不是中国 CDC 官方网站；引用请以{" "}
+          把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报与新冠疫情通报，整理成可交互图表，并提供 CSV /
+          Parquet 与只读 API。
+        </p>
+        <DisclaimerNotice />
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link
+            href="/csv"
+            className="inline-flex cursor-pointer border border-[#1b6bb8] bg-[#1b6bb8] px-3.5 py-2 text-[15px] text-white hover:bg-[#155a9c]"
+          >
+            下载 CSV / Parquet
+          </Link>
           <a
-            className="text-[#1b6bb8] hover:underline"
-            href={CDC_HEALTH_DATA}
+            href={SITE_ISSUES}
             target="_blank"
             rel="noopener noreferrer"
+            className="inline-flex cursor-pointer border border-[#1b6bb8] px-3.5 py-2 text-[15px] text-[#1b6bb8] hover:bg-[#1b6bb8]/5"
           >
-            中国 CDC 健康数据
-          </a>{" "}
-          原文为准。
-        </p>
-        <p className="mt-2 text-[15px] leading-relaxed text-neutral-500">
-          欢迎在{" "}
-          <a
-            className="text-[#1b6bb8] hover:underline"
-            href={FORECAST_HUB}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            预测竞技场
-          </a>{" "}
-          提交预测。
-        </p>
-        <a
-          href={SITE_ISSUES}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex cursor-pointer border border-[#1b6bb8] bg-[#1b6bb8] px-3.5 py-2 text-[15px] text-white hover:bg-[#155a9c]"
-        >
-          反馈问题
-        </a>
+            反馈问题
+          </a>
+        </div>
       </header>
 
-      <nav aria-label="本页目录" className="mt-6 max-w-3xl">
-        <ol className="space-y-2">
+      <ForecastHubIntro />
+
+      <nav aria-label="本页目录" className="mt-8 max-w-3xl">
+        <p className="text-[13px] font-medium tracking-wide text-neutral-400">本页图表</p>
+        <ol className="mt-2 space-y-2">
           {toc.map((item) => (
             <li key={item.id}>
               <a href={withBase(item.href)} className="group flex items-baseline gap-3 text-[16px] hover:text-[#1b6bb8]">
@@ -109,16 +103,7 @@ export default function HomePage() {
       <Chapter id="covid" title={`3. ${CDC_NAV[2].name}`} meta={toc[2].meta} sourceHref={CDC_NAV[2].source}>
         <CovidCharts records={covid} />
         <Note>
-          门急诊 ILI 阳性率自 2022 年 12 月起；住院 SARI 自 2024 年 11 月多病原周报起。阳性率为哨点医院核酸检测结果。欢迎在{" "}
-          <a
-            className="text-[#1b6bb8] hover:underline"
-            href={FORECAST_HUB}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            预测竞技场
-          </a>{" "}
-          提交 SARS-CoV-2 ILI 阳性率预测。
+          门急诊 ILI 阳性率自 2022 年 12 月起；住院 SARI 自 2024 年 11 月多病原周报起。阳性率为哨点医院核酸检测结果。
         </Note>
       </Chapter>
     </main>

@@ -10,7 +10,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
-import { applySurveillanceFileFixes, formatSurveillanceCsv, parseSurveillanceCsv } from "./qa-data.mjs";
+import { applySurveillanceFileFixes, formatSurveillanceCsv, parseSurveillanceCsv, rebuildSnapshots } from "./qa-data.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data");
@@ -45,7 +45,10 @@ export function stripCell(raw) {
 }
 
 export function parseRate(raw) {
-  const t = stripCell(raw).replace(/,/g, "");
+  const t = stripCell(raw)
+    .replace(/,/g, "")
+    .replace(/．/g, ".")
+    .replace(/\s*\.\s*/g, ".");
   if (!t || t === "-" || t === "—" || t === "–") return null;
   if (/^[+-]/.test(t)) return null;
   const n = Number(t);
@@ -80,7 +83,10 @@ export function parseTable1(rows) {
     const compact = cells.slice(1).map(stripCell).filter(Boolean);
     const ili = parseRate(compact[0]);
     let sari = parseRate(compact[2]);
-    if (sari == null && compact.length >= 4) sari = parseRate(compact[3]);
+    // 6-column tables put last-week ILI in compact[2]; only then fall back.
+    if (sari == null && compact.length >= 4 && /^[+-]/.test(compact[2] ?? "")) {
+      sari = parseRate(compact[3]);
+    }
     out.push({ pathogen: name, ili_percent: ili, sari_percent: sari });
   }
   return out;
@@ -242,8 +248,40 @@ export function writeOutputs(records) {
   return { rows, added, updated };
 }
 
+function selftest() {
+  const cases = [
+    [parseRate("14 . 0"), 14, "spaced 14.0"],
+    [parseRate("1 .0"), 1, "spaced 1.0"],
+    [parseRate("11 .0"), 11, "spaced 11.0"],
+    [parseRate("8 .0"), 8, "spaced 8.0"],
+    [parseRate("1．0"), 1, "fullwidth dot"],
+    [parseRate("+3.0"), null, "wow increase"],
+    [parseRate("-1.8"), null, "wow decrease"],
+    [parseRate("0"), 0, "true zero"],
+  ];
+  for (const [got, want, name] of cases) {
+    if (got !== want) throw new Error(`selftest ${name}: got ${got}, want ${want}`);
+  }
+  const parsed = parseTable1([
+    ["鼻病毒", "14 . 0", "+3.0", "", "8.4", "+2.3"],
+    ["腺病毒", "1.2", "-0.1", "", "1 .0", "0"],
+    ["肠道病毒", "1 .0", "+0.3", "", "0.6", "0"],
+  ]);
+  const by = Object.fromEntries(parsed.map((r) => [r.pathogen, r]));
+  if (by["鼻病毒"].ili_percent !== 14 || by["鼻病毒"].sari_percent !== 8.4) {
+    throw new Error(`selftest rhino: ${JSON.stringify(by["鼻病毒"])}`);
+  }
+  if (by["腺病毒"].sari_percent !== 1) {
+    throw new Error(`selftest adeno sari fallback-to-zero: ${JSON.stringify(by["腺病毒"])}`);
+  }
+  if (by["肠道病毒"].ili_percent !== 1) {
+    throw new Error(`selftest entero ili: ${JSON.stringify(by["肠道病毒"])}`);
+  }
+}
+
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 if (isMain) {
+  selftest();
   mkdirSync(DATA, { recursive: true });
   const records = await crawlSentinel();
   if (records.length === 0) {
@@ -251,6 +289,7 @@ if (isMain) {
     process.exit(1);
   }
   writeOutputs(records);
-  const { applied } = applySurveillanceFileFixes();
+  const { applied, allText } = applySurveillanceFileFixes();
   console.log("qa", applied.length, "cell fixes");
+  console.log("snapshots", rebuildSnapshots(allText));
 }

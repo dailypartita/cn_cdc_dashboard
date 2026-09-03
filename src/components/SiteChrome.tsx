@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CHART_DOWNLOAD_GROUPS, chartDownloadPath } from "@/lib/chart-downloads";
 import { FORECAST_HUB, SITE_GITHUB, SITE_NAME } from "@/lib/links";
+import { UnofficialBadge } from "@/components/SiteCopy";
 
 const TOOLS = [
   { href: FORECAST_HUB, label: "预测竞技场" },
@@ -15,19 +16,20 @@ export function TopNav() {
 
   return (
     <header className="sticky top-0 z-20 bg-[#1b6bb8] text-white">
-      <div className="flex h-[4.25rem] items-center gap-6 px-5 text-[16px]">
-        <Link href="/" className="min-w-0 truncate text-[18px] font-bold">
-          {SITE_NAME}
+      <div className="flex h-[4.25rem] items-center gap-3 px-4 text-[15px] sm:gap-6 sm:px-5 sm:text-[16px]">
+        <Link href="/" className="flex min-w-0 items-center gap-2">
+          <span className="truncate text-[16px] font-bold sm:text-[18px]">{SITE_NAME}</span>
+          <UnofficialBadge variant="nav" />
         </Link>
-        <nav className="ml-auto flex shrink-0 items-center gap-5 font-bold whitespace-nowrap">
-          <CsvMenu active={pathname === "/csv"} />
+        <nav className="ml-auto flex shrink-0 items-center gap-3 font-bold whitespace-nowrap sm:gap-5">
+          <CsvMenu active={pathname === "/csv" || pathname === "/csv/"} />
           {TOOLS.map((item) => (
             <a
               key={item.label}
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/80 hover:text-white"
+              className={item.label === "GitHub" ? "hidden text-white/80 hover:text-white sm:inline" : "text-white/80 hover:text-white"}
             >
               {item.label}
             </a>
@@ -99,7 +101,8 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-neutral-200 bg-white">
       <div className="px-4 py-4 text-[11px] leading-relaxed text-neutral-400">
-        本站依据中国 CDC 公开数据整理，为开源研究项目，非正式官方站点。欢迎在{" "}
+        本站为社区维护的<strong className="font-medium text-neutral-500">非官方开源项目</strong>
+        ，非正式中国 CDC 网站。依据中国 CDC 公开数据整理，原始数据知识产权属于中国疾病预防控制中心。欢迎在{" "}
         <a
           className="text-neutral-500 hover:text-[#1b6bb8] hover:underline"
           href={FORECAST_HUB}
@@ -108,7 +111,7 @@ export function SiteFooter() {
         >
           预测竞技场
         </a>
-        提交预测。原始数据知识产权属于中国疾病预防控制中心。
+        提交预测。
       </div>
     </footer>
   );

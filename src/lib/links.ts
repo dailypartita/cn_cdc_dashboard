@@ -1,9 +1,13 @@
-export const SITE_NAME = "中国疾控结构化数据库（非官方开源项目）";
+export const SITE_NAME = "中国疾控结构化数据库";
+export const SITE_TAGLINE = "非官方开源项目";
+export const SITE_TITLE = `${SITE_NAME}（${SITE_TAGLINE}）`;
 export const CDC_HEALTH_DATA = "https://www.chinacdc.cn/jksj/";
 export const CDC_NOTIFIABLE = "https://www.chinacdc.cn/jksj/jksj01/";
 export const CDC_COVID = "https://www.chinacdc.cn/jksj/xgbdyq/";
 export const CDC_BULLETINS = "https://www.chinacdc.cn/jksj/jksj04_14275/";
 export const FORECAST_HUB = "https://dailypartita.github.io/China-COVID-19-Forecast-Dashboard/";
+export const FORECAST_HUB_GITHUB = "https://github.com/dailypartita/China-COVID-19-Forecast-Dashboard";
+export const HUBVERSE = "https://hubverse.io/";
 export const SITE_GITHUB =
   process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/dailypartita/cn_cdc_dashboard";
 export const SITE_ISSUES = `${SITE_GITHUB.replace(/\/$/, "")}/issues/new`;

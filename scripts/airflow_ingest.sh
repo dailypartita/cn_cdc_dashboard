@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Weekly ingest on an Airflow worker: pull, crawl CDC pages, commit data/, push main.
-# GitHub Actions then builds the static site and deploys GitHub Pages.
+# Backup ingest on an Airflow worker (GitHub Actions is the scheduled runner):
+# pull, crawl CDC pages, commit data/, push main.
 set -euo pipefail
 
 ROOT="${CDC_DASHBOARD_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"

@@ -50,10 +50,12 @@ npx serve out
 
 ## 每周流水线
 
-1. **Airflow**（周五 12:00 Asia/Shanghai，调度器为 UTC 时 cron 为 `0 4 * * 5`）在 worker 上跑 `scripts/airflow_ingest.sh`：`git pull` → `node scripts/sync-data.mjs` → 若 `data/` 有变更则 commit 并 `git push origin main`。
+1. **GitHub Actions** `sync-data.yml` 在 UTC 周二/五/日 06:00（上海时间 14:00）跑 `node scripts/sync-data.mjs`，从中国 CDC 公开页入库。没有新期次则不改 `catalog.json`、不空提交。也可在 Actions 里手动跑 **Sync China CDC data**。
 2. **GitHub Actions** `pages.yml` 在 `main` 每次推送后 `next build`（`output: "export"`），把 `out/` 发布到 GitHub Pages。
 
-把 DAG 链到调度器：
+哨点最新一期解析失败则整次任务失败，站点继续用上次存档。法定传染病月报或流行株失败会在 Actions 里标 warning，不阻断已成功的哨点提交。
+
+GitHub 跑在境外 IP，访问 `chinacdc.cn` 偶尔会慢或失败。若更稳，可把 Airflow DAG 链到国内 worker 当备份（周五 12:00 Asia/Shanghai；调度器为 UTC 时 cron 为 `0 4 * * 5`）：
 
 ```bash
 export CDC_DASHBOARD_ROOT=/path/to/cn_cdc_dashboard
@@ -62,14 +64,10 @@ ln -s "$CDC_DASHBOARD_ROOT/airflow/dags/cn_cdc_dashboard_weekly.py" "$AIRFLOW_HO
 
 Worker 需要 Node 18+、git，以及能推这个仓库的凭据（SSH deploy key 或 HTTPS token）。仓库 **Settings → Pages → Source** 选 **GitHub Actions**。
 
-没有新周报时 Airflow 任务成功但不产生空提交，Pages 也不会无故重建。哨点抽取失败则整次任务失败，站点继续用上次存档。
-
-若调度器暂时不可用，可在 Actions 里手动跑 **Sync China CDC data**。
-
 ```bash
 npm run sync-data            # 完整入库（哨点 + 法定传染病 + 流行株）
 npm run sync-sentinel        # 只抽哨点周报表1
-npm run sync-data:local      # 不重新下载，只重建快照和 catalog
+npm run sync-data:local      # 不重新下载，只重建快照；无新期次不写 catalog
 npm run sync-notifiable      # 只抽法定传染病月报
 npm run sync-covid-variants  # 只抽新冠流行株周占比
 npm run qa-data              # 不重新下载，只重跑校正与校验

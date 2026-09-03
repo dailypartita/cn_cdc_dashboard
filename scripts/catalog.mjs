@@ -109,28 +109,79 @@ export function readCatalog() {
   return JSON.parse(readFileSync(CATALOG_PATH, "utf8"));
 }
 
-export function buildCatalog({ syncedAt = new Date().toISOString() } = {}) {
+export function periodChanged(prev, next) {
+  if (!next) return false;
+  if (!prev) return true;
+  const prevKey = prev.latest_key ?? prev.latest_month ?? null;
+  const nextKey = next.latest_key ?? next.latest_month ?? null;
+  return (
+    prevKey !== nextKey ||
+    prev.rows !== next.rows ||
+    prev.weeks !== next.weeks ||
+    prev.months !== next.months
+  );
+}
+
+function attachCrawl(name, period, previous, crawl, syncedAt) {
+  const prev = previous?.[name];
+  const overlay = crawl[name] ?? {};
+  const changed = periodChanged(prev, period);
+  return {
+    ...period,
+    crawl: overlay.crawl ?? "ok",
+    error: overlay.error ?? null,
+    unchanged: !changed,
+    synced_at: changed ? syncedAt : (prev?.synced_at ?? null),
+  };
+}
+
+export function catalogHasNewPeriods(catalog) {
+  return ["sentinel", "notifiable", "covid_variants", "covid_positivity"].some(
+    (name) => catalog[name] && catalog[name].unchanged === false,
+  );
+}
+
+export function buildCatalog({
+  syncedAt = new Date().toISOString(),
+  previous = null,
+  crawl = {},
+} = {}) {
   const sentinel = parseRows("cncdc_surveillance_all.csv");
   const notifiable = parseRows("notifiable_all.csv");
   const variants = parseRows("covid_variants.csv");
   const covid = parseRows("cncdc_surveillance_covid19.csv");
+  const datasets = {
+    sentinel: attachCrawl("sentinel", sentinelPeriod(sentinel.rows), previous, crawl, syncedAt),
+    notifiable: attachCrawl("notifiable", notifiablePeriod(notifiable.rows), previous, crawl, syncedAt),
+    covid_variants: attachCrawl(
+      "covid_variants",
+      variantPeriod(variants.rows),
+      previous,
+      crawl,
+      syncedAt,
+    ),
+    covid_positivity: attachCrawl(
+      "covid_positivity",
+      sentinelPeriod(covid.rows),
+      previous,
+      crawl,
+      syncedAt,
+    ),
+  };
+  const anyChanged = Object.values(datasets).some((section) => !section.unchanged);
   return {
-    synced_at: syncedAt,
+    synced_at: anyChanged ? syncedAt : (previous?.synced_at ?? syncedAt),
     source: {
       sentinel: "https://www.chinacdc.cn/jksj/jksj04_14275/",
       notifiable: "https://www.chinacdc.cn/jksj/jksj01/",
       covid_variants: "https://www.chinacdc.cn/jksj/xgbdyq/",
       covid_positivity: "https://www.chinacdc.cn/jksj/jksj04_14275/",
     },
-    sentinel: sentinelPeriod(sentinel.rows),
-    notifiable: notifiablePeriod(notifiable.rows),
-    covid_variants: variantPeriod(variants.rows),
-    covid_positivity: sentinelPeriod(covid.rows),
+    ...datasets,
   };
 }
 
-export function writeCatalog(options) {
-  const catalog = buildCatalog(options);
+export function writeCatalog(catalog) {
   writeFileSync(CATALOG_PATH, `${JSON.stringify(catalog, null, 2)}\n`);
   return catalog;
 }
@@ -147,6 +198,6 @@ export function summarize(catalog) {
 
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 if (isMain) {
-  const catalog = writeCatalog();
+  const catalog = writeCatalog(buildCatalog({ previous: readCatalog() }));
   console.log("catalog", summarize(catalog));
 }

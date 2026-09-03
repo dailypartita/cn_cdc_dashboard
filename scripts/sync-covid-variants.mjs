@@ -10,13 +10,11 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
+import { fetchText } from "./cdc-http.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data");
 const LISTING = "https://www.chinacdc.cn/jksj/xgbdyq/";
-const UA =
-  process.env.CDC_CRAWL_UA ??
-  "cn-cdc-dashboard/0.1 (research archive; non-official structured data)";
 const HEADER =
   "reference_date,target_end_date,year,week,week_start,lineage,share,sequences,month,source_url";
 
@@ -156,12 +154,6 @@ export function parseBulletin(html, sourceUrl) {
   return rows;
 }
 
-async function fetchText(url) {
-  const res = await fetch(url, { headers: { "User-Agent": UA, Accept: "text/html" } });
-  if (!res.ok) throw new Error(`${url} -> HTTP ${res.status}`);
-  return res.text();
-}
-
 export async function listBulletins() {
   const hrefs = [];
   for (let i = 0; i < 8; i++) {
@@ -174,7 +166,10 @@ export async function listBulletins() {
       throw err;
     }
     const found = [...html.matchAll(/href="(\.\/\d{6}\/t[^"]+\.html)"/g)].map((m) => m[1]);
-    if (found.length === 0) break;
+    if (found.length === 0) {
+      if (i === 0 && hrefs.length === 0) throw new Error("variant listing: 0 bulletin links");
+      break;
+    }
     hrefs.push(...found);
     await delay(250);
   }
@@ -185,7 +180,17 @@ export async function listBulletins() {
     seen.add(href);
     out.push(new URL(href, LISTING).href);
   }
+  if (out.length === 0) throw new Error("variant listing: 0 bulletin links");
   return out;
+}
+
+function variantSortKey(url) {
+  const m = String(url).match(/\/(\d{6})\//);
+  return m ? m[1] : "";
+}
+
+function newestUrlsFirst(urls) {
+  return [...urls].sort((a, b) => variantSortKey(b).localeCompare(variantSortKey(a)));
 }
 
 function addOther(rows) {
@@ -245,11 +250,25 @@ function toCsv(rows) {
 }
 
 export async function crawlVariants() {
-  const urls = await listBulletins();
+  const urls = newestUrlsFirst(await listBulletins());
   const all = [];
-  for (const url of urls) {
-    const html = await fetchText(url);
-    all.push(...parseBulletin(html, url));
+  for (let i = 0; i < urls.length; i++) {
+    const url = urls[i];
+    const latest = i === 0;
+    try {
+      const html = await fetchText(url);
+      const rows = parseBulletin(html, url);
+      if (rows.length === 0) {
+        if (latest) throw new Error(`latest variant bulletin parsed 0 rows: ${url}`);
+        console.warn("no variant table", url);
+        continue;
+      }
+      console.log("parsed", url, rows.length, "rows");
+      all.push(...rows);
+    } catch (err) {
+      if (latest) throw err;
+      console.warn("skip", url, err.message);
+    }
     await delay(200);
   }
   return dedupe(addOther(all));

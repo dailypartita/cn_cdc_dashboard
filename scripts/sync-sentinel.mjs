@@ -11,13 +11,11 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
 import { applySurveillanceFileFixes, formatSurveillanceCsv, parseSurveillanceCsv, rebuildSnapshots } from "./qa-data.mjs";
+import { fetchText } from "./cdc-http.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data");
 const LISTING = "https://www.chinacdc.cn/jksj/jksj04_14275/";
-const UA =
-  process.env.CDC_CRAWL_UA ??
-  "cn-cdc-dashboard/0.1 (research archive; non-official structured data)";
 const HEADER = ["reference_date", "target_end_date", "report_week", "pathogen", "ili_percent", "sari_percent"];
 
 const PATHOGENS = [
@@ -125,21 +123,6 @@ export function parseBulletin(html, sourceUrl, title = "") {
   }));
 }
 
-async function fetchText(url, { retries = 3 } = {}) {
-  let lastErr;
-  for (let i = 0; i < retries; i++) {
-    try {
-      const res = await fetch(url, { headers: { "User-Agent": UA, Accept: "text/html" } });
-      if (!res.ok) throw new Error(`${url} -> HTTP ${res.status}`);
-      return await res.text();
-    } catch (err) {
-      lastErr = err;
-      await delay(1200 * 2 ** i);
-    }
-  }
-  throw lastErr;
-}
-
 function listingUrl(page) {
   if (page <= 1) return LISTING;
   return new URL(`index_${page - 1}.html`, LISTING).href;
@@ -151,6 +134,16 @@ export function discoverLinks(html, base) {
     found.push({ href: new URL(m[1], base).href, title: m[2].trim() });
   }
   return found;
+}
+
+export function weekKeyFromTitle(title) {
+  const m = String(title).match(/(\d{4})年第(\d{1,2})周/);
+  if (!m) return "";
+  return `${m[1]}-W${String(Number(m[2])).padStart(2, "0")}`;
+}
+
+function newestLinksFirst(links) {
+  return [...links].sort((a, b) => weekKeyFromTitle(b.title).localeCompare(weekKeyFromTitle(a.title)));
 }
 
 export async function crawlSentinel({ maxPages = 12, pauseMs = 250 } = {}) {
@@ -165,19 +158,28 @@ export async function crawlSentinel({ maxPages = 12, pauseMs = 250 } = {}) {
       throw err;
     }
     const links = discoverLinks(html, url);
-    if (links.length === 0) break;
+    if (links.length === 0) {
+      if (page === 1 && seen.size === 0) throw new Error("sentinel listing: 0 bulletin links");
+      break;
+    }
     for (const link of links) {
       if (!seen.has(link.href)) seen.set(link.href, link);
     }
     await delay(pauseMs);
   }
 
+  if (seen.size === 0) throw new Error("sentinel listing: 0 bulletin links");
+
   const byKey = new Map();
-  for (const { href, title } of seen.values()) {
+  const ordered = newestLinksFirst([...seen.values()]);
+  for (let i = 0; i < ordered.length; i++) {
+    const { href, title } = ordered[i];
+    const latest = i === 0;
     try {
       const html = await fetchText(href);
       const rows = parseBulletin(html, href, title);
       if (rows.length === 0) {
+        if (latest) throw new Error(`latest sentinel bulletin parsed 0 rows: ${title}`);
         console.warn("no table1", title);
       } else {
         console.log("parsed", title, rows.length, "pathogens", rows[0].reference_date);
@@ -186,6 +188,7 @@ export async function crawlSentinel({ maxPages = 12, pauseMs = 250 } = {}) {
         }
       }
     } catch (err) {
+      if (latest) throw err;
       console.warn("skip", href, err.message);
     }
     await delay(pauseMs);

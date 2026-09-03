@@ -6,33 +6,35 @@
  * 2. Apply local table-1 / OCR corrections and rebuild week snapshots
  * 3. Recrawl notifiable monthly tables and COVID variant shares
  * 4. Merge the 2022– COVID positivity long series
- * 5. Write data/catalog.json so charts, CSV, and TOC dates follow the new files
+ * 5. Write data/catalog.json only when a dataset period actually changed
  */
 import { appendFileSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { applySurveillanceFileFixes, rebuildSnapshots } from "./qa-data.mjs";
-import { readCatalog, summarize, writeCatalog } from "./catalog.mjs";
+import { githubWarning } from "./cdc-http.mjs";
+import { buildCatalog, catalogHasNewPeriods, readCatalog, summarize, writeCatalog } from "./catalog.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data");
 
-function emitGithubOutput(catalog, before) {
+function emitGithubOutput(catalog, before, { changed }) {
   if (!process.env.GITHUB_OUTPUT) return;
-  const sentinel = catalog.sentinel?.latest_key ?? "";
-  const month = catalog.notifiable?.latest_month ?? "";
-  const variants = catalog.covid_variants?.latest_key ?? "";
-  const covid = catalog.covid_positivity?.latest_key ?? "";
+  const sentinel = catalog?.sentinel?.latest_key ?? "";
+  const month = catalog?.notifiable?.latest_month ?? "";
+  const variants = catalog?.covid_variants?.latest_key ?? "";
+  const covid = catalog?.covid_positivity?.latest_key ?? "";
   const newSentinel = sentinel && sentinel !== before?.sentinel?.latest_key ? "true" : "false";
   appendFileSync(
     process.env.GITHUB_OUTPUT,
     [
+      `changed=${changed ? "true" : "false"}`,
       `sentinel_week=${sentinel}`,
       `notifiable_month=${month}`,
       `variant_week=${variants}`,
       `covid_week=${covid}`,
       `new_sentinel=${newSentinel}`,
-      `summary=${summarize(catalog)}`,
+      `summary=${catalog ? summarize(catalog) : ""}`,
     ].join("\n") + "\n",
   );
 }
@@ -40,6 +42,12 @@ function emitGithubOutput(catalog, before) {
 mkdirSync(DATA, { recursive: true });
 const snapshotsOnly = process.argv.includes("--snapshots-only");
 const before = readCatalog();
+const crawl = {
+  sentinel: { crawl: "ok" },
+  notifiable: { crawl: "ok" },
+  covid_variants: { crawl: "ok" },
+  covid_positivity: { crawl: "ok" },
+};
 
 if (!snapshotsOnly) {
   const { crawlSentinel, writeOutputs } = await import("./sync-sentinel.mjs");
@@ -63,7 +71,8 @@ if (!snapshotsOnly) {
     if (records.length === 0) throw new Error("no notifiable rows");
     writeOutputs(records);
   } catch (err) {
-    console.warn("notifiable crawl skipped:", err.message);
+    crawl.notifiable = { crawl: "skipped", error: err.message };
+    githubWarning(`notifiable crawl skipped: ${err.message}`);
   }
   try {
     const { crawlVariants, writeOutputs } = await import("./sync-covid-variants.mjs");
@@ -71,16 +80,34 @@ if (!snapshotsOnly) {
     if (rows.length === 0) throw new Error("no variant rows");
     writeOutputs(rows);
   } catch (err) {
-    console.warn("covid variant crawl skipped:", err.message);
+    crawl.covid_variants = { crawl: "skipped", error: err.message };
+    githubWarning(`covid variant crawl skipped: ${err.message}`);
   }
 }
 
-const catalog = writeCatalog();
-emitGithubOutput(catalog, before);
-console.log("catalog", summarize(catalog));
-if (before?.sentinel?.latest_key && catalog.sentinel?.latest_key !== before.sentinel.latest_key) {
-  console.log("new sentinel week", before.sentinel.latest_key, "->", catalog.sentinel.latest_key);
+const catalog = buildCatalog({ previous: before, crawl });
+if (!catalogHasNewPeriods(catalog)) {
+  console.log("no new periods");
+  emitGithubOutput(before ?? catalog, before, { changed: false });
 } else {
-  console.log("sentinel week", catalog.sentinel?.latest_key ?? "(none)");
+  writeCatalog(catalog);
+  emitGithubOutput(catalog, before, { changed: true });
+  console.log("catalog", summarize(catalog));
+  if (before?.sentinel?.latest_key && catalog.sentinel?.latest_key !== before.sentinel.latest_key) {
+    console.log("new sentinel week", before.sentinel.latest_key, "->", catalog.sentinel.latest_key);
+  } else {
+    console.log("sentinel week", catalog.sentinel?.latest_key ?? "(none)");
+  }
+  console.log(
+    "covid positivity",
+    catalog.covid_positivity?.latest_key ?? "(none)",
+    "weeks",
+    catalog.covid_positivity?.weeks ?? 0,
+  );
 }
-console.log("covid positivity", catalog.covid_positivity?.latest_key ?? "(none)", "weeks", catalog.covid_positivity?.weeks ?? 0);
+if (catalog.notifiable?.crawl === "skipped") {
+  console.log("notifiable skipped", catalog.notifiable.error);
+}
+if (catalog.covid_variants?.crawl === "skipped") {
+  console.log("covid variants skipped", catalog.covid_variants.error);
+}

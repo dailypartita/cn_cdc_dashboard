@@ -10,14 +10,12 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
+import { fetchText } from "./cdc-http.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data");
 const SNAP = join(DATA, "notifiable");
 const LISTING = "https://www.chinacdc.cn/jksj/jksj01/";
-const UA =
-  process.env.CDC_CRAWL_UA ??
-  "cn-cdc-dashboard/0.1 (research archive; non-official structured data)";
 
 const SUMMARY = /总计|合计/;
 const HEPATITIS_GROUP = "病毒性肝炎";
@@ -250,14 +248,6 @@ function toCsv(records) {
   return [HEADER, ...body].join("\n") + "\n";
 }
 
-async function fetchText(url) {
-  const res = await fetch(url, {
-    headers: { "User-Agent": UA, Accept: "text/html" },
-  });
-  if (!res.ok) throw new Error(`${url} -> HTTP ${res.status}`);
-  return res.text();
-}
-
 function listingUrl(page) {
   if (page <= 1) return LISTING;
   return new URL(`index_${page - 1}.html`, LISTING).href;
@@ -269,6 +259,16 @@ function discoverLinks(html, base) {
     found.push({ href: new URL(m[1], base).href, title: m[2].trim() });
   }
   return found;
+}
+
+export function monthKeyFromTitle(title) {
+  const m = String(title).match(/(\d{4})年(\d{1,2})月/);
+  if (!m) return "";
+  return `${m[1]}-${String(Number(m[2])).padStart(2, "0")}`;
+}
+
+function newestLinksFirst(links) {
+  return [...links].sort((a, b) => monthKeyFromTitle(b.title).localeCompare(monthKeyFromTitle(a.title)));
 }
 
 export async function crawlNotifiable({ maxPages = 8, pauseMs = 400 } = {}) {
@@ -283,7 +283,10 @@ export async function crawlNotifiable({ maxPages = 8, pauseMs = 400 } = {}) {
       throw err;
     }
     const links = discoverLinks(html, url);
-    if (links.length === 0) break;
+    if (links.length === 0) {
+      if (page === 1 && seen.size === 0) throw new Error("notifiable listing: 0 bulletin links");
+      break;
+    }
     for (const link of links) {
       if (seen.has(link.href)) continue;
       seen.set(link.href, link);
@@ -291,16 +294,27 @@ export async function crawlNotifiable({ maxPages = 8, pauseMs = 400 } = {}) {
     await delay(pauseMs);
   }
 
+  if (seen.size === 0) throw new Error("notifiable listing: 0 bulletin links");
+
   const byKey = new Map();
-  for (const { href, title } of seen.values()) {
+  const ordered = newestLinksFirst([...seen.values()]);
+  for (let i = 0; i < ordered.length; i++) {
+    const { href, title } = ordered[i];
+    const latest = i === 0;
     try {
       const html = await fetchText(href);
       const rows = parseBulletin(html, href, title);
+      if (rows.length === 0) {
+        if (latest) throw new Error(`latest notifiable bulletin parsed 0 rows: ${title}`);
+        console.warn("no table", title);
+        continue;
+      }
       console.log("parsed", title, rows.filter((r) => r.row_kind !== "summary").length, "diseases");
       for (const row of rows) {
         byKey.set(`${row.month}|${row.disease}`, row);
       }
     } catch (err) {
+      if (latest) throw err;
       console.warn("skip", href, err.message);
     }
     await delay(pauseMs);

@@ -409,6 +409,6 @@ function printReport(report) {
 const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 if (isMain) {
   printReport(runQa());
-  const { writeCatalog, summarize } = await import("./catalog.mjs");
-  console.log("catalog", summarize(writeCatalog()));
+  const { writeCatalog, summarize, buildCatalog, readCatalog } = await import("./catalog.mjs");
+  console.log("catalog", summarize(writeCatalog(buildCatalog({ previous: readCatalog() }))));
 }

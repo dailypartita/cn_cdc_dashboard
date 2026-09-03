@@ -1,4 +1,7 @@
-"""Weekly China CDC ingest. Copy or symlink into $AIRFLOW_HOME/dags/.
+"""Optional domestic-network backup ingest. Copy or symlink into $AIRFLOW_HOME/dags/.
+
+GitHub Actions (.github/workflows/sync-data.yml) is the scheduled runner.
+Use this DAG if chinacdc.cn is more reliable from the Airflow worker.
 
 Environment (Airflow worker):
   CDC_DASHBOARD_ROOT   clone of this repo (default /opt/cn_cdc_dashboard)
@@ -23,7 +26,7 @@ ROOT = os.environ.get("CDC_DASHBOARD_ROOT", "/opt/cn_cdc_dashboard")
 
 with DAG(
     dag_id="cn_cdc_dashboard_weekly",
-    description="Crawl China CDC public tables, commit data/, push main for GitHub Pages",
+    description="Backup crawl of China CDC tables (GitHub Actions is the scheduled ingest)",
     # Friday 12:00 Asia/Shanghai when the scheduler timezone is UTC.
     # If AIRFLOW__CORE__DEFAULT_TIMEZONE=Asia/Shanghai, use 0 12 * * 5 instead.
     schedule="0 4 * * 5",

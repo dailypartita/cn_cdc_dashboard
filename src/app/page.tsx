@@ -43,8 +43,8 @@ export default function HomePage() {
     <main className="px-6 py-6 lg:px-10 lg:py-8">
       <header className="max-w-3xl">
         <UnofficialBadge />
-        <h1 className="mt-3 text-[28px] font-bold leading-snug text-neutral-900">{SITE_NAME}</h1>
-        <p className="mt-3 text-[16px] leading-relaxed text-neutral-600">
+        <h1 className="mt-3 text-[28px] font-semibold leading-snug text-ink">{SITE_NAME}</h1>
+        <p className="mt-3 text-[16px] leading-relaxed text-muted-ink">
           把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报与新冠疫情通报，整理成可交互图表，并提供 CSV /
           Parquet 与只读 API。
         </p>
@@ -52,7 +52,7 @@ export default function HomePage() {
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
             href="/csv"
-            className="inline-flex cursor-pointer border border-[#1b6bb8] bg-[#1b6bb8] px-3.5 py-2 text-[15px] text-white hover:bg-[#155a9c]"
+            className="inline-flex cursor-pointer border border-primary bg-primary px-3.5 py-2 text-[15px] text-primary-fg hover:bg-primary/90"
           >
             下载 CSV / Parquet
           </Link>
@@ -60,7 +60,7 @@ export default function HomePage() {
             href={SITE_ISSUES}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex cursor-pointer border border-[#1b6bb8] px-3.5 py-2 text-[15px] text-[#1b6bb8] hover:bg-[#1b6bb8]/5"
+            className="inline-flex cursor-pointer border border-primary bg-surface px-3.5 py-2 text-[15px] text-primary hover:border-primary hover:bg-hover-wash"
           >
             反馈问题
           </a>
@@ -70,15 +70,15 @@ export default function HomePage() {
       <ForecastHubIntro />
 
       <nav aria-label="本页目录" className="mt-8 max-w-3xl">
-        <p className="text-[13px] font-medium tracking-wide text-neutral-400">本页图表</p>
+        <p className="text-[13px] font-medium tracking-wide text-muted-ink uppercase">本页图表</p>
         <ol className="mt-2 space-y-2">
           {toc.map((item) => (
             <li key={item.id}>
-              <a href={withBase(item.href)} className="group flex items-baseline gap-3 text-[16px] hover:text-[#1b6bb8]">
-                <span className="w-6 shrink-0 tabular-nums text-neutral-400">{item.index}.</span>
-                <span className="font-medium text-neutral-800 group-hover:text-[#1b6bb8]">{item.name}</span>
+              <a href={withBase(item.href)} className="group flex items-baseline gap-3 text-[16px] hover:text-primary">
+                <span className="w-6 shrink-0 font-mono tabular-nums text-muted-ink">{item.index}.</span>
+                <span className="font-medium text-ink group-hover:text-primary">{item.name}</span>
                 {item.meta ? (
-                  <span className="text-[15px] font-medium text-[#1b6bb8]">{item.meta}</span>
+                  <span className="font-mono text-[15px] font-medium text-primary">{item.meta}</span>
                 ) : null}
               </a>
             </li>
@@ -124,13 +124,13 @@ function Chapter({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="mt-12 scroll-mt-20 border-t border-neutral-200 pt-8">
-      <h2 className="text-[18px] font-bold text-neutral-900">{title}</h2>
+    <section id={id} className="mt-12 scroll-mt-20 border-t border-line pt-8">
+      <h2 className="text-[18px] font-semibold text-ink">{title}</h2>
       {meta ? (
-        <p className="mt-2 text-[13px] text-neutral-500">
+        <p className="mt-2 font-mono text-[13px] text-muted-ink">
           {meta}
-          <span className="mx-2 text-neutral-300">|</span>
-          <a className="text-[#1b6bb8] hover:underline" href={sourceHref} target="_blank" rel="noopener noreferrer">
+          <span className="mx-2 text-line">|</span>
+          <a className="font-sans text-primary hover:underline" href={sourceHref} target="_blank" rel="noopener noreferrer">
             中国 CDC 原文
           </a>
         </p>
@@ -141,5 +141,5 @@ function Chapter({
 }
 
 function Note({ children }: { children: ReactNode }) {
-  return <p className="mt-4 max-w-3xl text-[13px] leading-relaxed text-neutral-500">{children}</p>;
+  return <p className="mt-4 max-w-3xl text-[13px] leading-relaxed text-muted-ink">{children}</p>;
 }

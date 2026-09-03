@@ -15,10 +15,10 @@ export default function ApiDocsPage() {
   const origin = SITE_PAGES;
   return (
     <main className="px-6 py-8 lg:px-10">
-      <h1 className="text-xl font-bold">API</h1>
-      <p className="mt-3 text-[13px] leading-relaxed text-neutral-600">
+      <h1 className="text-xl font-semibold">API</h1>
+      <p className="mt-3 text-[13px] leading-relaxed text-muted-ink">
         静态 JSON，随每周入库重建。筛选请在客户端做，或改下{" "}
-        <Link className="underline decoration-neutral-300 underline-offset-2" href="/csv">
+        <Link className="text-primary hover:underline" href="/csv">
           CSV / Parquet
         </Link>
         。curl / pandas 可直接读；GitHub Pages 不设自定义 CORS 头。
@@ -26,22 +26,22 @@ export default function ApiDocsPage() {
 
       <table className="mt-8 w-full border-collapse text-[13px]">
         <thead>
-          <tr>
-            <th className="border border-neutral-200 px-2 py-1.5 text-left font-medium">路径</th>
-            <th className="border border-neutral-200 px-2 py-1.5 text-left font-medium">说明</th>
+          <tr className="bg-muted tracking-wide text-muted-ink uppercase">
+            <th className="border border-line px-2 py-1.5 text-left font-medium">路径</th>
+            <th className="border border-line px-2 py-1.5 text-left font-medium">说明</th>
           </tr>
         </thead>
         <tbody>
           {ENDPOINTS.map(([path, desc]) => (
             <tr key={path}>
-              <td className="border border-neutral-200 px-2 py-1.5 font-mono text-[12px]">{path}</td>
-              <td className="border border-neutral-200 px-2 py-1.5 text-neutral-600">{desc}</td>
+              <td className="border border-line bg-surface px-2 py-1.5 font-mono text-[12px]">{path}</td>
+              <td className="border border-line bg-surface px-2 py-1.5 text-muted-ink">{desc}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <pre className="mt-6 overflow-x-auto border border-neutral-200 bg-neutral-50 p-3 text-[12px] text-neutral-700">
+      <pre className="mt-6 overflow-x-auto border border-line bg-muted p-3 font-mono text-[12px] text-ink">
 {`curl "${origin}/api/v1/latest.json"
 curl "${origin}/api/v1/surveillance.json"`}
       </pre>

@@ -10,14 +10,14 @@ import {
 export function UnofficialBadge({ variant = "page" }: { variant?: "page" | "nav" }) {
   if (variant === "nav") {
     return (
-      <span className="hidden shrink-0 border border-white/80 bg-white/15 px-1.5 py-px text-[11px] font-medium tracking-wide text-white sm:inline">
+      <span className="hidden shrink-0 border border-warning/25 bg-warning/10 px-1.5 py-px font-mono text-[11px] font-medium tracking-wide text-warning sm:inline">
         非官方
       </span>
     );
   }
 
   return (
-    <p className="inline-flex items-center border border-amber-800/20 bg-amber-50 px-2 py-0.5 text-[12px] font-medium tracking-wide text-amber-950">
+    <p className="inline-flex items-center border border-warning/25 bg-warning/10 px-2 py-0.5 font-mono text-[12px] font-medium tracking-wide text-warning">
       {SITE_TAGLINE}
     </p>
   );
@@ -25,13 +25,13 @@ export function UnofficialBadge({ variant = "page" }: { variant?: "page" | "nav"
 
 export function DisclaimerNotice({ children }: { children?: ReactNode }) {
   return (
-    <aside className="mt-5 max-w-3xl border-l-4 border-amber-500 bg-amber-50 px-4 py-3 text-[15px] leading-relaxed text-neutral-800">
+    <aside className="mt-5 max-w-3xl border-l-4 border-warning bg-muted px-4 py-3 text-[15px] leading-relaxed text-ink">
       {children ?? (
         <>
           本站由社区从公开网页抽取并维护，<strong>不是中国 CDC 官方网站</strong>
           ，也不代表中国疾病预防控制中心的立场。引用与决策请以{" "}
           <a
-            className="text-[#1b6bb8] hover:underline"
+            className="text-primary hover:underline"
             href={CDC_HEALTH_DATA}
             target="_blank"
             rel="noopener noreferrer"
@@ -47,12 +47,12 @@ export function DisclaimerNotice({ children }: { children?: ReactNode }) {
 
 export function ForecastHubIntro() {
   return (
-    <section className="mt-8 max-w-3xl border border-neutral-200 bg-neutral-50 px-5 py-5">
-      <h2 className="text-[16px] font-bold text-neutral-900">预测竞技场</h2>
-      <p className="mt-2 text-[15px] leading-relaxed text-neutral-600">
+    <section className="mt-8 max-w-3xl border border-line bg-surface px-5 py-5">
+      <h2 className="text-[16px] font-semibold text-ink">预测竞技场</h2>
+      <p className="mt-2 text-[15px] leading-relaxed text-muted-ink">
         基于{" "}
         <a
-          className="text-[#1b6bb8] hover:underline"
+          className="text-primary hover:underline"
           href={HUBVERSE}
           target="_blank"
           rel="noopener noreferrer"
@@ -64,7 +64,7 @@ export function ForecastHubIntro() {
       </p>
       <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[15px]">
         <a
-          className="text-[#1b6bb8] hover:underline"
+          className="text-primary hover:underline"
           href={FORECAST_HUB}
           target="_blank"
           rel="noopener noreferrer"
@@ -72,7 +72,7 @@ export function ForecastHubIntro() {
           打开预测竞技场
         </a>
         <a
-          className="text-[#1b6bb8] hover:underline"
+          className="text-primary hover:underline"
           href={FORECAST_HUB_GITHUB}
           target="_blank"
           rel="noopener noreferrer"

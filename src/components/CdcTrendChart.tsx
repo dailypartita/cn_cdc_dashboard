@@ -114,8 +114,8 @@ export function CdcTrendChart({
 
   return (
     <section id={id} className="mt-6 scroll-mt-20">
-      <h3 className="mb-2 text-center text-[15px] font-bold text-neutral-900">{title}</h3>
-      <div className="border border-neutral-200 bg-white">
+      <h3 className="mb-2 text-center text-[15px] font-semibold text-ink">{title}</h3>
+      <div className="border border-line bg-surface">
         <div className="flex flex-col lg:flex-row lg:items-stretch">
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="h-[380px] w-full">
@@ -126,12 +126,12 @@ export function CdcTrendChart({
                   onMouseMove={onMove}
                   onMouseLeave={() => setHoverIndex(null)}
                 >
-                  <CartesianGrid stroke="#eeeeee" vertical={false} />
+                  <CartesianGrid stroke="#eef1f5" vertical={false} />
                   <XAxis
                     dataKey="label"
-                    tick={{ fontSize: 11, fill: "#555" }}
+                    tick={{ fontSize: 11, fill: "#5a6578" }}
                     tickLine={false}
-                    axisLine={{ stroke: "#ddd" }}
+                    axisLine={{ stroke: "#d8dee6" }}
                     minTickGap={22}
                     height={rotateTicks ? 58 : 32}
                     angle={rotateTicks ? -40 : 0}
@@ -139,7 +139,7 @@ export function CdcTrendChart({
                   />
                   <YAxis
                     domain={[0, ymax]}
-                    tick={{ fontSize: 11, fill: "#555" }}
+                    tick={{ fontSize: 11, fill: "#5a6578" }}
                     tickLine={false}
                     axisLine={false}
                     width={52}
@@ -149,12 +149,12 @@ export function CdcTrendChart({
                       angle: -90,
                       position: "insideLeft",
                       offset: 2,
-                      style: { fontSize: 11, fill: "#555" },
+                      style: { fontSize: 11, fill: "#5a6578" },
                     }}
                   />
                   <Tooltip
                     isAnimationActive={false}
-                    cursor={{ stroke: "#bbbbbb", strokeDasharray: "3 3" }}
+                    cursor={{ stroke: "#5a6578", strokeDasharray: "3 3" }}
                     content={() => null}
                   />
                   {series.map((s) => (
@@ -186,7 +186,7 @@ export function CdcTrendChart({
         </div>
       </div>
       {hasOutlier && !smoothHint ? (
-        <p className="mt-2 text-xs text-neutral-500">
+        <p className="mt-2 text-xs text-muted-ink">
           个别周次仍有未校正的极端高值，纵轴按其余序列缩放，悬停仍显示原始数值。已知 OCR 错位已按官方表1回补。
         </p>
       ) : null}
@@ -219,17 +219,17 @@ function RankedBarPanel({
   return (
     <aside
       data-rank-panel
-      className="flex w-full shrink-0 flex-col border-t border-neutral-200 lg:w-[280px] lg:border-t-0 lg:border-l"
+      className="flex w-full shrink-0 flex-col border-t border-line lg:w-[280px] lg:border-t-0 lg:border-l"
     >
       <div className="px-3 py-1.5">
-        <p className="text-[13px] font-medium leading-tight text-neutral-800">
+        <p className="font-mono text-[13px] font-medium leading-tight text-ink">
           {label}
           {hint ? `（${hint}）` : ""}
         </p>
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-1">
         {shown.length === 0 ? (
-          <p className="text-[12px] text-neutral-400">该时点无检出或未选病原</p>
+          <p className="text-[12px] text-muted-ink">该时点无检出或未选病原</p>
         ) : (
           shown.map((item, i) => (
             <div key={item.name} className="py-[3px] text-[11px] leading-tight">
@@ -237,9 +237,9 @@ function RankedBarPanel({
                 <span className="min-w-0 truncate" title={item.name} style={{ color: item.color }}>
                   {i + 1}. {item.name}
                 </span>
-                <span className="shrink-0 tabular-nums text-neutral-700">{formatValue(item.value)}</span>
+                <span className="shrink-0 font-mono tabular-nums text-ink">{formatValue(item.value)}</span>
               </div>
-              <div className="mt-px h-1.5 bg-neutral-100">
+              <div className="mt-px h-1.5 bg-muted">
                 <div
                   className="h-full"
                   style={{
@@ -257,7 +257,7 @@ function RankedBarPanel({
           <button
             type="button"
             onClick={onToggle}
-            className="cursor-pointer text-[12px] text-[#1b6bb8] hover:underline"
+            className="cursor-pointer text-[12px] text-primary hover:underline"
           >
             {expanded ? "收起，仅前 10 种" : `展开其余 ${hidden} 种`}
           </button>

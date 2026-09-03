@@ -102,11 +102,11 @@ export default function CsvPage() {
     <main className="px-6 py-6 lg:px-10 lg:py-8">
       <header className="max-w-3xl">
         <UnofficialBadge />
-        <h1 className="mt-3 text-[28px] font-bold leading-snug text-neutral-900">CSV / Parquet</h1>
-        <p className="mt-3 text-[16px] leading-relaxed text-neutral-600">
+        <h1 className="mt-3 text-[28px] font-semibold leading-snug text-ink">CSV / Parquet</h1>
+        <p className="mt-3 text-[16px] leading-relaxed text-muted-ink">
           本站从公开网页整理的结构化表，供非商业研究下载。哨点周报来自{" "}
           <a
-            className="text-[#1b6bb8] hover:underline"
+            className="text-primary hover:underline"
             href={CDC_BULLETINS}
             target="_blank"
             rel="noopener noreferrer"
@@ -115,7 +115,7 @@ export default function CsvPage() {
           </a>
           ，法定传染病月报来自{" "}
           <a
-            className="text-[#1b6bb8] hover:underline"
+            className="text-primary hover:underline"
             href={CDC_NOTIFIABLE}
             target="_blank"
             rel="noopener noreferrer"
@@ -126,7 +126,7 @@ export default function CsvPage() {
           <span className="font-mono text-[14px]">.csv</span> 换成{" "}
           <span className="font-mono text-[14px]">.parquet</span> 即可。同源哨点序列也用于{" "}
           <a
-            className="text-[#1b6bb8] hover:underline"
+            className="text-primary hover:underline"
             href={FORECAST_HUB}
             target="_blank"
             rel="noopener noreferrer"
@@ -138,26 +138,26 @@ export default function CsvPage() {
         <DisclaimerNotice />
       </header>
 
-      <section className="mt-10 max-w-3xl border-t border-neutral-200 pt-8">
-        <h2 className="text-[18px] font-bold text-neutral-900">读取示例</h2>
-        <p className="mt-2 text-[15px] leading-relaxed text-neutral-500">
+      <section className="mt-10 max-w-3xl border-t border-line pt-8">
+        <h2 className="text-[18px] font-semibold text-ink">读取示例</h2>
+        <p className="mt-2 text-[15px] leading-relaxed text-muted-ink">
           pandas 可直接读远程文件。站点为静态托管，不设自定义 CORS 头。
         </p>
-        <pre className="mt-4 overflow-x-auto border border-neutral-200 bg-neutral-50 p-4 text-[14px] leading-relaxed text-neutral-700">
+        <pre className="mt-4 overflow-x-auto border border-line bg-muted p-4 font-mono text-[14px] leading-relaxed text-ink">
 {`import pandas as pd
 df = pd.read_csv("${SITE_PAGES}/download/notifiable_all.csv")
 df = pd.read_parquet("${SITE_PAGES}/download/notifiable_all.parquet")`}
         </pre>
       </section>
 
-      <section className="mt-10 max-w-3xl border-t border-neutral-200 pt-8">
-        <h2 className="text-[18px] font-bold text-neutral-900">与首页图表对应</h2>
-        <p className="mt-2 text-[15px] leading-relaxed text-neutral-500">
+      <section className="mt-10 max-w-3xl border-t border-line pt-8">
+        <h2 className="text-[18px] font-semibold text-ink">与首页图表对应</h2>
+        <p className="mt-2 text-[15px] leading-relaxed text-muted-ink">
           完整序列，未做时间窗或病原筛选。文件名按图意命名，便于直接对照首页各图。
         </p>
         {CHART_DOWNLOAD_GROUPS.map((group) => (
           <div key={group.section} className="mt-5">
-            <h3 className="text-[14px] font-medium text-neutral-500">{group.section}</h3>
+            <h3 className="text-[14px] font-medium tracking-wide text-muted-ink uppercase">{group.section}</h3>
             <FileList
               items={group.items.map((item) => ({
                 href: chartDownloadPath(item.id),
@@ -170,34 +170,34 @@ df = pd.read_parquet("${SITE_PAGES}/download/notifiable_all.parquet")`}
         ))}
       </section>
 
-      <section className="mt-10 max-w-3xl border-t border-neutral-200 pt-8">
-        <h2 className="text-[18px] font-bold text-neutral-900">哨点监测</h2>
+      <section className="mt-10 max-w-3xl border-t border-line pt-8">
+        <h2 className="text-[18px] font-semibold text-ink">哨点监测</h2>
         {latest ? (
-          <p className="mt-2 text-[15px] leading-relaxed text-neutral-500">
+          <p className="mt-2 font-mono text-[15px] leading-relaxed text-muted-ink">
             {weeks[0]?.label} – {latest.label}，{weeks.length} 周，{records.length} 条
             {table ? `，最新 ${table.weekLabel}` : ""}。
           </p>
         ) : (
-          <p className="mt-2 text-[15px] text-neutral-500">11 病原体周序列主表与单周快照。</p>
+          <p className="mt-2 text-[15px] text-muted-ink">11 病原体周序列主表与单周快照。</p>
         )}
         <FileList items={sentinelFiles} />
       </section>
 
-      <section className="mt-10 max-w-3xl border-t border-neutral-200 pt-8">
-        <h2 className="text-[18px] font-bold text-neutral-900">法定传染病</h2>
+      <section className="mt-10 max-w-3xl border-t border-line pt-8">
+        <h2 className="text-[18px] font-semibold text-ink">法定传染病</h2>
         {latestNid ? (
-          <p className="mt-2 text-[15px] leading-relaxed text-neutral-500">
+          <p className="mt-2 font-mono text-[15px] leading-relaxed text-muted-ink">
             {nidMonths[0]?.label} – {latestNid.label}，{nidMonths.length} 个月，{notifiable.length} 条。
           </p>
         ) : (
-          <p className="mt-2 text-[15px] text-neutral-500">分病原月报主表与单月快照。</p>
+          <p className="mt-2 text-[15px] text-muted-ink">分病原月报主表与单月快照。</p>
         )}
         <FileList items={notifiableFiles} />
       </section>
 
-      <section className="mt-10 max-w-3xl border-t border-neutral-200 pt-8">
-        <h2 className="text-[18px] font-bold text-neutral-900">新冠流行株</h2>
-        <p className="mt-2 text-[15px] leading-relaxed text-neutral-500">
+      <section className="mt-10 max-w-3xl border-t border-line pt-8">
+        <h2 className="text-[18px] font-semibold text-ink">新冠流行株</h2>
+        <p className="mt-2 text-[15px] leading-relaxed text-muted-ink">
           从中国 CDC 每月新冠疫情通报「病毒变异监测」正文抽取的周占比。
         </p>
         <FileList
@@ -211,13 +211,13 @@ df = pd.read_parquet("${SITE_PAGES}/download/notifiable_all.parquet")`}
         />
       </section>
 
-      <section className="mt-10 max-w-3xl border-t border-neutral-200 pt-8">
-        <h2 className="text-[18px] font-bold text-neutral-900">字段说明</h2>
-        <h3 className="mt-6 text-[15px] font-medium text-neutral-800">哨点监测</h3>
+      <section className="mt-10 max-w-3xl border-t border-line pt-8">
+        <h2 className="text-[18px] font-semibold text-ink">字段说明</h2>
+        <h3 className="mt-6 text-[15px] font-medium tracking-wide text-muted-ink uppercase">哨点监测</h3>
         <FieldTable rows={COLUMNS} />
-        <h3 className="mt-8 text-[15px] font-medium text-neutral-800">法定传染病</h3>
+        <h3 className="mt-8 text-[15px] font-medium tracking-wide text-muted-ink uppercase">法定传染病</h3>
         <FieldTable rows={NID_COLUMNS} />
-        <h3 className="mt-8 text-[15px] font-medium text-neutral-800">新冠流行株</h3>
+        <h3 className="mt-8 text-[15px] font-medium tracking-wide text-muted-ink uppercase">新冠流行株</h3>
         <FieldTable rows={VARIANT_COLUMNS} />
       </section>
     </main>
@@ -230,16 +230,16 @@ function FileList({
   items: { href: string; name: string; desc: string; download?: string }[];
 }) {
   return (
-    <ul className="mt-3 divide-y divide-neutral-200 border border-neutral-200">
+    <ul className="mt-3 divide-y divide-line border border-line bg-surface">
       {items.map((item) => (
         <li key={item.href}>
           <a
             href={item.href}
             download={item.download}
-            className="flex flex-col gap-1 px-4 py-3 hover:bg-neutral-50 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+            className="flex flex-col gap-1 px-4 py-3 hover:bg-hover-wash sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
           >
-            <span className="font-mono text-[14px] text-[#1b6bb8]">{item.name}</span>
-            <span className="text-[14px] leading-snug text-neutral-500 sm:text-right">{item.desc}</span>
+            <span className="font-mono text-[14px] text-primary">{item.name}</span>
+            <span className="text-[14px] leading-snug text-muted-ink sm:text-right">{item.desc}</span>
           </a>
         </li>
       ))}
@@ -252,16 +252,16 @@ function FieldTable({ rows }: { rows: string[][] }) {
     <div className="mt-3 overflow-x-auto">
       <table className="w-full border-collapse text-[15px]">
         <thead>
-          <tr className="bg-neutral-50 text-left text-[13px] text-neutral-500">
-            <th className="border border-neutral-200 px-3 py-1.5 font-medium">字段</th>
-            <th className="border border-neutral-200 px-3 py-1.5 font-medium">说明</th>
+          <tr className="bg-muted text-left text-[13px] tracking-wide text-muted-ink uppercase">
+            <th className="border border-line px-3 py-1.5 font-medium">字段</th>
+            <th className="border border-line px-3 py-1.5 font-medium">说明</th>
           </tr>
         </thead>
         <tbody>
           {rows.map(([name, desc]) => (
             <tr key={name}>
-              <td className="border border-neutral-200 px-3 py-1.5 font-mono text-[14px]">{name}</td>
-              <td className="border border-neutral-200 px-3 py-1.5 text-neutral-600">{desc}</td>
+              <td className="border border-line bg-surface px-3 py-1.5 font-mono text-[14px]">{name}</td>
+              <td className="border border-line bg-surface px-3 py-1.5 text-muted-ink">{desc}</td>
             </tr>
           ))}
         </tbody>

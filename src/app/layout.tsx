@@ -1,7 +1,22 @@
 import type { Metadata } from "next";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { SiteFooter, TopNav } from "@/components/SiteChrome";
 import { SITE_NAME, SITE_TITLE } from "@/lib/links";
+
+const plexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-plex-sans",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-plex-mono",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -13,8 +28,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="zh-CN" className="h-full scroll-smooth antialiased">
-      <body className="flex min-h-full flex-col bg-white font-sans text-neutral-900">
+    <html
+      lang="zh-CN"
+      className={`${plexSans.variable} ${plexMono.variable} ${plexSans.className} h-full scroll-smooth antialiased`}
+    >
+      <body className="flex min-h-full flex-col bg-page font-sans text-ink">
         <TopNav />
         <div className="min-w-0 flex-1">{children}</div>
         <SiteFooter />

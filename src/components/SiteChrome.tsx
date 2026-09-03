@@ -15,13 +15,13 @@ export function TopNav() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-20 bg-[#1b6bb8] text-white">
+    <header className="sticky top-0 z-20 border-b border-line bg-page text-ink">
       <div className="flex h-[4.25rem] items-center gap-3 px-4 text-[15px] sm:gap-6 sm:px-5 sm:text-[16px]">
         <Link href="/" className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-[16px] font-bold sm:text-[18px]">{SITE_NAME}</span>
+          <span className="truncate text-[16px] font-semibold tracking-tight sm:text-[18px]">{SITE_NAME}</span>
           <UnofficialBadge variant="nav" />
         </Link>
-        <nav className="ml-auto flex shrink-0 items-center gap-3 font-bold whitespace-nowrap sm:gap-5">
+        <nav className="ml-auto flex shrink-0 items-center gap-3 font-medium whitespace-nowrap sm:gap-5">
           <CsvMenu active={pathname === "/csv" || pathname === "/csv/"} />
           {TOOLS.map((item) => (
             <a
@@ -29,7 +29,11 @@ export function TopNav() {
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={item.label === "GitHub" ? "hidden text-white/80 hover:text-white sm:inline" : "text-white/80 hover:text-white"}
+              className={
+                item.label === "GitHub"
+                  ? "hidden text-muted-ink hover:text-primary hover:underline sm:inline"
+                  : "text-muted-ink hover:text-primary hover:underline"
+              }
             >
               {item.label}
             </a>
@@ -41,14 +45,18 @@ export function TopNav() {
 }
 
 const CSV_ITEM_CLASS =
-  "block px-4 py-2.5 text-[15px] font-medium leading-snug whitespace-normal transition-colors duration-150 ease-out hover:bg-white hover:text-[#1b6bb8]";
+  "block px-4 py-2.5 text-[15px] font-medium leading-snug whitespace-normal transition-colors duration-150 ease-out hover:bg-hover-wash hover:text-primary";
 
 function CsvMenu({ active }: { active: boolean }) {
   return (
     <div className="group relative flex h-[4.25rem] items-center">
       <Link
         href="/csv"
-        className={`inline-flex items-center gap-1 ${active ? "text-white" : "text-white/80 group-hover:text-white"}`}
+        className={`inline-flex items-center gap-1 ${
+          active
+            ? "font-semibold text-primary underline decoration-primary decoration-2 underline-offset-[0.7em]"
+            : "text-muted-ink group-hover:text-primary"
+        }`}
         aria-haspopup="menu"
       >
         CSV
@@ -69,25 +77,25 @@ function CsvMenu({ active }: { active: boolean }) {
         role="menu"
         className="csv-menu-panel absolute top-full right-0 z-30 w-[min(20rem,calc(100vw-2.5rem))] origin-top-right pt-0.5 max-md:fixed max-md:top-[4.25rem] max-md:right-4 max-md:left-4 max-md:w-auto"
       >
-        <div className="bg-[#155a9c] py-2 font-normal whitespace-normal shadow-[0_16px_40px_rgba(8,30,70,0.28)]">
+        <div className="border border-line bg-surface py-2 font-normal whitespace-normal">
           {CHART_DOWNLOAD_GROUPS.map((group) => (
             <div key={group.section} className="py-1">
-              <p className="px-4 pb-1 pt-2 text-[13px] font-medium leading-snug text-white/55">{group.section}</p>
+              <p className="px-4 pb-1 pt-2 text-[13px] font-medium tracking-wide text-muted-ink uppercase">{group.section}</p>
               {group.items.map((item) => (
                 <a
                   key={item.id}
                   role="menuitem"
                   href={chartDownloadPath(item.id)}
                   download={item.filename}
-                  className={`${CSV_ITEM_CLASS} text-white`}
+                  className={`${CSV_ITEM_CLASS} text-ink`}
                 >
                   {item.label}
                 </a>
               ))}
             </div>
           ))}
-          <div className="mt-1 border-t border-white/20">
-            <Link href="/csv" role="menuitem" className={`${CSV_ITEM_CLASS} text-white/80`}>
+          <div className="mt-1 border-t border-line">
+            <Link href="/csv" role="menuitem" className={`${CSV_ITEM_CLASS} text-muted-ink`}>
               全部文件与字段说明
             </Link>
           </div>
@@ -99,12 +107,12 @@ function CsvMenu({ active }: { active: boolean }) {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-neutral-200 bg-white">
-      <div className="px-4 py-4 text-[11px] leading-relaxed text-neutral-400">
-        本站为社区维护的<strong className="font-medium text-neutral-500">非官方开源项目</strong>
+    <footer className="border-t border-line bg-page">
+      <div className="px-4 py-4 text-[11px] leading-relaxed text-muted-ink">
+        本站为社区维护的<strong className="font-medium text-ink">非官方开源项目</strong>
         ，非正式中国 CDC 网站。依据中国 CDC 公开数据整理，原始数据知识产权属于中国疾病预防控制中心。欢迎在{" "}
         <a
-          className="text-neutral-500 hover:text-[#1b6bb8] hover:underline"
+          className="text-primary hover:underline"
           href={FORECAST_HUB}
           target="_blank"
           rel="noopener noreferrer"

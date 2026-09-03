@@ -119,7 +119,7 @@ export function ChartToolbar({
                   {preset.label}
                 </button>
               ))}
-              <span className="text-neutral-400">
+              <span className="font-mono text-muted-ink">
                 已选 {selected.size} / {filterItems.length}
               </span>
             </div>
@@ -135,8 +135,8 @@ export function ChartToolbar({
                   onClick={() => toggle(item.name)}
                   className={`inline-flex cursor-pointer items-center gap-1.5 border px-2 py-1 ${
                     on
-                      ? "border-neutral-400 bg-white text-neutral-900"
-                      : "border-neutral-200 bg-neutral-50 text-neutral-400 hover:border-neutral-300 hover:text-neutral-600"
+                      ? "border-primary bg-hover-wash text-ink"
+                      : "border-line bg-muted text-muted-ink hover:border-primary hover:bg-hover-wash hover:text-ink"
                   }`}
                 >
                   <span
@@ -164,7 +164,7 @@ export function Seg({
   options: { id: string; label: string }[];
 }) {
   return (
-    <div className="inline-flex border border-neutral-300">
+    <div className="inline-flex border border-line">
       {options.map((option) => {
         const on = value === option.id;
         return (
@@ -174,7 +174,7 @@ export function Seg({
             aria-pressed={on}
             onClick={() => onChange(option.id)}
             className={`cursor-pointer px-2.5 py-1 ${
-              on ? "bg-[#1b6bb8] text-white" : "bg-white text-neutral-700 hover:bg-neutral-50"
+              on ? "bg-muted font-medium text-primary" : "bg-surface text-muted-ink hover:bg-hover-wash"
             }`}
           >
             {option.label}
@@ -187,7 +187,7 @@ export function Seg({
 
 export function chipClass(on: boolean) {
   return `cursor-pointer border px-2 py-1 ${
-    on ? "border-[#1b6bb8] bg-[#1b6bb8] text-white" : "border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50"
+    on ? "border-primary bg-hover-wash font-medium text-primary" : "border-line bg-surface text-muted-ink hover:bg-hover-wash"
   }`;
 }
 

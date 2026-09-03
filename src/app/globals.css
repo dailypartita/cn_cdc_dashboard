@@ -1,25 +1,81 @@
 @import "tailwindcss";
 
+:root {
+  --page: #f6f8fa;
+  --ink: #1a2332;
+  --surface: #ffffff;
+  --muted: #eef1f5;
+  --muted-ink: #5a6578;
+  --primary: #1f4e79;
+  --primary-fg: #ffffff;
+  --hover-wash: #e8eef4;
+  --line: #d8dee6;
+  --danger: #9b2c2c;
+  --success: #2f5d50;
+  --warning: #8a6d3b;
+}
+
+.dark {
+  --page: #16181c;
+  --ink: #e8eaed;
+  --surface: #1c1f24;
+  --muted: #262a31;
+  --muted-ink: #8b93a1;
+  --primary: #7a9cc2;
+  --primary-fg: #12151a;
+  --hover-wash: #262a31;
+  --line: #2f343c;
+  --danger: #c45c5c;
+  --success: #6a9a8c;
+  --warning: #c4a36a;
+}
+
 @theme inline {
-  --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
+  --font-sans: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --color-page: var(--page);
+  --color-ink: var(--ink);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-muted-ink: var(--muted-ink);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-hover-wash: var(--hover-wash);
+  --color-line: var(--line);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
 }
 
 html,
 body {
-  background: #ffffff;
-  color: #1a1a1a;
+  background: var(--page);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .csv-menu-panel {
   visibility: hidden;
   pointer-events: none;
   opacity: 0;
-  transform: translateY(0.25rem) scale(0.98);
+  transform: translateY(0.25rem);
   transition:
-    opacity 200ms ease-out,
-    transform 200ms ease-out,
-    visibility 0ms linear 200ms;
+    opacity 160ms ease-out,
+    transform 160ms ease-out,
+    visibility 0ms linear 160ms;
 }
 
 .group:hover .csv-menu-panel,
@@ -27,9 +83,9 @@ body {
   visibility: visible;
   pointer-events: auto;
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
   transition:
-    opacity 200ms ease-out,
-    transform 200ms ease-out,
+    opacity 160ms ease-out,
+    transform 160ms ease-out,
     visibility 0ms linear 0ms;
 }

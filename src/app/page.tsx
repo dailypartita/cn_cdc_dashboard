@@ -45,8 +45,7 @@ export default function HomePage() {
         <header>
           <h1 className="text-[1.75rem] font-semibold leading-snug text-ink">{SITE_NAME}</h1>
           <p className="mt-3 text-base leading-relaxed text-muted-ink">
-            把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报与新冠疫情通报，整理成可交互图表，并提供 CSV /
-            Parquet 与只读 API。
+            把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报与新冠疫情通报，整理成可交互图表，并提供 CSV。
           </p>
           <DisclaimerNotice />
           <div className="mt-5 flex flex-wrap justify-center gap-3">
@@ -54,7 +53,7 @@ export default function HomePage() {
               href="/csv"
               className="inline-flex cursor-pointer border border-primary bg-primary px-3.5 py-2 text-[0.9375rem] text-primary-fg hover:border-primary hover:bg-primary"
             >
-              下载 CSV / Parquet
+              下载 CSV
             </Link>
             <a
               href={SITE_ISSUES}

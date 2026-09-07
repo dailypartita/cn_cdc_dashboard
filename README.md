@@ -1,13 +1,12 @@
 # 中国疾控结构化数据库（非官方开源项目）
 
-把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报、新冠疫情通报整理成可交互图表，并提供 CSV / Parquet 与只读 JSON。
+把中国 CDC 公开发布的传染病月报、急性呼吸道哨点周报、新冠疫情通报整理成可交互图表，并提供 CSV。
 
 本站由社区维护，**不是中国 CDC 官方网站**。引用请以 [中国 CDC 健康数据](https://www.chinacdc.cn/jksj/) 原文为准。原始数据知识产权属于中国疾病预防控制中心，仅供非商业研究使用。
 
 - 站点：[https://dailypartita.github.io/cn_cdc_dashboard/](https://dailypartita.github.io/cn_cdc_dashboard/)
 - 主页：`/`（法定传染病、哨点监测、新冠）
 - CSV：`/csv/`（`/data/` 会跳转到这里）
-- API 说明：`/api-docs/`
 
 ## 预测竞技场
 
@@ -19,7 +18,7 @@
 
 ```
 src/
-  app/                   Next.js 路由：首页、CSV、API JSON、下载页
+  app/                   Next.js 路由：首页、CSV 下载页
   components/            页面组件与图表
   lib/                   链接、病原体目录、读盘与解析
 scripts/                 同步、抽取、校正、静态文件准备、Airflow 入库
@@ -39,7 +38,7 @@ npm install
 npm run dev
 ```
 
-打开 [http://localhost:3000](http://localhost:3000)。`predev` 会把 `data/` 拷到 `public/download/` 并生成 Parquet。
+打开 [http://localhost:3000](http://localhost:3000)。`predev` 会把 `data/` 拷到 `public/download/`。
 
 静态导出（与 GitHub Pages 相同）：
 
@@ -79,7 +78,7 @@ npm run prepare-static       # 仅生成 public/download
 
 ## 下载
 
-站点根为 `https://dailypartita.github.io/cn_cdc_dashboard`。同一路径把 `.csv` 换成 `.parquet` 即可。
+站点根为 `https://dailypartita.github.io/cn_cdc_dashboard`。下载目前只提供 CSV。
 
 | 路径 | 说明 |
 | --- | --- |
@@ -94,26 +93,6 @@ npm run prepare-static       # 仅生成 public/download
 ```python
 import pandas as pd
 df = pd.read_csv("https://dailypartita.github.io/cn_cdc_dashboard/download/cncdc_surveillance_all.csv")
-df = pd.read_parquet("https://dailypartita.github.io/cn_cdc_dashboard/download/cncdc_surveillance_all.parquet")
-```
-
-## API
-
-构建时写出的静态 JSON。说明页：`/api-docs/`。
-
-| 路径 | 说明 |
-| --- | --- |
-| `GET /api/v1/surveillance.json` | 哨点长表 |
-| `GET /api/v1/latest.json` | 最新周（表1 结构，含较上周） |
-| `GET /api/v1/status.json` | 各数据集最新期 |
-| `GET /api/v1/weeks.json` | 监测周列表 |
-| `GET /api/v1/pathogens.json` | 哨点病原体目录 |
-| `GET /api/v1/notifiable.json` | 法定传染病长表（不含总计行） |
-| `GET /api/v1/covid-variants.json` | 流行株长表 |
-
-```bash
-curl "https://dailypartita.github.io/cn_cdc_dashboard/api/v1/latest.json"
-curl "https://dailypartita.github.io/cn_cdc_dashboard/api/v1/surveillance.json"
 ```
 
 ## 未收录

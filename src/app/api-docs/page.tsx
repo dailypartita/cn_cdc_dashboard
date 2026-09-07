@@ -19,7 +19,7 @@ export default function ApiDocsPage() {
       <p className="mt-3 text-[0.8125rem] leading-relaxed text-muted-ink">
         静态 JSON，随每周入库重建。筛选请在客户端做，或改下{" "}
         <Link className="text-primary hover:underline" href="/csv">
-          CSV / Parquet
+          CSV
         </Link>
         。curl / pandas 可直接读；GitHub Pages 不设自定义 CORS 头。
       </p>

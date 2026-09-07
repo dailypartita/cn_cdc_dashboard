@@ -50,9 +50,9 @@ const NID_COLUMNS = [
 ];
 
 export const metadata: Metadata = {
-  title: "CSV / Parquet",
+  title: "CSV",
   description:
-    "非官方开源项目提供的哨点监测、法定传染病与新冠流行株结构化表，可下载 CSV 与 Parquet。非正式中国 CDC 数据发布。",
+    "非官方开源项目提供的哨点监测、法定传染病与新冠流行株结构化表，可下载 CSV。非正式中国 CDC 数据发布。",
 };
 
 export default function CsvPage() {
@@ -102,7 +102,7 @@ export default function CsvPage() {
     <main className="px-6 py-6 lg:px-10 lg:py-8">
       <header className="max-w-3xl">
         <UnofficialBadge />
-        <h1 className="mt-3 text-[1.75rem] font-semibold leading-snug text-ink">CSV / Parquet</h1>
+        <h1 className="mt-3 text-[1.75rem] font-semibold leading-snug text-ink">CSV</h1>
         <p className="mt-3 text-base leading-relaxed text-muted-ink">
           本站从公开网页整理的结构化表，供非商业研究下载。哨点周报来自{" "}
           <a
@@ -122,9 +122,7 @@ export default function CsvPage() {
           >
             疫情概况统计表
           </a>
-          。同一份表同时提供 CSV 与 Parquet：把下载链接的{" "}
-          <span className="font-mono text-sm">.csv</span> 换成{" "}
-          <span className="font-mono text-sm">.parquet</span> 即可。同源哨点序列也用于{" "}
+          。同源哨点序列也用于{" "}
           <a
             className="text-primary hover:underline"
             href={FORECAST_HUB}
@@ -145,8 +143,7 @@ export default function CsvPage() {
         </p>
         <pre className="mt-4 overflow-x-auto border border-line bg-muted p-4 font-mono text-sm leading-relaxed text-ink">
 {`import pandas as pd
-df = pd.read_csv("${SITE_PAGES}/download/notifiable_all.csv")
-df = pd.read_parquet("${SITE_PAGES}/download/notifiable_all.parquet")`}
+df = pd.read_csv("${SITE_PAGES}/download/notifiable_all.csv")`}
         </pre>
       </section>
 

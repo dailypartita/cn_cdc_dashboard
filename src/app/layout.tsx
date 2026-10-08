@@ -1,26 +1,38 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Noto_Sans_SC } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SiteFooter, TopNav } from "@/components/SiteChrome";
 import { SITE_NAME, SITE_TITLE } from "@/lib/links";
 
-const plexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+// Self-hosted so `next build` does not fetch fonts.googleapis.com. Turbopack
+// fails that fetch with "next/font/google queries have exactly one entry"
+// (vercel/next.js#99114), which blocked the Pages deploy after CDC ingest.
+const plexSans = localFont({
+  src: [
+    { path: "../fonts/ibm-plex-sans-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/ibm-plex-sans-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/ibm-plex-sans-latin-600-normal.woff2", weight: "600", style: "normal" },
+  ],
   display: "swap",
   variable: "--font-plex-sans",
 });
 
-const notoSansSc = Noto_Sans_SC({
-  weight: ["400", "500", "700"],
+const notoSansSc = localFont({
+  src: [
+    { path: "../fonts/noto-sans-sc-chinese-simplified-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/noto-sans-sc-chinese-simplified-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/noto-sans-sc-chinese-simplified-700-normal.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   preload: false,
   variable: "--font-noto-sans-sc",
 });
 
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+const plexMono = localFont({
+  src: [
+    { path: "../fonts/ibm-plex-mono-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/ibm-plex-mono-latin-500-normal.woff2", weight: "500", style: "normal" },
+  ],
   display: "swap",
   variable: "--font-plex-mono",
 });

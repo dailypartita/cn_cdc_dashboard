@@ -15,6 +15,7 @@
     "sync-notifiable": "node scripts/sync-notifiable.mjs",
     "sync-sentinel": "node scripts/sync-sentinel.mjs",
     "qa-data": "node scripts/qa-data.mjs",
+    "test": "node --test scripts/local-fonts.test.mjs",
     "sync-covid-variants": "node scripts/sync-covid-variants.mjs",
     "write-catalog": "node scripts/catalog.mjs"
   },

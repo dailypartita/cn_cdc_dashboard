@@ -5,6 +5,11 @@
  * (图5 is a stacked chart without a table).
  *
  * Listing: https://www.chinacdc.cn/jksj/xgbdyq/
+ *
+ * The newest bulletin must yield the week range stated in 变异监测.
+ * sync-data exits non-zero when that week is missing or the listing
+ * shows a newer month with no fetchable link, instead of leaving
+ * catalog.json at crawl=ok / unchanged=true.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -105,33 +110,119 @@ function weekYear(month, week, w1, w2) {
   return year;
 }
 
+const SECTION_END_MARKERS = ["建议公众", "个人防护", "文件附件", "相关新闻", "网站导航"];
+
+function rangeRe() {
+  return /第(\d+)周(?:（[^）]{0,120}）)?至第(\d+)周/g;
+}
+
+function shareRe() {
+  return /([^，。；]{2,160}?)占比(?:分别为|分别是|为)([\d.%，、,]+)/g;
+}
+
+export function variantSection(compactHtml) {
+  const start = compactHtml.indexOf("变异监测");
+  if (start < 0) return null;
+  let end = compactHtml.length;
+  for (const marker of SECTION_END_MARKERS) {
+    const i = compactHtml.indexOf(marker, start + "变异监测".length);
+    if (i >= 0 && i < end) end = i;
+  }
+  end = Math.min(end, start + 8000);
+  return { start, end, chunk: compactHtml.slice(start, end) };
+}
+
+function weekLabel(year, week) {
+  return `${year}-W${String(week).padStart(2, "0")}`;
+}
+
+function rangesIn(text, offset = 0) {
+  return [...text.matchAll(rangeRe())].map((m) => ({
+    w1: Number(m[1]),
+    w2: Number(m[2]),
+    index: offset + (m.index ?? 0),
+    end: offset + (m.index ?? 0) + m[0].length,
+  }));
+}
+
+function resolveRange(compactHtml, ranges, pctAt) {
+  const range = [...ranges].reverse().find((r) => r.index < pctAt);
+  if (range) return range;
+  const windowStart = Math.max(0, pctAt - 160);
+  const window = compactHtml.slice(windowStart, pctAt);
+  const singles = [...window.matchAll(/第(\d+)周/g)];
+  const single = singles.at(-1);
+  if (!single) return null;
+  const week = Number(single[1]);
+  const index = windowStart + (single.index ?? 0);
+  return { w1: week, w2: week, index, end: index + single[0].length };
+}
+
+export function claimedWeekSpan(html) {
+  const compactHtml = compact(html);
+  const month = extractMonth(compactHtml);
+  const section = variantSection(compactHtml);
+  if (!month || !section) return null;
+  const ranges = [...section.chunk.matchAll(rangeRe())];
+  let w1;
+  let w2;
+  if (ranges.length > 0) {
+    const m = ranges[ranges.length - 1];
+    w1 = Number(m[1]);
+    w2 = Number(m[2]);
+  } else {
+    const lone = section.chunk.match(/第(\d+)周[^。]{0,160}占比/);
+    if (!lone) return null;
+    w1 = w2 = Number(lone[1]);
+  }
+  const year = weekYear(month, w2, w1, w2);
+  return { month, w1, w2, year, week: w2, label: weekLabel(year, w2) };
+}
+
+export function maxParsedWeek(rows) {
+  let best = null;
+  for (const row of rows ?? []) {
+    if (!row?.week_start) continue;
+    if (!best || row.week_start > best.week_start) best = row;
+  }
+  if (!best) return null;
+  return { year: best.year, week: best.week, week_start: best.week_start, label: weekLabel(best.year, best.week) };
+}
+
+export function latestBulletinCoverageError(html, rows, url = "") {
+  const span = claimedWeekSpan(html);
+  if (!span) return null;
+  const covered = (rows ?? []).some((r) => r.year === span.year && Number(r.week) === span.week);
+  if (covered) return null;
+  const latest = maxParsedWeek(rows);
+  const where = url ? ` (${url})` : "";
+  return `newest variant bulletin claims ${span.label} but parsed shares stop at ${latest?.label ?? "none"}${where}`;
+}
+
+export function variantCrawlBlocksSync(section) {
+  if (!section || section.crawl === "ok") return false;
+  const err = String(section.error ?? "");
+  return /parsed 0 rows|parsed shares stop at|no fetchable link|no variant rows/.test(err);
+}
+
 export function parseBulletin(html, sourceUrl) {
   const compactHtml = compact(html);
   const month = extractMonth(compactHtml);
   if (!month) return [];
-
-  const start = compactHtml.indexOf("变异监测");
-  if (start < 0) return [];
-  let end = compactHtml.indexOf("建议公众", start);
-  if (end < 0) end = compactHtml.indexOf("个人防护", start);
-  if (end < 0) end = Math.min(compactHtml.length, start + 1800);
-  const chunk = compactHtml.slice(start, end);
+  const section = variantSection(compactHtml);
+  if (!section) return [];
+  const { start, chunk } = section;
 
   const sequences = Number((chunk.match(/报送(\d+)例/) || [])[1] || "") || "";
-  const ranges = [...compactHtml.matchAll(/第(\d+)周(?:（[^）]{0,80}）)?至第(\d+)周/g)].map((m) => ({
-    w1: Number(m[1]),
-    w2: Number(m[2]),
-    index: m.index ?? 0,
-    end: (m.index ?? 0) + m[0].length,
-  }));
+  const ranges = rangesIn(compactHtml);
 
   const rows = [];
-  for (const m of chunk.matchAll(/([^，。；]{2,160}?)占比分别为([\d.%，、,]+)/g)) {
+  for (const m of chunk.matchAll(shareRe())) {
     const lineage = canonLineage(m[1]);
     const values = parsePercents(m[2]);
     if (!lineage || values.length === 0) continue;
     const pctAt = start + (m.index ?? 0) + m[1].length;
-    const range = [...ranges].reverse().find((r) => r.index < pctAt);
+    const range = resolveRange(compactHtml, ranges, pctAt);
     if (!range) continue;
     const weeksAll = expandWeeks(range.w1, range.w2);
     const weeks = values.length < weeksAll.length ? weeksAll.slice(weeksAll.length - values.length) : weeksAll;
@@ -154,8 +245,51 @@ export function parseBulletin(html, sourceUrl) {
   return rows;
 }
 
+function isVariantHref(href) {
+  if (href.includes("..")) return false;
+  return (
+    /^(?:\.\/)?\d{6}\/t[^"'?#]+\.html$/.test(href) ||
+    /\/jksj\/xgbdyq\/\d{6}\/t[^"'?#]+\.html$/.test(href)
+  );
+}
+
+export function discoverVariantLinks(html, base) {
+  const out = [];
+  for (const m of String(html).matchAll(/href=(["'])([^"']+)\1[^>]*>([\s\S]*?)<\/a>/gi)) {
+    const href = m[2].trim();
+    if (!isVariantHref(href)) continue;
+    const title = m[3].replace(/<[^>]+>/g, "").replace(/\s+/g, "");
+    const monthMatch = title.match(/（(\d{4})年(\d{1,2})月）/);
+    let url;
+    try {
+      url = new URL(href, base).href;
+    } catch {
+      continue;
+    }
+    out.push({
+      url,
+      title,
+      month: monthMatch ? `${monthMatch[1]}-${String(Number(monthMatch[2])).padStart(2, "0")}` : "",
+    });
+  }
+  return out;
+}
+
+export function unrecognizedBulletinError(html, base) {
+  const linked = new Set(discoverVariantLinks(html, base).map((link) => link.month).filter(Boolean));
+  const titled = [
+    ...String(html).matchAll(/全国新型冠状病毒感染疫情情况（(\d{4})年(\d{1,2})月）/g),
+  ].map((m) => `${m[1]}-${String(Number(m[2])).padStart(2, "0")}`);
+  if (titled.length === 0) return null;
+  const newest = titled.sort().at(-1);
+  if (!linked.has(newest)) {
+    return `listing shows variant bulletin ${newest} but no fetchable link was recognized`;
+  }
+  return null;
+}
+
 export async function listBulletins() {
-  const hrefs = [];
+  const found = [];
   for (let i = 0; i < 8; i++) {
     const url = i === 0 ? LISTING : `${LISTING}index_${i}.html`;
     let html;
@@ -165,20 +299,24 @@ export async function listBulletins() {
       if (String(err.message).includes("404")) break;
       throw err;
     }
-    const found = [...html.matchAll(/href="(\.\/\d{6}\/t[^"]+\.html)"/g)].map((m) => m[1]);
-    if (found.length === 0) {
-      if (i === 0 && hrefs.length === 0) throw new Error("variant listing: 0 bulletin links");
+    if (i === 0) {
+      const blind = unrecognizedBulletinError(html, url);
+      if (blind) throw new Error(blind);
+    }
+    const links = discoverVariantLinks(html, url);
+    if (links.length === 0) {
+      if (i === 0 && found.length === 0) throw new Error("variant listing: 0 bulletin links");
       break;
     }
-    hrefs.push(...found);
+    found.push(...links);
     await delay(250);
   }
   const seen = new Set();
   const out = [];
-  for (const href of hrefs) {
-    if (seen.has(href)) continue;
-    seen.add(href);
-    out.push(new URL(href, LISTING).href);
+  for (const link of found) {
+    if (seen.has(link.url)) continue;
+    seen.add(link.url);
+    out.push(link);
   }
   if (out.length === 0) throw new Error("variant listing: 0 bulletin links");
   return out;
@@ -189,8 +327,12 @@ function variantSortKey(url) {
   return m ? m[1] : "";
 }
 
-function newestUrlsFirst(urls) {
-  return [...urls].sort((a, b) => variantSortKey(b).localeCompare(variantSortKey(a)));
+function newestLinksFirst(links) {
+  return [...links].sort((a, b) => {
+    const byMonth = (b.month || "").localeCompare(a.month || "");
+    if (byMonth !== 0) return byMonth;
+    return variantSortKey(b.url).localeCompare(variantSortKey(a.url));
+  });
 }
 
 function addOther(rows) {
@@ -250,16 +392,21 @@ function toCsv(rows) {
 }
 
 export async function crawlVariants() {
-  const urls = newestUrlsFirst(await listBulletins());
+  const links = newestLinksFirst(await listBulletins());
   const all = [];
-  for (let i = 0; i < urls.length; i++) {
-    const url = urls[i];
+  for (let i = 0; i < links.length; i++) {
+    const url = links[i].url;
     const latest = i === 0;
     try {
       const html = await fetchText(url);
       const rows = parseBulletin(html, url);
-      if (rows.length === 0) {
-        if (latest) throw new Error(`latest variant bulletin parsed 0 rows: ${url}`);
+      if (latest) {
+        const coverage = latestBulletinCoverageError(html, rows, url);
+        if (rows.length === 0) {
+          throw new Error(coverage ?? `latest variant bulletin parsed 0 rows: ${url}`);
+        }
+        if (coverage) throw new Error(coverage);
+      } else if (rows.length === 0) {
         console.warn("no variant table", url);
         continue;
       }

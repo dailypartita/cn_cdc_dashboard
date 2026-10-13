@@ -20,10 +20,18 @@ export async function fetchText(url, { retries = 3 } = {}) {
   throw lastErr;
 }
 
+function githubAnnotation(command, message) {
+  if (!process.env.GITHUB_ACTIONS) return;
+  const text = String(message).replace(/\r?\n/g, " ");
+  console.log(`::${command}::${text}`);
+}
+
 export function githubWarning(message) {
   console.warn(message);
-  if (process.env.GITHUB_ACTIONS) {
-    const text = String(message).replace(/\r?\n/g, " ");
-    console.log(`::warning::${text}`);
-  }
+  githubAnnotation("warning", message);
+}
+
+export function githubError(message) {
+  console.error(message);
+  githubAnnotation("error", message);
 }

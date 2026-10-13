@@ -7,13 +7,16 @@
  * 3. Recrawl notifiable monthly tables and COVID variant shares
  * 4. Merge the 2022– COVID positivity long series
  * 5. Write data/catalog.json only when a dataset period actually changed
+ * 6. Fail the job if the newest COVID variant bulletin was not parsed
+ *    into the week it claims (do not exit 0 with crawl=ok)
  */
 import { appendFileSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { applySurveillanceFileFixes, rebuildSnapshots } from "./qa-data.mjs";
-import { githubWarning } from "./cdc-http.mjs";
+import { githubError, githubWarning } from "./cdc-http.mjs";
 import { buildCatalog, catalogHasNewPeriods, readCatalog, summarize, writeCatalog } from "./catalog.mjs";
+import { variantCrawlBlocksSync } from "./sync-covid-variants.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data");
@@ -110,4 +113,8 @@ if (catalog.notifiable?.crawl === "skipped") {
 }
 if (catalog.covid_variants?.crawl === "skipped") {
   console.log("covid variants skipped", catalog.covid_variants.error);
+}
+if (variantCrawlBlocksSync(crawl.covid_variants)) {
+  githubError(`covid variant sync stalled: ${crawl.covid_variants.error}`);
+  process.exit(1);
 }

@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-10-23T10:46:30.149Z",
+  "synced_at": "2026-10-30T11:55:44.917Z",
   "source": {
     "sentinel": "https://www.chinacdc.cn/jksj/jksj04_14275/",
     "notifiable": "https://www.chinacdc.cn/jksj/jksj01/",
@@ -7,52 +7,52 @@
     "covid_positivity": "https://www.chinacdc.cn/jksj/jksj04_14275/"
   },
   "sentinel": {
-    "latest_key": "2026-W42",
-    "latest_label": "2026年第42周",
-    "reference_date": "2026-10-12",
-    "target_end_date": "2026-10-18",
-    "report_week": 42,
-    "weeks": 101,
-    "rows": 1111,
+    "latest_key": "2026-W43",
+    "latest_label": "2026年第43周",
+    "reference_date": "2026-10-19",
+    "target_end_date": "2026-10-25",
+    "report_week": 43,
+    "weeks": 102,
+    "rows": 1122,
     "crawl": "ok",
     "error": null,
     "unchanged": false,
-    "synced_at": "2026-10-23T10:46:30.149Z"
+    "synced_at": "2026-10-30T11:55:44.917Z"
   },
   "notifiable": {
-    "latest_month": "2026-08",
-    "latest_label": "2026年8月",
-    "months": 32,
-    "rows": 1656,
-    "crawl": "ok",
-    "error": null,
-    "unchanged": true,
-    "synced_at": "2026-09-20T10:21:36.149Z"
-  },
-  "covid_variants": {
-    "latest_key": "2026-W35",
-    "latest_label": "2026年第35周",
-    "week_start": "2026-08-24",
-    "year": 2026,
-    "week": 35,
-    "weeks": 116,
-    "rows": 259,
-    "crawl": "ok",
-    "error": null,
-    "unchanged": true,
-    "synced_at": "2026-09-20T10:21:36.149Z"
-  },
-  "covid_positivity": {
-    "latest_key": "2026-W42",
-    "latest_label": "2026年第42周",
-    "reference_date": "2026-10-12",
-    "target_end_date": "2026-10-18",
-    "report_week": 42,
-    "weeks": 202,
-    "rows": 202,
+    "latest_month": "2026-09",
+    "latest_label": "2026年9月",
+    "months": 33,
+    "rows": 1715,
     "crawl": "ok",
     "error": null,
     "unchanged": false,
-    "synced_at": "2026-10-23T10:46:30.149Z"
+    "synced_at": "2026-10-30T11:55:44.917Z"
+  },
+  "covid_variants": {
+    "latest_key": "2026-W39",
+    "latest_label": "2026年第39周",
+    "week_start": "2026-09-21",
+    "year": 2026,
+    "week": 39,
+    "weeks": 120,
+    "rows": 267,
+    "crawl": "ok",
+    "error": null,
+    "unchanged": false,
+    "synced_at": "2026-10-30T11:55:44.917Z"
+  },
+  "covid_positivity": {
+    "latest_key": "2026-W43",
+    "latest_label": "2026年第43周",
+    "reference_date": "2026-10-19",
+    "target_end_date": "2026-10-25",
+    "report_week": 43,
+    "weeks": 203,
+    "rows": 203,
+    "crawl": "ok",
+    "error": null,
+    "unchanged": false,
+    "synced_at": "2026-10-30T11:55:44.917Z"
   }
 }

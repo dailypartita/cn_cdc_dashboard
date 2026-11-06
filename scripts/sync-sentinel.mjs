@@ -5,6 +5,11 @@
  * stacked Table 1 rows, same as the former cn_cdc_crawl archive.
  *
  * Listing: https://www.chinacdc.cn/jksj/jksj04_14275/
+ *
+ * The newest week named on the listing must be present in the parsed
+ * rows. sync-data exits non-zero when that week is missing, or when the
+ * listing shows a newer week with no fetchable link, instead of exiting
+ * 0 with "no new periods".
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -130,8 +135,16 @@ function listingUrl(page) {
 
 export function discoverLinks(html, base) {
   const found = [];
-  for (const m of html.matchAll(/href="([^"]+)"[^>]*>([^<]*\d{4}年第\d{1,2}周[^<]*)</g)) {
-    found.push({ href: new URL(m[1], base).href, title: m[2].trim() });
+  for (const m of String(html).matchAll(/<a\b[^>]*\bhref=(["'])([^"']+)\1[^>]*>([\s\S]*?)<\/a>/gi)) {
+    const title = m[3].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    if (!/(\d{4})年第(\d{1,2})周/.test(title)) continue;
+    let href;
+    try {
+      href = new URL(m[2].trim(), base).href;
+    } catch {
+      continue;
+    }
+    found.push({ href, title });
   }
   return found;
 }
@@ -140,6 +153,48 @@ export function weekKeyFromTitle(title) {
   const m = String(title).match(/(\d{4})年第(\d{1,2})周/);
   if (!m) return "";
   return `${m[1]}-W${String(Number(m[2])).padStart(2, "0")}`;
+}
+
+export function maxWeekKey(keys) {
+  let best = "";
+  for (const key of keys) {
+    if (key && (!best || key > best)) best = key;
+  }
+  return best;
+}
+
+export function bulletinWeekKey(row) {
+  const year = Number(row?.year);
+  const week = Number(row?.report_week);
+  if (!year || !Number.isFinite(week) || week <= 0) return "";
+  return `${year}-W${String(week).padStart(2, "0")}`;
+}
+
+/** Listing week must be one of the parsed bulletin weeks. */
+export function sentinelCoverageError(listedKey, rows, url = "") {
+  if (!listedKey) return "sentinel listing: no week key";
+  const keys = (rows ?? []).map(bulletinWeekKey).filter(Boolean);
+  if (keys.includes(listedKey)) return null;
+  const where = url ? ` (${url})` : "";
+  return `sentinel listing has ${listedKey} but parsed rows stop at ${maxWeekKey(keys) || "none"}${where}`;
+}
+
+/**
+ * Page text can name a week the anchor parser did not pick up
+ * (quote style, nested tags, or the title moved out of the link).
+ */
+export function unrecognizedSentinelWeekError(html, base) {
+  const linked = discoverLinks(html, base).map((link) => weekKeyFromTitle(link.title));
+  const mentioned = [];
+  for (const m of String(html).matchAll(/(\d{4})年第(\d{1,2})周/g)) {
+    mentioned.push(`${m[1]}-W${String(Number(m[2])).padStart(2, "0")}`);
+  }
+  const newest = maxWeekKey(mentioned);
+  if (!newest) return null;
+  if (!linked.includes(newest)) {
+    return `sentinel listing shows ${newest} but no fetchable bulletin link was recognized`;
+  }
+  return null;
 }
 
 function newestLinksFirst(links) {
@@ -157,6 +212,10 @@ export async function crawlSentinel({ maxPages = 12, pauseMs = 250 } = {}) {
       if (String(err.message).includes("HTTP 404")) break;
       throw err;
     }
+    if (page === 1) {
+      const blind = unrecognizedSentinelWeekError(html, url);
+      if (blind) throw new Error(blind);
+    }
     const links = discoverLinks(html, url);
     if (links.length === 0) {
       if (page === 1 && seen.size === 0) throw new Error("sentinel listing: 0 bulletin links");
@@ -172,6 +231,8 @@ export async function crawlSentinel({ maxPages = 12, pauseMs = 250 } = {}) {
 
   const byKey = new Map();
   const ordered = newestLinksFirst([...seen.values()]);
+  const listed = ordered[0];
+  const listedKey = listed ? weekKeyFromTitle(listed.title) : "";
   for (let i = 0; i < ordered.length; i++) {
     const { href, title } = ordered[i];
     const latest = i === 0;
@@ -194,7 +255,11 @@ export async function crawlSentinel({ maxPages = 12, pauseMs = 250 } = {}) {
     await delay(pauseMs);
   }
 
-  return [...byKey.values()];
+  const rows = [...byKey.values()];
+  const coverage = sentinelCoverageError(listedKey, rows, listed?.href ?? "");
+  if (coverage) throw new Error(coverage);
+  console.log("sentinel listing", listedKey);
+  return rows;
 }
 
 function loadExisting(name) {

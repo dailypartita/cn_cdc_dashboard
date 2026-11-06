@@ -7,7 +7,9 @@
  * 3. Recrawl notifiable monthly tables and COVID variant shares
  * 4. Merge the 2022– COVID positivity long series
  * 5. Write data/catalog.json only when a dataset period actually changed
- * 6. Fail the job if the newest COVID variant bulletin was not parsed
+ * 6. Fail the job if the sentinel listing's newest week is missing from
+ *    the parsed table (do not exit 0 with "no new periods")
+ * 7. Fail the job if the newest COVID variant bulletin was not parsed
  *    into the week it claims (do not exit 0 with crawl=ok)
  */
 import { appendFileSync, mkdirSync, readFileSync } from "node:fs";
@@ -54,8 +56,17 @@ const crawl = {
 
 if (!snapshotsOnly) {
   const { crawlSentinel, writeOutputs } = await import("./sync-sentinel.mjs");
-  const records = await crawlSentinel();
-  if (records.length === 0) throw new Error("no sentinel table1 rows");
+  let records;
+  try {
+    records = await crawlSentinel();
+  } catch (err) {
+    githubError(`sentinel sync stalled: ${err.message}`);
+    process.exit(1);
+  }
+  if (records.length === 0) {
+    githubError("sentinel sync stalled: no sentinel table1 rows");
+    process.exit(1);
+  }
   writeOutputs(records);
   const { applied } = applySurveillanceFileFixes();
   for (const row of applied) {

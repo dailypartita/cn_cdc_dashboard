@@ -4,8 +4,13 @@ name: Sync China CDC data
 # domestic worker as a network backup. concurrency below serializes overlap.
 on:
   schedule:
-    # UTC 06:00 Tue/Fri/Sun ≈ Asia/Shanghai 14:00
-    - cron: "0 6 * * 2,5,0"
+    # Sentinel weeks are published Thursday ~12:30 UTC (20:30 Asia/Shanghai;
+    # one recent week was 15:37 UTC). The old 06:00 UTC Tue/Fri/Sun cron
+    # does not run after that post until Friday, and GitHub then delays
+    # the slot by several hours, so Friday morning Shanghai still shows
+    # the previous week. 16:00 UTC is after those posts; the usual delay
+    # still finishes overnight. Daily also picks up mid-week monthly bulletins.
+    - cron: "0 16 * * *"
   workflow_dispatch:
 
 permissions:

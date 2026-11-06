@@ -47,12 +47,12 @@ npm run build
 npx serve out
 ```
 
-## 每周流水线
+## 同步流水线
 
-1. **GitHub Actions** `sync-data.yml` 在 UTC 周二/五/日 06:00（上海时间 14:00）跑 `node scripts/sync-data.mjs`，从中国 CDC 公开页入库。没有新期次则不改 `catalog.json`、不空提交。也可在 Actions 里手动跑 **Sync China CDC data**。
+1. **GitHub Actions** `sync-data.yml` 每天 UTC 16:00（上海时间 00:00）跑 `node scripts/sync-data.mjs`，从中国 CDC 公开页入库。哨点周报在周四约 20:30（上海）发布；原先只在周二/五/日 UTC 06:00 触发，周四新周要等到周五，而 Actions 还会把该档推迟数小时，所以上午目录仍停在上一周。列表上的最新周次已经在表里时，没有新期次则不改 `catalog.json`、不空提交。也可在 Actions 里手动跑 **Sync China CDC data**。
 2. **GitHub Actions** `pages.yml` 在 `main` 每次推送后 `next build`（`output: "export"`），把 `out/` 发布到 GitHub Pages。
 
-哨点最新一期解析失败则整次任务失败，站点继续用上次存档。法定传染病月报或流行株失败会在 Actions 里标 warning，不阻断已成功的哨点提交。
+哨点列表上的最新周次没有进入表1，或最新一期解析失败，整次任务失败，站点继续用上次存档。法定传染病月报失败，以及流行株的网络错误，会在 Actions 里标 warning，不阻断已成功的哨点提交。流行株最新公报的周次没解析出来时，整次任务失败。
 
 GitHub 跑在境外 IP，访问 `chinacdc.cn` 偶尔会慢或失败。若更稳，可把 Airflow DAG 链到国内 worker 当备份（周五 12:00 Asia/Shanghai；调度器为 UTC 时 cron 为 `0 4 * * 5`）：
 

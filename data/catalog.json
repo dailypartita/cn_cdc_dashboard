@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-10-30T11:55:44.917Z",
+  "synced_at": "2026-11-06T03:30:18.849Z",
   "source": {
     "sentinel": "https://www.chinacdc.cn/jksj/jksj04_14275/",
     "notifiable": "https://www.chinacdc.cn/jksj/jksj01/",
@@ -7,17 +7,17 @@
     "covid_positivity": "https://www.chinacdc.cn/jksj/jksj04_14275/"
   },
   "sentinel": {
-    "latest_key": "2026-W43",
-    "latest_label": "2026年第43周",
-    "reference_date": "2026-10-19",
-    "target_end_date": "2026-10-25",
-    "report_week": 43,
-    "weeks": 102,
-    "rows": 1122,
+    "latest_key": "2026-W44",
+    "latest_label": "2026年第44周",
+    "reference_date": "2026-10-26",
+    "target_end_date": "2026-11-01",
+    "report_week": 44,
+    "weeks": 103,
+    "rows": 1133,
     "crawl": "ok",
     "error": null,
     "unchanged": false,
-    "synced_at": "2026-10-30T11:55:44.917Z"
+    "synced_at": "2026-11-06T03:30:18.849Z"
   },
   "notifiable": {
     "latest_month": "2026-09",
@@ -26,7 +26,7 @@
     "rows": 1715,
     "crawl": "ok",
     "error": null,
-    "unchanged": false,
+    "unchanged": true,
     "synced_at": "2026-10-30T11:55:44.917Z"
   },
   "covid_variants": {
@@ -39,20 +39,20 @@
     "rows": 267,
     "crawl": "ok",
     "error": null,
-    "unchanged": false,
+    "unchanged": true,
     "synced_at": "2026-10-30T11:55:44.917Z"
   },
   "covid_positivity": {
-    "latest_key": "2026-W43",
-    "latest_label": "2026年第43周",
-    "reference_date": "2026-10-19",
-    "target_end_date": "2026-10-25",
-    "report_week": 43,
-    "weeks": 203,
-    "rows": 203,
+    "latest_key": "2026-W44",
+    "latest_label": "2026年第44周",
+    "reference_date": "2026-10-26",
+    "target_end_date": "2026-11-01",
+    "report_week": 44,
+    "weeks": 204,
+    "rows": 204,
     "crawl": "ok",
     "error": null,
     "unchanged": false,
-    "synced_at": "2026-10-30T11:55:44.917Z"
+    "synced_at": "2026-11-06T03:30:18.849Z"
   }
 }

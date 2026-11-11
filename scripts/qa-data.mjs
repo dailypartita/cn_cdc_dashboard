@@ -10,6 +10,7 @@
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { parseNotifiableCsv } from "./notifiable-backfill.mjs";
 import { parseNumber, writeOutputs } from "./sync-notifiable.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -242,24 +243,6 @@ export function applyNotifiablePatches(records, patches) {
   return applied;
 }
 
-function parseNotifiableCsv(text) {
-  const lines = text.replace(/^\uFEFF/, "").trim().split(/\r?\n/);
-  const header = lines[0].split(",");
-  const rows = [];
-  for (const line of lines.slice(1)) {
-    if (!line.trim()) continue;
-    const cols = line.split(",");
-    const row = {};
-    header.forEach((h, i) => {
-      row[h] = cols[i] ?? "";
-    });
-    row.cases = Number(row.cases) || 0;
-    row.deaths = Number(row.deaths) || 0;
-    rows.push(row);
-  }
-  return rows;
-}
-
 function isoWeekYear(referenceDate) {
   const [y, m, d] = referenceDate.split("-").map(Number);
   const date = new Date(Date.UTC(y, m - 1, d));
@@ -337,21 +320,25 @@ export function mergeCovidLongSeries(allRows) {
 
 export function applyNotifiableFileFixes() {
   const records = parseNotifiableCsv(readFileSync(join(DATA, "notifiable_all.csv"), "utf8"));
-  const before = records.map((r) => ({ ...r }));
+  const before = new Map();
+  for (const row of records) {
+    before.set(`${row.month}|${row.disease}|cases`, row.cases);
+    before.set(`${row.month}|${row.disease}|deaths`, row.deaths);
+  }
   writeOutputs(records);
   const applied = [];
-  for (let i = 0; i < records.length; i++) {
+  for (const row of records) {
     for (const field of ["cases", "deaths"]) {
-      if (records[i][field] !== before[i][field]) {
-        applied.push({
-          kind: "notifiable",
-          month: records[i].month,
-          disease: records[i].disease,
-          field,
-          from: before[i][field],
-          to: records[i][field],
-        });
-      }
+      const key = `${row.month}|${row.disease}|${field}`;
+      if (!before.has(key) || row[field] === before.get(key)) continue;
+      applied.push({
+        kind: "notifiable",
+        month: row.month,
+        disease: row.disease,
+        field,
+        from: before.get(key),
+        to: row[field],
+      });
     }
   }
   return { applied };

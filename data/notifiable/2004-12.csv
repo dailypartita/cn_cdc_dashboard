@@ -1,0 +1,2 @@
+reference_date,target_end_date,month,report_date,disease,disease_class,row_kind,cases,deaths,source_url
+2004-12-01,2004-12-31,2004-12,,登革热,乙类,disease,1,0,http://www.nhc.gov.cn/jkj/s3578/201304/a5886b1997cf4301bc2050ee6acc9987.shtml

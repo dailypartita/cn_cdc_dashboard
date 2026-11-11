@@ -6,6 +6,10 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { seriesCoverage } from "./notifiable-backfill.mjs";
+
+const FLU_DEFINITION_NOTE =
+  "2013年11月起甲型H1N1流感并入丙类流行性感冒，此前单独列报，未加进本列。2009年3月前仅有的散点月份未收录。来源把2010年11月误标成第二个2010-10，已按该月公报总计改回2010-11。";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data");
@@ -81,7 +85,16 @@ function notifiablePeriod(rows) {
       latest = { latest_month: month, latest_label: monthLabel(month) };
     }
   }
-  return { ...latest, months: months.size, rows: rows.length };
+  const flu = seriesCoverage(rows, "流行性感冒");
+  return {
+    ...latest,
+    months: months.size,
+    rows: rows.length,
+    series: {
+      登革热: seriesCoverage(rows, "登革热"),
+      流行性感冒: flu ? { ...flu, definition_note: FLU_DEFINITION_NOTE } : null,
+    },
+  };
 }
 
 function variantPeriod(rows) {
@@ -174,6 +187,7 @@ export function buildCatalog({
     source: {
       sentinel: "https://www.chinacdc.cn/jksj/jksj04_14275/",
       notifiable: "https://www.chinacdc.cn/jksj/jksj01/",
+      notifiable_historical: "https://github.com/stone-zeng/china-infectious-diseases",
       covid_variants: "https://www.chinacdc.cn/jksj/xgbdyq/",
       covid_positivity: "https://www.chinacdc.cn/jksj/jksj04_14275/",
     },

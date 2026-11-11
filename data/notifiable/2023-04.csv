@@ -1,0 +1,3 @@
+reference_date,target_end_date,month,report_date,disease,disease_class,row_kind,cases,deaths,source_url
+2023-04-01,2023-04-30,2023-04,,登革热,乙类,disease,9,0,https://www.ndcpa.gov.cn/jbkzzx/c100016/common/content/content_1666267249690611712.html
+2023-04-01,2023-04-30,2023-04,,流行性感冒,丙类,disease,1677011,31,https://www.ndcpa.gov.cn/jbkzzx/c100016/common/content/content_1666267249690611712.html

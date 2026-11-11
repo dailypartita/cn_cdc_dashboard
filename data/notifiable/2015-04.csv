@@ -1,0 +1,3 @@
+reference_date,target_end_date,month,report_date,disease,disease_class,row_kind,cases,deaths,source_url
+2015-04-01,2015-04-30,2015-04,,登革热,乙类,disease,20,0,http://www.nhc.gov.cn/jkj/s3578/201505/081f2cc9286744a2879cd79211f81b6c.shtml
+2015-04-01,2015-04-30,2015-04,,流行性感冒,丙类,disease,15063,1,http://www.nhc.gov.cn/jkj/s3578/201505/081f2cc9286744a2879cd79211f81b6c.shtml

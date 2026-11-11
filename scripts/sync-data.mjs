@@ -83,6 +83,7 @@ if (!snapshotsOnly) {
     const { crawlNotifiable, writeOutputs } = await import("./sync-notifiable.mjs");
     const records = await crawlNotifiable();
     if (records.length === 0) throw new Error("no notifiable rows");
+    // writeOutputs merges data/backfill historical flu and dengue rows.
     writeOutputs(records);
   } catch (err) {
     crawl.notifiable = { crawl: "skipped", error: err.message };

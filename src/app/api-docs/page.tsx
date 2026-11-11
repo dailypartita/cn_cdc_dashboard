@@ -4,7 +4,7 @@ import { SITE_PAGES } from "@/lib/links";
 const ENDPOINTS = [
   ["GET /api/v1/surveillance.json", "哨点长表（全量 JSON）"],
   ["GET /api/v1/latest.json", "最新周，表1 结构（含较上周）"],
-  ["GET /api/v1/status.json", "各数据集最新期（目录日期同源）"],
+  ["GET /api/v1/status.json", "各数据集最新期（目录日期同源，含国家流感中心 ILI%）"],
   ["GET /api/v1/weeks.json", "已存档监测周列表"],
   ["GET /api/v1/pathogens.json", "哨点病原体中英名与 slug"],
   ["GET /api/v1/notifiable.json", "法定传染病月报长表（不含总计行；登革热、流感含 2024 年前历史）"],

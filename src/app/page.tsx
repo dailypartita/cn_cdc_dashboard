@@ -1,9 +1,11 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { CDC_NAV, SITE_ISSUES, SITE_NAME, withBase } from "@/lib/links";
-import { loadAll, loadCovid, loadNotifiable } from "@/lib/data/load";
+import { CDC_NAV, CNIC_ZENODO, SITE_ISSUES, SITE_NAME, withBase } from "@/lib/links";
+import { loadAll, loadCnic, loadCovid, loadNotifiable } from "@/lib/data/load";
+import { cnicSpan, hasIli, hasPositivity } from "@/lib/data/cnic";
 import { dataStatus } from "@/lib/data/status";
 import { BulletinCharts } from "@/components/BulletinCharts";
+import { CnicFluCharts } from "@/components/CnicFluCharts";
 import { CovidCharts } from "@/components/CovidCharts";
 import { NotifiableCharts } from "@/components/NotifiableCharts";
 import { DisclaimerNotice, ForecastHubIntro } from "@/components/SiteCopy";
@@ -12,10 +14,13 @@ export default function HomePage() {
   const records = loadAll();
   const covid = loadCovid();
   const notifiable = loadNotifiable();
+  const cnic = loadCnic();
   const status = dataStatus();
   const latestWeek = status.sentinel;
   const latestMonth = status.notifiable;
   const latestCovid = status.covid;
+  const iliSpan = cnicSpan(cnic, hasIli);
+  const positivitySpan = cnicSpan(cnic, hasPositivity);
 
   const toc = [
     {
@@ -36,6 +41,11 @@ export default function HomePage() {
       meta: latestCovid
         ? `监测周 ${latestCovid.reference_date} 至 ${latestCovid.target_end_date}（${latestCovid.label}）`
         : undefined,
+    },
+    {
+      ...CDC_NAV[3],
+      index: "4",
+      meta: iliSpan ? `ILI% ${iliSpan.first.label} – ${iliSpan.last.label}` : undefined,
     },
   ];
 
@@ -110,14 +120,39 @@ export default function HomePage() {
       <Chapter id="sentinel" title={`2. ${CDC_NAV[1].name}`} meta={toc[1].meta} sourceHref={CDC_NAV[1].source}>
         <BulletinCharts records={records} />
         <Note>
-          阳性率是哨点医院采样检测结果，不是人群发病率；各病原体独立检测，不可加总为 100%。数据由本站从中国 CDC 哨点周报抽取；已按官方表1校正已知的小数点/列错位。
+          阳性率是哨点医院采样检测结果，不是人群发病率；各病原体独立检测，不可加总为 100%。数据由本站从中国 CDC 哨点周报抽取；已按官方表1校正已知的小数点/列错位。这里的「流感病毒」从 2024 年第 46 周起，不是第 4 节国家流感中心的 ILI% 或检测阳性率。默认近 52 周。
         </Note>
       </Chapter>
 
       <Chapter id="covid" title={`3. ${CDC_NAV[2].name}`} meta={toc[2].meta} sourceHref={CDC_NAV[2].source}>
         <CovidCharts records={covid} />
         <Note>
-          门急诊 ILI 阳性率自 2022 年 12 月起；住院 SARI 自 2024 年 11 月多病原周报起。阳性率为哨点医院核酸检测结果。
+          门急诊 ILI 阳性率自 2022 年第 49 周（2022-12-05）起，住院 SARI 自 2024 年 11 月多病原周报起。没有找到更早的同一口径周阳性率，2020–2022
+          年的每日确诊数没有并进这张图。
+        </Note>
+      </Chapter>
+
+      <Chapter id="cnic" title={`4. ${CDC_NAV[3].name}`} meta={toc[3].meta} sourceHref={CDC_NAV[3].source}>
+        <CnicFluCharts records={cnic} />
+        <Note>
+          {iliSpan
+            ? `ILI% ${iliSpan.first.label} – ${iliSpan.last.label}，${iliSpan.count} 周。`
+            : "ILI% 序列尚未入库。"}
+          {positivitySpan
+            ? `检测阳性率 ${positivitySpan.first.label} – ${positivitySpan.last.label}，${positivitySpan.count} 周。`
+            : ""}
+          {iliSpan?.gaps.length ? ` ILI% 缺 ${iliSpan.gaps.join("、")}。` : " ILI% 在已收录区间内没有缺周。"}
+          默认仍是近 52 周；选「全部」查看上述整段。
+        </Note>
+        <Note>
+          这是国家流感中心《流感监测周报》的南方、北方哨点医院 ILI%（流感样病例占门急诊就诊总数的百分比），以及这些 ILI
+          标本的流感病毒检测阳性率。与第 2 节 11 病原体哨点「流感病毒」核酸阳性率不是同一网络、同一指标，没有并进那两条线，也不是第 1
+          节的月报发病数。周报仍把内科、儿内科 ILI% 分开写的早期周次没有合并进来。原文页面或 PDF
+          与{" "}
+          <a className="text-primary hover:underline" href={CNIC_ZENODO} target="_blank" rel="noopener noreferrer">
+            Zenodo 10.5281/zenodo.22784835
+          </a>{" "}
+          （Zhao, Quanjingbo，CC BY 4.0）重叠时，以中国流感中心原文为准。
         </Note>
       </Chapter>
     </main>

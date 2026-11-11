@@ -14,8 +14,10 @@ export const NOTIFIABLE_FILE = "notifiable_all.csv";
 
 export const VARIANT_FILE = "covid_variants.csv";
 
+export const CNIC_FILE = "cnic_influenza_weekly.csv";
+
 export function isDownloadFile(
   name: string,
-): name is DataFileName | typeof NOTIFIABLE_FILE | typeof VARIANT_FILE {
-  return isDataFile(name) || name === NOTIFIABLE_FILE || name === VARIANT_FILE;
+): name is DataFileName | typeof NOTIFIABLE_FILE | typeof VARIANT_FILE | typeof CNIC_FILE {
+  return isDataFile(name) || name === NOTIFIABLE_FILE || name === VARIANT_FILE || name === CNIC_FILE;
 }

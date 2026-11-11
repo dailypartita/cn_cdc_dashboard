@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { CDC_BULLETINS, CDC_NOTIFIABLE, FORECAST_HUB, SITE_PAGES, withBase } from "@/lib/links";
-import { loadAll, loadNotifiable } from "@/lib/data/load";
-import { DATA_FILES, NOTIFIABLE_FILE, VARIANT_FILE } from "@/lib/data/files";
+import { CDC_BULLETINS, CDC_NOTIFIABLE, CNIC_WEEKLY, CNIC_ZENODO, FORECAST_HUB, SITE_PAGES, withBase } from "@/lib/links";
+import { loadAll, loadCnic, loadNotifiable } from "@/lib/data/load";
+import { cnicSpan, hasIli, hasPositivity } from "@/lib/data/cnic";
+import { CNIC_FILE, DATA_FILES, NOTIFIABLE_FILE, VARIANT_FILE } from "@/lib/data/files";
 import { CHART_DOWNLOAD_GROUPS, chartDownloadPath } from "@/lib/chart-downloads";
 import { uniqueWeeks } from "@/lib/data/parse";
 import { diseaseCoverage, uniqueMonths } from "@/lib/data/notifiable";
@@ -36,6 +37,27 @@ const VARIANT_COLUMNS = [
   ["source_url", "原文链接"],
 ];
 
+const CNIC_COLUMNS = [
+  ["reference_date", "监测周起始日（周一）"],
+  ["target_end_date", "监测周结束日（周日）"],
+  ["year", "ISO 周年"],
+  ["week", "ISO 周序号"],
+  ["ili_south", "南方哨点医院 ILI%（占门急诊）"],
+  ["ili_north", "北方哨点医院 ILI%（占门急诊）"],
+  ["positivity_south", "南方 ILI 标本流感检测阳性率（%）"],
+  ["positivity_north", "北方 ILI 标本流感检测阳性率（%）"],
+  ["positivity_national", "全国 ILI 标本流感检测阳性率（%）"],
+  ["tests_national", "全国检测标本数"],
+  ["positives_national", "全国流感阳性标本数"],
+  ["h1_national", "全国 A(H1N1)pdm09 阳性数"],
+  ["h3_national", "全国 A(H3N2) 阳性数"],
+  ["bvic_national", "全国 B/Victoria 阳性数"],
+  ["byam_national", "全国 B/Yamagata 阳性数"],
+  ["source_url", "该周国家流感中心周报"],
+  ["ili_extract", "ILI% 来源：cnic-html、cnic-pdf 或 zenodo-22784835"],
+  ["lab_extract", "实验室指标来源，口径同上"],
+];
+
 const NID_COLUMNS = [
   ["reference_date", "监测期起始日（该月 1 日）"],
   ["target_end_date", "监测期结束日（该月最后一天）"],
@@ -58,6 +80,9 @@ export const metadata: Metadata = {
 export default function CsvPage() {
   const records = loadAll();
   const notifiable = loadNotifiable();
+  const cnic = loadCnic();
+  const iliSpan = cnicSpan(cnic, hasIli);
+  const positivitySpan = cnicSpan(cnic, hasPositivity);
   const table = buildTable1(records);
   const weeks = uniqueWeeks(records);
   const latest = weeks[weeks.length - 1];
@@ -222,6 +247,42 @@ df = pd.read_csv("${SITE_PAGES}/download/notifiable_all.csv")`}
       </section>
 
       <section className="mt-10 max-w-3xl border-t border-line pt-8">
+        <h2 className="text-lg font-semibold text-ink">国家流感中心周报</h2>
+        {iliSpan && positivitySpan ? (
+          <div className="mt-2 space-y-2 text-[0.9375rem] leading-relaxed text-muted-ink">
+            <p className="font-mono">
+              ILI% {iliSpan.first.label} – {iliSpan.last.label}，{iliSpan.count} 周
+              {iliSpan.gaps.length ? `，缺 ${iliSpan.gaps.join("、")}` : ""}。检测阳性率 {positivitySpan.first.label} –{" "}
+              {positivitySpan.last.label}，{positivitySpan.count} 周
+              {positivitySpan.gaps.length ? `，缺 ${positivitySpan.gaps.join("、")}` : ""}。
+            </p>
+            <p>
+              南方、北方哨点医院 ILI% 和 ILI 标本流感检测阳性率，来自{" "}
+              <a className="text-primary hover:underline" href={CNIC_WEEKLY} target="_blank" rel="noopener noreferrer">
+                国家流感中心周报
+              </a>
+              。不是上方 11 病原体哨点里的「流感病毒」核酸阳性率。HTML 或 PDF 没有写到的字段，用{" "}
+              <a className="text-primary hover:underline" href={CNIC_ZENODO} target="_blank" rel="noopener noreferrer">
+                Zenodo 10.5281/zenodo.22784835
+              </a>{" "}
+              （CC BY 4.0）填空；两边都有的数字以国家流感中心原文为准。表里还有南北方检测数和型别计数，空着表示原文没有这一格。
+            </p>
+          </div>
+        ) : (
+          <p className="mt-2 text-[0.9375rem] text-muted-ink">国家流感中心 ILI% 与检测阳性率周序列。</p>
+        )}
+        <FileList
+          items={[
+            {
+              href: withBase(`/download/${CNIC_FILE}`),
+              name: CNIC_FILE,
+              desc: "国家流感中心 ILI% 与检测阳性率",
+            },
+          ]}
+        />
+      </section>
+
+      <section className="mt-10 max-w-3xl border-t border-line pt-8">
         <h2 className="text-lg font-semibold text-ink">新冠流行株</h2>
         <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-ink">
           从中国 CDC 每月新冠疫情通报「病毒变异监测」正文抽取的周占比。
@@ -243,6 +304,8 @@ df = pd.read_csv("${SITE_PAGES}/download/notifiable_all.csv")`}
         <FieldTable rows={COLUMNS} />
         <h3 className="mt-8 text-[0.9375rem] font-medium text-muted-ink">法定传染病</h3>
         <FieldTable rows={NID_COLUMNS} />
+        <h3 className="mt-8 text-[0.9375rem] font-medium text-muted-ink">国家流感中心周报</h3>
+        <FieldTable rows={CNIC_COLUMNS} />
         <h3 className="mt-8 text-[0.9375rem] font-medium text-muted-ink">新冠流行株</h3>
         <FieldTable rows={VARIANT_COLUMNS} />
       </section>

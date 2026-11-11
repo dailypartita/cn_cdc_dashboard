@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-11-11T07:11:27.581Z",
+  "synced_at": "2026-11-11T22:32:04.577Z",
   "source": {
     "sentinel": "https://www.chinacdc.cn/jksj/jksj04_14275/",
     "notifiable": "https://www.chinacdc.cn/jksj/jksj01/",
@@ -24,22 +24,22 @@
     "synced_at": "2026-11-06T03:30:18.849Z"
   },
   "notifiable": {
-    "latest_month": "2026-09",
-    "latest_label": "2026年9月",
-    "months": 273,
-    "rows": 2133,
+    "latest_month": "2026-10",
+    "latest_label": "2026年10月",
+    "months": 274,
+    "rows": 2192,
     "series": {
       "登革热": {
         "first_month": "2004-01",
-        "last_month": "2026-09",
-        "months": 273,
+        "last_month": "2026-10",
+        "months": 274,
         "continuous_from": "2004-01",
         "gaps": []
       },
       "流行性感冒": {
         "first_month": "2009-03",
-        "last_month": "2026-09",
-        "months": 211,
+        "last_month": "2026-10",
+        "months": 212,
         "continuous_from": "2009-03",
         "gaps": [],
         "definition_note": "2013年11月起甲型H1N1流感并入丙类流行性感冒，此前单独列报，未加进本列。2009年3月前仅有的散点月份未收录。来源把2010年11月误标成第二个2010-10，已按该月公报总计改回2010-11。"
@@ -48,7 +48,7 @@
     "crawl": "ok",
     "error": null,
     "unchanged": false,
-    "synced_at": "2026-11-11T01:25:27.255Z"
+    "synced_at": "2026-11-11T22:32:04.577Z"
   },
   "cnic": {
     "latest_key": "2026-W44",
@@ -84,21 +84,21 @@
     "definition_note": "国家流感中心周报的哨点医院 ILI%（占门急诊）和 ILI 标本流感检测阳性率。不是多病原哨点「流感病毒」核酸阳性率，也不是法定传染病月报发病数。内科与儿内科分开报告的早期 ILI% 没有并入。与 Zenodo 10.5281/zenodo.22784835 重叠的字段以中国流感中心页面或 PDF 为准。",
     "crawl": "ok",
     "error": null,
-    "unchanged": false,
+    "unchanged": true,
     "synced_at": "2026-11-11T07:11:27.581Z"
   },
   "covid_variants": {
-    "latest_key": "2026-W39",
-    "latest_label": "2026年第39周",
-    "week_start": "2026-09-21",
+    "latest_key": "2026-W44",
+    "latest_label": "2026年第44周",
+    "week_start": "2026-10-26",
     "year": 2026,
-    "week": 39,
-    "weeks": 120,
-    "rows": 267,
+    "week": 44,
+    "weeks": 125,
+    "rows": 277,
     "crawl": "ok",
     "error": null,
-    "unchanged": true,
-    "synced_at": "2026-10-30T11:55:44.917Z"
+    "unchanged": false,
+    "synced_at": "2026-11-11T22:32:04.577Z"
   },
   "covid_positivity": {
     "latest_key": "2026-W44",

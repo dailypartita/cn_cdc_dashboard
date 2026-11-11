@@ -1,0 +1,3 @@
+reference_date,target_end_date,month,report_date,disease,disease_class,row_kind,cases,deaths,source_url
+2022-05-01,2022-05-31,2022-05,,登革热,乙类,disease,2,0,http://www.nhc.gov.cn/jkj/s3578/202206/61c8509152514bf1af06ec8e2c343f21.shtml
+2022-05-01,2022-05-31,2022-05,,流行性感冒,丙类,disease,78687,0,http://www.nhc.gov.cn/jkj/s3578/202206/61c8509152514bf1af06ec8e2c343f21.shtml

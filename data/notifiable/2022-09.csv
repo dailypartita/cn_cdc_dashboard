@@ -1,0 +1,3 @@
+reference_date,target_end_date,month,report_date,disease,disease_class,row_kind,cases,deaths,source_url
+2022-09-01,2022-09-30,2022-09,,登革热,乙类,disease,28,0,https://www.ndcpa.gov.cn/jbkzzx/c100016/common/content/content_1656318972941635584.html
+2022-09-01,2022-09-30,2022-09,,流行性感冒,丙类,disease,90089,0,https://www.ndcpa.gov.cn/jbkzzx/c100016/common/content/content_1656318972941635584.html

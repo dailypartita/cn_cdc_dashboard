@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 import {
   MAIN_NOTIFIABLE,
   chartableDiseases,
+  axisMonths,
   colorForDisease,
-  uniqueMonths,
   type NotifiableRecord,
 } from "@/lib/data/notifiable";
 import type { SmoothWindow, TimeWindow } from "@/lib/data/parse";
@@ -17,10 +17,10 @@ type Metric = "cases" | "deaths";
 
 export function NotifiableCharts({ records }: { records: NotifiableRecord[] }) {
   const diseases = useMemo(() => chartableDiseases(records), [records]);
-  const monthsAll = useMemo(() => uniqueMonths(records), [records]);
   const [timeWindow, setTimeWindow] = useState<TimeWindow>(52);
   const [smooth, setSmooth] = useState<SmoothWindow>(1);
   const [selected, setSelected] = useState(() => new Set<string>(MAIN_NOTIFIABLE.filter((n) => diseases.includes(n))));
+  const monthsAll = useMemo(() => axisMonths(records, [...selected]), [records, selected]);
 
   const months =
     timeWindow === "all" ? monthsAll : monthsAll.slice(Math.max(0, monthsAll.length - timeWindow));
@@ -108,7 +108,9 @@ function MetricChart({
   const byKey = useMemo(() => {
     const map = new Map<string, number>();
     for (const r of records) {
-      map.set(`${r.month}|${r.disease}|${metric}`, r[metric]);
+      const value = r[metric];
+      if (value == null) continue;
+      map.set(`${r.month}|${r.disease}|${metric}`, value);
     }
     return map;
   }, [records, metric]);

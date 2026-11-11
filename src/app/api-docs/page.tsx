@@ -7,7 +7,7 @@ const ENDPOINTS = [
   ["GET /api/v1/status.json", "各数据集最新期（目录日期同源）"],
   ["GET /api/v1/weeks.json", "已存档监测周列表"],
   ["GET /api/v1/pathogens.json", "哨点病原体中英名与 slug"],
-  ["GET /api/v1/notifiable.json", "法定传染病月报长表（不含总计行）"],
+  ["GET /api/v1/notifiable.json", "法定传染病月报长表（不含总计行；登革热、流感含 2024 年前历史）"],
   ["GET /api/v1/covid-variants.json", "新冠主要流行株周占比"],
 ];
 

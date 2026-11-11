@@ -91,6 +91,20 @@ export default function HomePage() {
         <Note>
           分病原发病数、死亡数由本站从中国 CDC 每月《全国传染病疫情概况》统计表抽取，口径与原文一致（病毒性肝炎为分型合计）。甲类病例很少，默认展示主要乙类/丙类病原。
         </Note>
+        <Note>
+          登革热自 2004 年 1 月、流行性感冒自 2009 年 3 月的更早月份，补自{" "}
+          <a
+            className="text-primary hover:underline"
+            href="https://github.com/stone-zeng/china-infectious-diseases"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            stone-zeng/china-infectious-diseases
+          </a>{" "}
+          整理的官方月报，不改 2024 年起的中国 CDC 行。来源把 2010 年 11 月标成了第二个 2010 年 10 月，已按该月公报总计改回。2013 年 11
+          月起甲型 H1N1 并入流行性感冒，此前没有加进这条线。其余病原仍从 2024 年 1
+          月起。哨点「流感病毒」阳性率是另一套周数据。
+        </Note>
       </Chapter>
 
       <Chapter id="sentinel" title={`2. ${CDC_NAV[1].name}`} meta={toc[1].meta} sourceHref={CDC_NAV[1].source}>

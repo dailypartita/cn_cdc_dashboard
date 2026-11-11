@@ -1,0 +1,3 @@
+reference_date,target_end_date,month,report_date,disease,disease_class,row_kind,cases,deaths,source_url
+2019-04-01,2019-04-30,2019-04,,登革热,乙类,disease,142,0,http://www.nhc.gov.cn/jkj/s3578/201905/ef28972b56cd4107990eb16888e763e1.shtml
+2019-04-01,2019-04-30,2019-04,,流行性感冒,丙类,disease,299939,13,http://www.nhc.gov.cn/jkj/s3578/201905/ef28972b56cd4107990eb16888e763e1.shtml

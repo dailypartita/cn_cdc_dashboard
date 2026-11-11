@@ -1,8 +1,9 @@
 {
-  "synced_at": "2026-11-06T03:30:18.849Z",
+  "synced_at": "2026-11-11T01:25:27.255Z",
   "source": {
     "sentinel": "https://www.chinacdc.cn/jksj/jksj04_14275/",
     "notifiable": "https://www.chinacdc.cn/jksj/jksj01/",
+    "notifiable_historical": "https://github.com/stone-zeng/china-infectious-diseases",
     "covid_variants": "https://www.chinacdc.cn/jksj/xgbdyq/",
     "covid_positivity": "https://www.chinacdc.cn/jksj/jksj04_14275/"
   },
@@ -16,18 +17,35 @@
     "rows": 1133,
     "crawl": "ok",
     "error": null,
-    "unchanged": false,
+    "unchanged": true,
     "synced_at": "2026-11-06T03:30:18.849Z"
   },
   "notifiable": {
     "latest_month": "2026-09",
     "latest_label": "2026年9月",
-    "months": 33,
-    "rows": 1715,
+    "months": 273,
+    "rows": 2133,
+    "series": {
+      "登革热": {
+        "first_month": "2004-01",
+        "last_month": "2026-09",
+        "months": 273,
+        "continuous_from": "2004-01",
+        "gaps": []
+      },
+      "流行性感冒": {
+        "first_month": "2009-03",
+        "last_month": "2026-09",
+        "months": 211,
+        "continuous_from": "2009-03",
+        "gaps": [],
+        "definition_note": "2013年11月起甲型H1N1流感并入丙类流行性感冒，此前单独列报，未加进本列。2009年3月前仅有的散点月份未收录。来源把2010年11月误标成第二个2010-10，已按该月公报总计改回2010-11。"
+      }
+    },
     "crawl": "ok",
     "error": null,
-    "unchanged": true,
-    "synced_at": "2026-10-30T11:55:44.917Z"
+    "unchanged": false,
+    "synced_at": "2026-11-11T01:25:27.255Z"
   },
   "covid_variants": {
     "latest_key": "2026-W39",
@@ -52,7 +70,7 @@
     "rows": 204,
     "crawl": "ok",
     "error": null,
-    "unchanged": false,
+    "unchanged": true,
     "synced_at": "2026-11-06T03:30:18.849Z"
   }
 }

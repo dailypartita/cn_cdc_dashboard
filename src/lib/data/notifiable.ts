@@ -11,8 +11,8 @@ export type NotifiableRecord = {
   disease: string;
   disease_class: string;
   row_kind: NotifiableRowKind;
-  cases: number;
-  deaths: number;
+  cases: number | null;
+  deaths: number | null;
   source_url: string;
 };
 
@@ -64,6 +64,33 @@ export function monthLabel(month: string): string {
   return `${y}年${Number(m)}月`;
 }
 
+function parseCount(raw: string | undefined): number | null {
+  if (raw == null) return null;
+  const text = raw.trim();
+  if (!text) return null;
+  const n = Number(text);
+  return Number.isFinite(n) ? n : null;
+}
+
+/** Inclusive YYYY-MM span. Missing months stay in the list so charts can break the line. */
+export function calendarMonths(start: string, end: string): string[] {
+  const out: string[] = [];
+  let year = Number(start.slice(0, 4));
+  let month = Number(start.slice(5, 7));
+  const endYear = Number(end.slice(0, 4));
+  const endMonth = Number(end.slice(5, 7));
+  if (!year || !month || !endYear || !endMonth) return out;
+  while (year < endYear || (year === endYear && month <= endMonth)) {
+    out.push(`${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}`);
+    month += 1;
+    if (month === 13) {
+      month = 1;
+      year += 1;
+    }
+  }
+  return out;
+}
+
 export function parseNotifiableCsv(text: string): NotifiableRecord[] {
   const lines = text.replace(/^\uFEFF/, "").trim().split(/\r?\n/);
   if (lines.length < 2) return [];
@@ -98,8 +125,8 @@ export function parseNotifiableCsv(text: string): NotifiableRecord[] {
       disease,
       disease_class: cols[idx.disease_class]?.trim() ?? "",
       row_kind: kind === "summary" || kind === "group" ? kind : "disease",
-      cases: Number(cols[idx.cases]) || 0,
-      deaths: Number(cols[idx.deaths]) || 0,
+      cases: parseCount(cols[idx.cases]),
+      deaths: parseCount(cols[idx.deaths]),
       source_url: cols[idx.source_url]?.trim() ?? "",
     });
   }
@@ -121,12 +148,40 @@ export function uniqueMonths(records: NotifiableRecord[]): { month: string; labe
     .map(([month, label]) => ({ month, label }));
 }
 
+/** X axis for the diseases on the chart, with calendar holes kept as empty ticks. */
+export function axisMonths(
+  records: NotifiableRecord[],
+  selected: string[],
+): { month: string; label: string }[] {
+  const all = uniqueMonths(records);
+  if (!all.length) return [];
+  const names = new Set(selected);
+  const present = records
+    .filter((row) => names.has(row.disease) && row.row_kind !== "summary")
+    .map((row) => row.month);
+  if (!present.length) return all;
+  const start = present.reduce((min, month) => (month < min ? month : min));
+  return calendarMonths(start, all[all.length - 1].month).map((month) => ({
+    month,
+    label: monthLabel(month),
+  }));
+}
+
+export function diseaseCoverage(records: NotifiableRecord[], disease: string) {
+  const months = [...new Set(records.filter((row) => row.disease === disease).map((row) => row.month))].sort();
+  const first = months[0] ?? "";
+  const last = months[months.length - 1] ?? "";
+  const present = new Set(months);
+  const gaps = first && last ? calendarMonths(first, last).filter((month) => !present.has(month)) : [];
+  return { first, last, count: months.length, gaps };
+}
+
 export function chartableDiseases(records: NotifiableRecord[]): string[] {
   const latest = uniqueMonths(records).at(-1)?.month;
   const latestRows = latest ? records.filter((r) => r.month === latest && r.row_kind !== "summary") : [];
   const ordered = latestRows
     .slice()
-    .sort((a, b) => b.cases - a.cases)
+    .sort((a, b) => (b.cases ?? -1) - (a.cases ?? -1))
     .map((r) => r.disease);
   const rest = [...new Set(records.filter((r) => r.row_kind !== "summary").map((r) => r.disease))].filter(
     (name) => !ordered.includes(name),
@@ -146,8 +201,8 @@ export function toNotifiableCsv(records: NotifiableRecord[]): string {
       r.disease,
       r.disease_class,
       r.row_kind,
-      r.cases,
-      r.deaths,
+      r.cases ?? "",
+      r.deaths ?? "",
       r.source_url,
     ].join(","),
   );

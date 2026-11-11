@@ -1,0 +1,55 @@
+{
+  "compiled_from": "https://github.com/stone-zeng/china-infectious-diseases",
+  "license": "CC0-1.0",
+  "commit": "8c75909eb74e3f0dadce3dd07ae42cc295e0f91e",
+  "retrieved_at": "2026-11-11T01:25:27.211Z",
+  "files": [
+    "data/monthly-cases.csv",
+    "data/monthly-deaths.csv",
+    "README.md"
+  ],
+  "official_coverage_starts": "2024-01",
+  "diseases": [
+    {
+      "disease": "登革热",
+      "disease_class": "乙类",
+      "continuous_from": "2004-01"
+    },
+    {
+      "disease": "流行性感冒",
+      "disease_class": "丙类",
+      "continuous_from": "2009-03"
+    }
+  ],
+  "source_months_missing": [],
+  "relabeled_months": [
+    {
+      "labeled_as": "2010-10",
+      "month": "2010-11",
+      "cases_total": "527762",
+      "deaths_total": "1547"
+    }
+  ],
+  "unresolved_duplicate_months": [],
+  "omitted_sparse_influenza": [
+    {
+      "month": "2004-04",
+      "cases": 12241,
+      "deaths": null
+    },
+    {
+      "month": "2005-04",
+      "cases": 5925,
+      "deaths": null
+    }
+  ],
+  "deaths_missing": [],
+  "overlap_mismatches": [],
+  "notes": [
+    "Historical rows stop before the first month of this repo's official China CDC table.",
+    "Official (month, disease) rows are never overwritten. sync-notifiable writeOutputs merges this extract back in.",
+    "2013-11 起甲型H1N1流感并入丙类流行性感冒，此前单独列报，未加进流行性感冒。",
+    "禽流感、新亚型流感保持各自病名，不并入流行性感冒。哨点流感病毒阳性率是另一套周序列。",
+    "Blank source cells are omitted. Reported zeros are kept."
+  ]
+}

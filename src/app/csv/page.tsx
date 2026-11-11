@@ -4,7 +4,7 @@ import { loadAll, loadNotifiable } from "@/lib/data/load";
 import { DATA_FILES, NOTIFIABLE_FILE, VARIANT_FILE } from "@/lib/data/files";
 import { CHART_DOWNLOAD_GROUPS, chartDownloadPath } from "@/lib/chart-downloads";
 import { uniqueWeeks } from "@/lib/data/parse";
-import { uniqueMonths } from "@/lib/data/notifiable";
+import { diseaseCoverage, uniqueMonths } from "@/lib/data/notifiable";
 import { buildTable1 } from "@/lib/data/table1";
 import { DisclaimerNotice, UnofficialBadge } from "@/components/SiteCopy";
 
@@ -46,7 +46,7 @@ const NID_COLUMNS = [
   ["row_kind", "disease 病原；group 肝炎合计；summary 总计行"],
   ["cases", "发病数"],
   ["deaths", "死亡数"],
-  ["source_url", "原文链接"],
+  ["source_url", "月报原文。2024 年前的登革热、流感为 stone-zeng 所引公报"],
 ];
 
 export const metadata: Metadata = {
@@ -63,6 +63,15 @@ export default function CsvPage() {
   const latest = weeks[weeks.length - 1];
   const nidMonths = uniqueMonths(notifiable);
   const latestNid = nidMonths[nidMonths.length - 1];
+  const dengue = diseaseCoverage(notifiable, "登革热");
+  const flu = diseaseCoverage(notifiable, "流行性感冒");
+  const otherMonths = [
+    ...new Set(
+      notifiable
+        .filter((row) => row.row_kind === "disease" && row.disease !== "登革热" && row.disease !== "流行性感冒")
+        .map((row) => row.month),
+    ),
+  ].sort();
 
   const sentinelFiles = [
     ...DATA_FILES.map((file) => ({
@@ -183,9 +192,29 @@ df = pd.read_csv("${SITE_PAGES}/download/notifiable_all.csv")`}
       <section className="mt-10 max-w-3xl border-t border-line pt-8">
         <h2 className="text-lg font-semibold text-ink">法定传染病</h2>
         {latestNid ? (
-          <p className="mt-2 font-mono text-[0.9375rem] leading-relaxed text-muted-ink">
-            {nidMonths[0]?.label} – {latestNid.label}，{nidMonths.length} 个月，{notifiable.length} 条。
-          </p>
+          <div className="mt-2 space-y-2 font-mono text-[0.9375rem] leading-relaxed text-muted-ink">
+            <p>
+              有数据的月份 {nidMonths[0]?.label} – {latestNid.label}，{nidMonths.length} 个月，{notifiable.length} 条。
+            </p>
+            <p>
+              登革热 {dengue.first} – {dengue.last}，{dengue.count} 个月
+              {dengue.gaps.length ? `，缺 ${dengue.gaps.join("、")}` : ""}。流行性感冒 {flu.first} – {flu.last}，
+              {flu.count} 个月
+              {flu.gaps.length ? `，缺 ${flu.gaps.join("、")}` : ""}。其余病原 {otherMonths[0]} – {otherMonths.at(-1)}。
+            </p>
+            <p className="font-sans text-[0.9375rem]">
+              2024 年前只有登革热和流行性感冒，来自{" "}
+              <a
+                className="text-primary hover:underline"
+                href="https://github.com/stone-zeng/china-infectious-diseases"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                stone-zeng/china-infectious-diseases
+              </a>
+              。重叠月份保留中国 CDC 原文。来源把 2010-11 标成第二个 2010-10，已按公报总计改回，没有另造数字。
+            </p>
+          </div>
         ) : (
           <p className="mt-2 text-[0.9375rem] text-muted-ink">分病原月报主表与单月快照。</p>
         )}

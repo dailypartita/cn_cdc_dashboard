@@ -11,6 +11,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
 import { fetchText } from "./cdc-http.mjs";
+import { loadNotifiableBackfill, mergeNotifiableBackfill, recordsToCsv } from "./notifiable-backfill.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data");
@@ -20,8 +21,6 @@ const LISTING = "https://www.chinacdc.cn/jksj/jksj01/";
 const SUMMARY = /总计|合计/;
 const HEPATITIS_GROUP = "病毒性肝炎";
 const CLASS_A = new Set(["鼠疫", "霍乱"]);
-const HEADER =
-  "reference_date,target_end_date,month,report_date,disease,disease_class,row_kind,cases,deaths,source_url";
 
 export function cleanDisease(raw) {
   return String(raw ?? "")
@@ -220,34 +219,6 @@ export function parseBulletin(html, sourceUrl, title = "") {
   return reconcileNotifiable(out);
 }
 
-function monthRange(month) {
-  const [y, m] = month.split("-").map(Number);
-  const last = new Date(Date.UTC(y, m, 0));
-  return {
-    reference_date: `${month}-01`,
-    target_end_date: last.toISOString().slice(0, 10),
-  };
-}
-
-function toCsv(records) {
-  const body = records.map((r) => {
-    const range = monthRange(r.month);
-    return [
-      range.reference_date,
-      range.target_end_date,
-      r.month,
-      r.report_date,
-      r.disease,
-      r.disease_class,
-      r.row_kind,
-      r.cases,
-      r.deaths,
-      r.source_url,
-    ].join(",");
-  });
-  return [HEADER, ...body].join("\n") + "\n";
-}
-
 function listingUrl(page) {
   if (page <= 1) return LISTING;
   return new URL(`index_${page - 1}.html`, LISTING).href;
@@ -329,12 +300,15 @@ export async function crawlNotifiable({ maxPages = 8, pauseMs = 400 } = {}) {
 }
 
 export function writeOutputs(records) {
+  // Official crawl rows stay authoritative. Compiled flu/dengue history is
+  // appended only for (month, disease) keys the crawl did not return.
+  mergeNotifiableBackfill(records, loadNotifiableBackfill());
   finalizeNotifiable(records);
   mkdirSync(SNAP, { recursive: true });
-  writeFileSync(join(DATA, "notifiable_all.csv"), toCsv(records));
+  writeFileSync(join(DATA, "notifiable_all.csv"), recordsToCsv(records));
   const months = [...new Set(records.map((r) => r.month))];
   for (const month of months) {
-    writeFileSync(join(SNAP, `${month}.csv`), toCsv(records.filter((r) => r.month === month)));
+    writeFileSync(join(SNAP, `${month}.csv`), recordsToCsv(records.filter((r) => r.month === month)));
   }
   console.log("wrote notifiable_all.csv", records.length, "rows", months.length, "months");
 }

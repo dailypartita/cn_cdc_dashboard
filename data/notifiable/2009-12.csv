@@ -1,0 +1,3 @@
+reference_date,target_end_date,month,report_date,disease,disease_class,row_kind,cases,deaths,source_url
+2009-12-01,2009-12-31,2009-12,,登革热,乙类,disease,13,0,http://www.nhc.gov.cn/jkj/s3578/201304/9917995a5a364b69a37b1b951e8d5764.shtml
+2009-12-01,2009-12-31,2009-12,,流行性感冒,丙类,disease,29977,8,http://www.nhc.gov.cn/jkj/s3578/201304/9917995a5a364b69a37b1b951e8d5764.shtml

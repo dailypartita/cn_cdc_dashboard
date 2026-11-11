@@ -1,11 +1,14 @@
 {
-  "synced_at": "2026-11-11T01:25:27.255Z",
+  "synced_at": "2026-11-11T07:11:27.581Z",
   "source": {
     "sentinel": "https://www.chinacdc.cn/jksj/jksj04_14275/",
     "notifiable": "https://www.chinacdc.cn/jksj/jksj01/",
     "notifiable_historical": "https://github.com/stone-zeng/china-infectious-diseases",
     "covid_variants": "https://www.chinacdc.cn/jksj/xgbdyq/",
-    "covid_positivity": "https://www.chinacdc.cn/jksj/jksj04_14275/"
+    "covid_positivity": "https://www.chinacdc.cn/jksj/jksj04_14275/",
+    "cnic": "https://ivdc.chinacdc.cn/cnic/zyzx/lgzb/",
+    "cnic_archive": "https://ivdc.chinacdc.cn/lgzx/zyzx/lgzb/",
+    "cnic_zenodo": "https://doi.org/10.5281/zenodo.22784835"
   },
   "sentinel": {
     "latest_key": "2026-W44",
@@ -47,6 +50,43 @@
     "unchanged": false,
     "synced_at": "2026-11-11T01:25:27.255Z"
   },
+  "cnic": {
+    "latest_key": "2026-W44",
+    "latest_label": "2026年第44周",
+    "reference_date": "2026-10-26",
+    "target_end_date": "2026-11-01",
+    "report_week": 44,
+    "weeks": 893,
+    "rows": 893,
+    "ili": {
+      "first_key": "2010-W14",
+      "last_key": "2026-W44",
+      "reference_date": "2010-04-05",
+      "target_end_date": "2026-11-01",
+      "weeks": 862,
+      "gaps": [
+        "2015-W03",
+        "2017-W41/2017-W42"
+      ]
+    },
+    "positivity": {
+      "first_key": "2009-W36",
+      "last_key": "2026-W44",
+      "reference_date": "2009-08-31",
+      "target_end_date": "2026-11-01",
+      "weeks": 893,
+      "gaps": [
+        "2009-W38",
+        "2009-W53",
+        "2015-W03"
+      ]
+    },
+    "definition_note": "国家流感中心周报的哨点医院 ILI%（占门急诊）和 ILI 标本流感检测阳性率。不是多病原哨点「流感病毒」核酸阳性率，也不是法定传染病月报发病数。内科与儿内科分开报告的早期 ILI% 没有并入。与 Zenodo 10.5281/zenodo.22784835 重叠的字段以中国流感中心页面或 PDF 为准。",
+    "crawl": "ok",
+    "error": null,
+    "unchanged": false,
+    "synced_at": "2026-11-11T07:11:27.581Z"
+  },
   "covid_variants": {
     "latest_key": "2026-W39",
     "latest_label": "2026年第39周",
@@ -71,6 +111,7 @@
     "crawl": "ok",
     "error": null,
     "unchanged": true,
-    "synced_at": "2026-11-06T03:30:18.849Z"
+    "synced_at": "2026-11-06T03:30:18.849Z",
+    "history_note": "门急诊 ILI 新冠核酸阳性率自 2022-W49 起。没有找到更早的同一口径周序列，未并入 2020–2022 年每日确诊数。"
   }
 }

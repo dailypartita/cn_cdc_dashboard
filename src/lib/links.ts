@@ -5,6 +5,8 @@ export const CDC_HEALTH_DATA = "https://www.chinacdc.cn/jksj/";
 export const CDC_NOTIFIABLE = "https://www.chinacdc.cn/jksj/jksj01/";
 export const CDC_COVID = "https://www.chinacdc.cn/jksj/xgbdyq/";
 export const CDC_BULLETINS = "https://www.chinacdc.cn/jksj/jksj04_14275/";
+export const CNIC_WEEKLY = "https://ivdc.chinacdc.cn/cnic/zyzx/lgzb/";
+export const CNIC_ZENODO = "https://doi.org/10.5281/zenodo.22784835";
 export const FORECAST_HUB = "https://dailypartita.github.io/China-COVID-19-Forecast-Dashboard/";
 export const FORECAST_HUB_GITHUB = "https://github.com/dailypartita/China-COVID-19-Forecast-Dashboard";
 export const HUBVERSE = "https://hubverse.io/";
@@ -22,7 +24,7 @@ export function withBase(path: string): string {
 }
 
 export type CdcNavItem = {
-  id: "notifiable" | "sentinel" | "covid";
+  id: "notifiable" | "sentinel" | "covid" | "cnic";
   name: string;
   href: string;
   source: string;
@@ -47,5 +49,11 @@ export const CDC_NAV: CdcNavItem[] = [
     name: "全国新型冠状病毒感染疫情情况",
     href: "/#covid",
     source: CDC_COVID,
+  },
+  {
+    id: "cnic",
+    name: "国家流感中心流感监测周报",
+    href: "/#cnic",
+    source: CNIC_WEEKLY,
   },
 ];

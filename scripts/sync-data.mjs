@@ -47,11 +47,12 @@ function emitGithubOutput(catalog, before, { changed }) {
 mkdirSync(DATA, { recursive: true });
 const snapshotsOnly = process.argv.includes("--snapshots-only");
 const before = readCatalog();
-const crawl = {
+  const crawl = {
   sentinel: { crawl: "ok" },
   notifiable: { crawl: "ok" },
   covid_variants: { crawl: "ok" },
   covid_positivity: { crawl: "ok" },
+  cnic: { crawl: "ok" },
 };
 
 if (!snapshotsOnly) {
@@ -97,6 +98,22 @@ if (!snapshotsOnly) {
   } catch (err) {
     crawl.covid_variants = { crawl: "skipped", error: err.message };
     githubWarning(`covid variant crawl skipped: ${err.message}`);
+  }
+  try {
+    const { crawlCnic, writeOutputs } = await import("./sync-cnic.mjs");
+    const fresh = await crawlCnic({ pages: 2, pdf: true, pdfLimit: 8 });
+    const result = writeOutputs(fresh);
+    console.log(
+      "cnic",
+      result.coverage.ili?.first_key,
+      "..",
+      result.coverage.ili?.last_key,
+      "rows",
+      result.rows,
+    );
+  } catch (err) {
+    crawl.cnic = { crawl: "skipped", error: err.message };
+    githubWarning(`cnic crawl skipped: ${err.message}`);
   }
 }
 

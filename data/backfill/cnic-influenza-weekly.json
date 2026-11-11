@@ -1,0 +1,72 @@
+{
+  "compiled_from": [
+    "https://ivdc.chinacdc.cn/cnic/zyzx/lgzb/",
+    "https://ivdc.chinacdc.cn/lgzx/zyzx/lgzb/",
+    "https://doi.org/10.5281/zenodo.22784835"
+  ],
+  "license_note": "Zenodo extract CC BY 4.0 (Zhao, Quanjingbo, 2026). CNIC report text is quoted from the public originals and is not relicensed.",
+  "retrieved_at": "2026-11-11T07:09:40.601Z",
+  "zenodo_doi": "10.5281/zenodo.22784835",
+  "rows": 893,
+  "coverage": {
+    "rows": 893,
+    "first_key": "2009-W36",
+    "last_key": "2026-W44",
+    "ili": {
+      "first_key": "2010-W14",
+      "last_key": "2026-W44",
+      "reference_date": "2010-04-05",
+      "target_end_date": "2026-11-01",
+      "weeks": 862,
+      "gaps": [
+        "2015-W03",
+        "2017-W41/2017-W42"
+      ]
+    },
+    "positivity": {
+      "first_key": "2009-W36",
+      "last_key": "2026-W44",
+      "reference_date": "2009-08-31",
+      "target_end_date": "2026-11-01",
+      "weeks": 893,
+      "gaps": [
+        "2009-W38",
+        "2009-W53",
+        "2015-W03"
+      ]
+    }
+  },
+  "extract_field_counts": {
+    "cnic-html": 1167,
+    "zenodo-22784835": 435,
+    "cnic-pdf": 154
+  },
+  "ili_disagreements": [
+    {
+      "week": "2020-W38",
+      "html_south": 3.7,
+      "zenodo_south": 3.9,
+      "html_north": 2,
+      "zenodo_north": 2.1
+    }
+  ],
+  "pdf_weeks": [
+    "2021-W50",
+    "2026-W37",
+    "2026-W38",
+    "2026-W39",
+    "2026-W40",
+    "2026-W41",
+    "2026-W42",
+    "2026-W43",
+    "2026-W44"
+  ],
+  "notes": [
+    "ILI% is the CNIC sentinel outpatient/emergency influenza-like illness percentage, south and north separately.",
+    "Positivity is influenza-positive specimens divided by ILI specimens tested, not the later 11-pathogen sentinel 流感病毒 nucleic-acid positivity.",
+    "Reports that split 内科 and 儿内科 ILI% are not folded into ili_south / ili_north.",
+    "Official HTML or PDF values overwrite Zenodo on the same field. Nulls do not erase a stored value.",
+    "When a report prints national tests and both regional positive counts but not the percent, positivity_national is positives/tests rounded to 0.1.",
+    "sync-cnic writeOutputs merges this backfill under any newly parsed weeks."
+  ]
+}

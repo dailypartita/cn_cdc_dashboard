@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { loadAll, loadCovid, loadCovidVariants, loadNotifiable } from "@/lib/data/load";
+import { loadAll, loadCnic, loadCovid, loadCovidVariants, loadNotifiable } from "@/lib/data/load";
+import { cnicWeekAxis, hasIli } from "@/lib/data/cnic";
 import { uniqueMonths } from "@/lib/data/notifiable";
 import { uniqueWeeks } from "@/lib/data/parse";
 import { uniqueVariantWeeks } from "@/lib/data/covid-variants";
@@ -11,10 +12,13 @@ export type DataStatus = {
   notifiable: ReturnType<typeof uniqueMonths>[number] | null;
   covid: ReturnType<typeof uniqueWeeks>[number] | null;
   covidVariants: ReturnType<typeof uniqueVariantWeeks>[number] | null;
+  cnic: ReturnType<typeof cnicWeekAxis> | null;
+  cnicFirst: ReturnType<typeof cnicWeekAxis> | null;
   weekCount: number;
   monthCount: number;
   covidWeekCount: number;
   variantWeekCount: number;
+  cnicWeekCount: number;
 };
 
 function readSyncedAt(): string | null {
@@ -34,15 +38,19 @@ export function dataStatus(): DataStatus {
   const months = uniqueMonths(loadNotifiable());
   const covidWeeks = uniqueWeeks(loadCovid());
   const variantWeeks = uniqueVariantWeeks(loadCovidVariants());
+  const cnicIli = loadCnic().filter(hasIli).map(cnicWeekAxis);
   return {
     synced_at: readSyncedAt(),
     sentinel: weeks.at(-1) ?? null,
     notifiable: months.at(-1) ?? null,
     covid: covidWeeks.at(-1) ?? null,
     covidVariants: variantWeeks.at(-1) ?? null,
+    cnic: cnicIli.at(-1) ?? null,
+    cnicFirst: cnicIli[0] ?? null,
     weekCount: weeks.length,
     monthCount: months.length,
     covidWeekCount: covidWeeks.length,
     variantWeekCount: variantWeeks.length,
+    cnicWeekCount: cnicIli.length,
   };
 }

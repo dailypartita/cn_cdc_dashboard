@@ -17,6 +17,7 @@ type CatalogFile = {
   notifiable?: CatalogSection;
   covid_variants?: CatalogSection;
   covid_positivity?: CatalogSection;
+  cnic?: CatalogSection;
 };
 
 function readCatalog(): CatalogFile | null {
@@ -78,6 +79,18 @@ export function GET() {
           label: status.covidVariants.label,
           weeks: status.variantWeekCount,
           ...crawlMeta(catalog?.covid_variants),
+        }
+      : null,
+    cnic: status.cnic
+      ? {
+          key: status.cnic.key,
+          label: status.cnic.label,
+          first_key: status.cnicFirst?.key ?? null,
+          first_label: status.cnicFirst?.label ?? null,
+          reference_date: status.cnic.reference_date,
+          target_end_date: status.cnic.target_end_date,
+          weeks: status.cnicWeekCount,
+          ...crawlMeta(catalog?.cnic),
         }
       : null,
   });

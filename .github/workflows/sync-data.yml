@@ -29,7 +29,9 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: "22"
-      - name: Ingest sentinel, notifiable, and variant CSVs
+      - name: Install poppler for CNIC weekly PDFs
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Ingest sentinel, notifiable, variant, and CNIC CSVs
         id: ingest
         run: node scripts/sync-data.mjs
       - uses: stefanzweifel/git-auto-commit-action@v6

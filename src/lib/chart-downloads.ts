@@ -1,7 +1,15 @@
 import { CDC_NAV, withBase } from "@/lib/links";
 
 export type ChartDownload = {
-  id: "notifiable-cases" | "notifiable-deaths" | "sentinel-ili" | "sentinel-sari" | "covid-positivity";
+  id:
+    | "notifiable-cases"
+    | "notifiable-deaths"
+    | "sentinel-ili"
+    | "sentinel-sari"
+    | "covid-positivity"
+    | "cnic-ili"
+    | "cnic-positivity"
+    | "cnic-subtypes";
   section: string;
   label: string;
   filename: string;
@@ -37,6 +45,24 @@ export const CHART_DOWNLOADS: ChartDownload[] = [
     section: CDC_NAV[2].name,
     label: "哨点医院新冠病毒核酸检测阳性率",
     filename: "新冠_哨点阳性率.csv",
+  },
+  {
+    id: "cnic-ili",
+    section: CDC_NAV[3].name,
+    label: "哨点医院流感样病例百分比（ILI%）",
+    filename: "流感中心_哨点ILI百分比.csv",
+  },
+  {
+    id: "cnic-positivity",
+    section: CDC_NAV[3].name,
+    label: "ILI 标本流感病毒检测阳性率",
+    filename: "流感中心_ILI标本阳性率.csv",
+  },
+  {
+    id: "cnic-subtypes",
+    section: CDC_NAV[3].name,
+    label: "全国流感阳性标本型别构成",
+    filename: "流感中心_阳性标本型别.csv",
   },
 ];
 

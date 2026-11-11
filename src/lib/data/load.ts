@@ -4,10 +4,13 @@ import { isDownloadFile, type DataFileName } from "@/lib/data/files";
 import { parseCsv, type SurveillanceRecord } from "@/lib/data/parse";
 import { parseNotifiableCsv, type NotifiableRecord } from "@/lib/data/notifiable";
 import { parseVariantCsv, type VariantRecord } from "@/lib/data/covid-variants";
+import { parseCnicCsv, type CnicWeek } from "@/lib/data/cnic";
 
 export const DATA_DIR = join(process.cwd(), "data");
 
-export function readDataFile(name: DataFileName | "notifiable_all.csv" | "covid_variants.csv"): string {
+export function readDataFile(
+  name: DataFileName | "notifiable_all.csv" | "covid_variants.csv" | "cnic_influenza_weekly.csv",
+): string {
   return readFileSync(join(DATA_DIR, name), "utf8");
 }
 
@@ -25,6 +28,14 @@ export function loadCovid(): SurveillanceRecord[] {
 
 export function loadNotifiable(): NotifiableRecord[] {
   return parseNotifiableCsv(readDataFile("notifiable_all.csv"));
+}
+
+export function loadCnic(): CnicWeek[] {
+  try {
+    return parseCnicCsv(readDataFile("cnic_influenza_weekly.csv"));
+  } catch {
+    return [];
+  }
 }
 
 export function loadCovidVariants(): VariantRecord[] {

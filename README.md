@@ -69,6 +69,8 @@ npm run sync-sentinel        # 只抽哨点周报表1
 npm run sync-data:local      # 不重新下载，只重建快照；无新期次不写 catalog
 npm run sync-notifiable      # 只抽法定传染病月报，并合并已提交的历史回补
 npm run backfill-notifiable  # 从 stone-zeng 刷新登革热、流感历史月报
+npm run sync-cnic            # 只抽国家流感中心最近周报，并合并已提交的历史周
+npm run backfill-cnic        # 重爬 CNIC 周报目录，并用 Zenodo 填空
 npm run sync-covid-variants  # 只抽新冠流行株周占比
 npm run qa-data              # 不重新下载，只重跑校正与校验
 npm run write-catalog        # 按当前 CSV 重写 catalog.json
@@ -87,6 +89,7 @@ npm run prepare-static       # 仅生成 public/download
 | `GET /download/cncdc_surveillance_covid19.csv` | 新冠阳性率（ILI 自 2022-12，SARI 自 2024-11） |
 | `GET /download/notifiable_all.csv` | 法定传染病分病原月报（登革热、流感含 2024 年前历史） |
 | `GET /download/covid_variants.csv` | 新冠主要流行株周占比 |
+| `GET /download/cnic_influenza_weekly.csv` | 国家流感中心 ILI% 与 ILI 标本流感检测阳性率 |
 | `GET /download/snapshots/{week}.csv` | 哨点单周快照，如 `2026-W34.csv` |
 | `GET /download/notifiable/{month}.csv` | 法定传染病单月快照，如 `2026-07.csv` |
 | `GET /download/charts/{id}.csv` | 与首页各图对应的完整序列 |
@@ -117,6 +120,29 @@ npm run backfill-notifiable
 
 脚本会重新下载 stone-zeng 的 `data/monthly-cases.csv`、`data/monthly-deaths.csv` 和 README 链接，重写 `data/backfill/`，再与当前官方行合并，并更新 `catalog.json`。来源里发病数为空的月份会跳过；死亡数为空则留空，不写成 0。
 
+## 国家流感中心周报（ILI%、检测阳性率）
+
+第 2 节哨点「流感病毒」核酸阳性率只覆盖多病原周报，从 2024 年第 46 周起。更早的流感活动在第 4 节，来自[国家流感中心流感监测周报](https://ivdc.chinacdc.cn/cnic/zyzx/lgzb/)（旧目录 [lgzx/zyzx/lgzb](https://ivdc.chinacdc.cn/lgzx/zyzx/lgzb/) 回到 2009 年第 36 周）。这是另一套指标：
+
+- **ILI%**：南方、北方哨点医院流感样病例占门急诊就诊总数的百分比。周报还把内科、儿内科分开写的早期周次没有并进这两列。
+- **检测阳性率**：ILI 标本里流感病毒阳性的百分比，分南方、北方和全国。不是 11 病原体哨点表里的「流感病毒」阳性率，也不是法定传染病月报的发病数。
+
+首页默认仍是近 52 周。选「全部」才看到整段。`catalog.json` 的 `cnic.ili` / `cnic.positivity` 写着起止周和缺周。
+
+HTML 或 PDF 里能读到的数字优先。读不到的格子用 [Zenodo 10.5281/zenodo.22784835](https://doi.org/10.5281/zenodo.22784835)（Zhao, Quanjingbo，CC BY 4.0，整理自 2016 年第 38 周至 2026 年第 36 周的 CNIC 周报）填空，不覆盖原文已经有的字段。2026 年第 37 周及以后若页面只有摘要，脚本用 PDF 文本补 ILI% 和实验室表。2021–2022 年有些周报把全国检测数和南北方阳性数写在正文里，阳性率只出现在图上；这时全国阳性率用阳性数除以检测数，四舍五入到 0.1 个百分点。南北方阳性率仍然只在正文或表里印了百分比时才写入。WHO FluNet 的中国毒株数和这套哨点检测数不是同一分母，没有画进这张图。
+
+`data/backfill/cnic-influenza-weekly.csv` 是这段历史。`scripts/sync-cnic.mjs` 每次写主表时先放回这个文件，再叠最近列表里新解析出的非空字段。因此下一次官方同步即使只看到最新几十周，也不会丢掉更早的周。空值不会把已有数字擦掉。
+
+```bash
+npm run backfill-cnic
+```
+
+需要能访问 `ivdc.chinacdc.cn` 和 Zenodo。从 PDF 抽文字需要 `pdftotext`（Poppler）。GitHub Actions 的同步任务会安装它。
+
+## 新冠阳性率没有更早的同口径周序列
+
+门急诊 ILI 新冠核酸阳性率从 2022 年第 49 周（2022-12-05）起，与公开周报开始按这一口径报告的时间一致。没有找到更早的同一哨点 ILI 核酸阳性率周序列，所以没有把 2020–2022 年的每日确诊数并进阳性率图。流行株周占比仍是另一张表。
+
 ## 未收录
 
-周报图1（ILI 占门急诊就诊比例）、表2（南北方）、表3（年龄组）尚未进入主表。
+多病原哨点周报的图1（ILI 占门急诊就诊比例）、表2（南北方）、表3（年龄组）尚未进入 11 病原体主表。国家流感中心的南北方 ILI% 在单独的周序列里，见上一节。

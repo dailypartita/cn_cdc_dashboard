@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-11-11T22:32:04.577Z",
+  "synced_at": "2026-11-12T22:06:07.171Z",
   "source": {
     "sentinel": "https://www.chinacdc.cn/jksj/jksj04_14275/",
     "notifiable": "https://www.chinacdc.cn/jksj/jksj01/",
@@ -11,17 +11,17 @@
     "cnic_zenodo": "https://doi.org/10.5281/zenodo.22784835"
   },
   "sentinel": {
-    "latest_key": "2026-W44",
-    "latest_label": "2026年第44周",
-    "reference_date": "2026-10-26",
-    "target_end_date": "2026-11-01",
-    "report_week": 44,
-    "weeks": 103,
-    "rows": 1133,
+    "latest_key": "2026-W45",
+    "latest_label": "2026年第45周",
+    "reference_date": "2026-11-02",
+    "target_end_date": "2026-11-08",
+    "report_week": 45,
+    "weeks": 104,
+    "rows": 1144,
     "crawl": "ok",
     "error": null,
-    "unchanged": true,
-    "synced_at": "2026-11-06T03:30:18.849Z"
+    "unchanged": false,
+    "synced_at": "2026-11-12T22:06:07.171Z"
   },
   "notifiable": {
     "latest_month": "2026-10",
@@ -47,7 +47,7 @@
     },
     "crawl": "ok",
     "error": null,
-    "unchanged": false,
+    "unchanged": true,
     "synced_at": "2026-11-11T22:32:04.577Z"
   },
   "cnic": {
@@ -97,21 +97,21 @@
     "rows": 277,
     "crawl": "ok",
     "error": null,
-    "unchanged": false,
+    "unchanged": true,
     "synced_at": "2026-11-11T22:32:04.577Z"
   },
   "covid_positivity": {
-    "latest_key": "2026-W44",
-    "latest_label": "2026年第44周",
-    "reference_date": "2026-10-26",
-    "target_end_date": "2026-11-01",
-    "report_week": 44,
-    "weeks": 204,
-    "rows": 204,
+    "latest_key": "2026-W45",
+    "latest_label": "2026年第45周",
+    "reference_date": "2026-11-02",
+    "target_end_date": "2026-11-08",
+    "report_week": 45,
+    "weeks": 205,
+    "rows": 205,
     "crawl": "ok",
     "error": null,
-    "unchanged": true,
-    "synced_at": "2026-11-06T03:30:18.849Z",
+    "unchanged": false,
+    "synced_at": "2026-11-12T22:06:07.171Z",
     "history_note": "门急诊 ILI 新冠核酸阳性率自 2022-W49 起。没有找到更早的同一口径周序列，未并入 2020–2022 年每日确诊数。"
   }
 }

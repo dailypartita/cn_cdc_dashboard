@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-11-12T22:06:07.171Z",
+  "synced_at": "2026-11-19T22:57:59.165Z",
   "source": {
     "sentinel": "https://www.chinacdc.cn/jksj/jksj04_14275/",
     "notifiable": "https://www.chinacdc.cn/jksj/jksj01/",
@@ -11,17 +11,17 @@
     "cnic_zenodo": "https://doi.org/10.5281/zenodo.22784835"
   },
   "sentinel": {
-    "latest_key": "2026-W45",
-    "latest_label": "2026年第45周",
-    "reference_date": "2026-11-02",
-    "target_end_date": "2026-11-08",
-    "report_week": 45,
-    "weeks": 104,
-    "rows": 1144,
+    "latest_key": "2026-W46",
+    "latest_label": "2026年第46周",
+    "reference_date": "2026-11-09",
+    "target_end_date": "2026-11-15",
+    "report_week": 46,
+    "weeks": 105,
+    "rows": 1155,
     "crawl": "ok",
     "error": null,
     "unchanged": false,
-    "synced_at": "2026-11-12T22:06:07.171Z"
+    "synced_at": "2026-11-19T22:57:59.165Z"
   },
   "notifiable": {
     "latest_month": "2026-10",
@@ -101,17 +101,17 @@
     "synced_at": "2026-11-11T22:32:04.577Z"
   },
   "covid_positivity": {
-    "latest_key": "2026-W45",
-    "latest_label": "2026年第45周",
-    "reference_date": "2026-11-02",
-    "target_end_date": "2026-11-08",
-    "report_week": 45,
-    "weeks": 205,
-    "rows": 205,
+    "latest_key": "2026-W46",
+    "latest_label": "2026年第46周",
+    "reference_date": "2026-11-09",
+    "target_end_date": "2026-11-15",
+    "report_week": 46,
+    "weeks": 206,
+    "rows": 206,
     "crawl": "ok",
     "error": null,
     "unchanged": false,
-    "synced_at": "2026-11-12T22:06:07.171Z",
+    "synced_at": "2026-11-19T22:57:59.165Z",
     "history_note": "门急诊 ILI 新冠核酸阳性率自 2022-W49 起。没有找到更早的同一口径周序列，未并入 2020–2022 年每日确诊数。"
   }
 }

@@ -35,6 +35,19 @@ jobs:
         id: ingest
         run: node scripts/sync-data.mjs
       - uses: stefanzweifel/git-auto-commit-action@v6
+        id: commit
         with:
           commit_message: "chore: ingest CDC data (${{ steps.ingest.outputs.summary }})"
           file_pattern: data
+      # A GITHUB_TOKEN push does not start workflows in another repository.
+      # The deploy key writes .github/cncdc-sync-request on the hub, and that
+      # push starts Sync target data. Friday/Sunday hub cron remains a backup.
+      - name: Ask the forecast hub to sync target data
+        if: steps.commit.outputs.changes_detected == 'true'
+        env:
+          DEPLOY_KEY: ${{ secrets.HUB_DEPLOY_KEY }}
+          TARGET_REPO: dailypartita/China-Infectious-Disease-Forecast-Hub
+          TARGET_FILE: .github/cncdc-sync-request
+          REF: "${{ steps.commit.outputs.commit_hash }}"
+          COMMIT_MESSAGE: "ci: sync target data from cn_cdc_dashboard"
+        run: bash .github/scripts/request-downstream.sh

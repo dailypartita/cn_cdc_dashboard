@@ -18,9 +18,17 @@ const CNIC_NOTE =
 const COVID_HISTORY_NOTE =
   "门急诊 ILI 新冠核酸阳性率自 2022-W49 起。没有找到更早的同一口径周序列，未并入 2020–2022 年每日确诊数。";
 
+const GUANGDONG_DENGUE_NOTE =
+  "广东省卫健委 / 疾控局法定传染病月报中的登革热本期发病数（含输入，除非脚注另有说明）。病例粒度是月度；日常同步只检查是否有新月报。缺失月留空，不插值、不用全国数代替。清洗主表优先官方月报，其次 Zenodo（≥2022-01），更早用公共卫生科学数据中心。";
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data");
 export const CATALOG_PATH = join(DATA, "catalog.json");
+const GUANGDONG_CLEANED = join(
+  DATA,
+  "processed",
+  "guangdong_dengue_monthly_cleaned_2004_present.csv",
+);
 
 function isoWeekYear(referenceDate) {
   const [y, m, d] = referenceDate.split("-").map(Number);
@@ -42,10 +50,8 @@ function monthLabel(month) {
   return `${y}年${Number(m)}月`;
 }
 
-function parseRows(name) {
-  const path = join(DATA, name);
-  if (!existsSync(path)) return { header: [], rows: [] };
-  const lines = readFileSync(path, "utf8").replace(/^\uFEFF/, "").trim().split(/\r?\n/);
+function parseCsvText(text) {
+  const lines = text.replace(/^\uFEFF/, "").trim().split(/\r?\n/);
   if (lines.length < 2) return { header: [], rows: [] };
   const header = lines[0].split(",").map((h) => h.trim());
   const rows = [];
@@ -59,6 +65,49 @@ function parseRows(name) {
     rows.push(row);
   }
   return { header, rows };
+}
+
+function parseRows(name) {
+  const path = join(DATA, name);
+  if (!existsSync(path)) return { header: [], rows: [] };
+  return parseCsvText(readFileSync(path, "utf8"));
+}
+
+function parseCsvFile(path) {
+  if (!existsSync(path)) return { header: [], rows: [] };
+  return parseCsvText(readFileSync(path, "utf8"));
+}
+
+function guangdongDenguePeriod(rows) {
+  let latest = null;
+  let withCases = 0;
+  let missing = 0;
+  for (const row of rows) {
+    const month = row.month;
+    if (!month) continue;
+    const cases = row.cases;
+    if (cases !== "" && cases != null) {
+      withCases += 1;
+      if (!latest || month > latest.latest_month) {
+        latest = {
+          latest_month: month,
+          latest_label: monthLabel(month),
+          quality_status: row.quality_status || "",
+          source_primary: row.source_primary || "",
+        };
+      }
+    } else if (row.quality_status === "missing") {
+      missing += 1;
+    }
+  }
+  return {
+    ...latest,
+    months: rows.length,
+    months_with_cases: withCases,
+    months_missing: missing,
+    rows: rows.length,
+    definition_note: GUANGDONG_DENGUE_NOTE,
+  };
 }
 
 function sentinelPeriod(rows) {
@@ -138,7 +187,8 @@ export function periodChanged(prev, next) {
     prevKey !== nextKey ||
     prev.rows !== next.rows ||
     prev.weeks !== next.weeks ||
-    prev.months !== next.months
+    prev.months !== next.months ||
+    prev.months_with_cases !== next.months_with_cases
   );
 }
 
@@ -199,9 +249,14 @@ function cnicPeriod(rows) {
 }
 
 export function catalogHasNewPeriods(catalog) {
-  return ["sentinel", "notifiable", "covid_variants", "covid_positivity", "cnic"].some(
-    (name) => catalog[name] && catalog[name].unchanged === false,
-  );
+  return [
+    "sentinel",
+    "notifiable",
+    "covid_variants",
+    "covid_positivity",
+    "cnic",
+    "guangdong_dengue",
+  ].some((name) => catalog[name] && catalog[name].unchanged === false);
 }
 
 export function buildCatalog({
@@ -214,6 +269,7 @@ export function buildCatalog({
   const variants = parseRows("covid_variants.csv");
   const covid = parseRows("cncdc_surveillance_covid19.csv");
   const cnic = parseRows("cnic_influenza_weekly.csv");
+  const guangdong = parseCsvFile(GUANGDONG_CLEANED);
   const datasets = {
     sentinel: attachCrawl("sentinel", sentinelPeriod(sentinel.rows), previous, crawl, syncedAt),
     notifiable: attachCrawl("notifiable", notifiablePeriod(notifiable.rows), previous, crawl, syncedAt),
@@ -229,6 +285,13 @@ export function buildCatalog({
       ...attachCrawl("covid_positivity", sentinelPeriod(covid.rows), previous, crawl, syncedAt),
       history_note: COVID_HISTORY_NOTE,
     },
+    guangdong_dengue: attachCrawl(
+      "guangdong_dengue",
+      guangdongDenguePeriod(guangdong.rows),
+      previous,
+      crawl,
+      syncedAt,
+    ),
   };
   const anyChanged = Object.values(datasets).some((section) => !section.unchanged);
   return {
@@ -242,6 +305,8 @@ export function buildCatalog({
       cnic: "https://ivdc.chinacdc.cn/cnic/zyzx/lgzb/",
       cnic_archive: "https://ivdc.chinacdc.cn/lgzx/zyzx/lgzb/",
       cnic_zenodo: "https://doi.org/10.5281/zenodo.22784835",
+      guangdong_dengue: "https://wsjkw.gd.gov.cn/zwyw_yqxx/",
+      guangdong_dengue_cdcp: "https://cdcp.gd.gov.cn/",
     },
     ...datasets,
   };
@@ -257,6 +322,9 @@ export function summarize(catalog) {
     catalog.sentinel?.latest_key,
     catalog.notifiable?.latest_month,
     catalog.covid_positivity?.latest_key,
+    catalog.guangdong_dengue?.latest_month
+      ? `GD-dengue ${catalog.guangdong_dengue.latest_month}`
+      : null,
   ]
     .filter(Boolean)
     .join(" / ");

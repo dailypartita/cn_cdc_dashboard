@@ -49,10 +49,10 @@ npx serve out
 
 ## 同步流水线
 
-1. **GitHub Actions** `sync-data.yml` 每天 UTC 16:00（上海时间 00:00）跑 `node scripts/sync-data.mjs`，从中国 CDC 公开页入库。哨点周报在周四约 20:30（上海）发布；原先只在周二/五/日 UTC 06:00 触发，周四新周要等到周五，而 Actions 还会把该档推迟数小时，所以上午目录仍停在上一周。列表上的最新周次已经在表里时，没有新期次则不改 `catalog.json`、不空提交。也可在 Actions 里手动跑 **Sync China CDC data**。
+1. **GitHub Actions** `sync-data.yml` 每天 UTC 16:00（上海时间 00:00）跑 `node scripts/sync-data.mjs`，从中国 CDC 公开页入库，并检查广东省登革热月报是否有新月。哨点周报在周四约 20:30（上海）发布；原先只在周二/五/日 UTC 06:00 触发，周四新周要等到周五，而 Actions 还会把该档推迟数小时，所以上午目录仍停在上一周。列表上的最新周次已经在表里时，没有新期次则不改 `catalog.json`、不空提交。也可在 Actions 里手动跑 **Sync China CDC data**。
 2. **GitHub Actions** `pages.yml` 在 `main` 每次推送后 `next build`（`output: "export"`），把 `out/` 发布到 GitHub Pages。
 
-哨点列表上的最新周次没有进入表1，或最新一期解析失败，整次任务失败，站点继续用上次存档。法定传染病月报失败，以及流行株的网络错误，会在 Actions 里标 warning，不阻断已成功的哨点提交。流行株最新公报的周次没解析出来时，整次任务失败。
+哨点列表上的最新周次没有进入表1，或最新一期解析失败，整次任务失败，站点继续用上次存档。法定传染病月报失败、广东省登革热抓取失败，以及流行株的网络错误，会在 Actions 里标 warning，不阻断已成功的哨点提交。流行株最新公报的周次没解析出来时，整次任务失败。
 
 GitHub 跑在境外 IP，访问 `chinacdc.cn` 偶尔会慢或失败。若更稳，可把 Airflow DAG 链到国内 worker 当备份（周五 12:00 Asia/Shanghai；调度器为 UTC 时 cron 为 `0 4 * * 5`）：
 
@@ -64,13 +64,14 @@ ln -s "$CDC_DASHBOARD_ROOT/airflow/dags/cn_cdc_dashboard_weekly.py" "$AIRFLOW_HO
 Worker 需要 Node 18+、git，以及能推这个仓库的凭据（SSH deploy key 或 HTTPS token）。仓库 **Settings → Pages → Source** 选 **GitHub Actions**。
 
 ```bash
-npm run sync-data            # 完整入库（哨点 + 法定传染病 + 流行株）
+npm run sync-data            # 完整入库（哨点 + 法定传染病 + 流行株 + 广东登革热）
 npm run sync-sentinel        # 只抽哨点周报表1
 npm run sync-data:local      # 不重新下载，只重建快照；无新期次不写 catalog
 npm run sync-notifiable      # 只抽法定传染病月报，并合并已提交的历史回补
 npm run backfill-notifiable  # 从 stone-zeng 刷新登革热、流感历史月报
 npm run sync-cnic            # 只抽国家流感中心最近周报，并合并已提交的历史周
 npm run backfill-cnic        # 重爬 CNIC 周报目录，并用 Zenodo 填空
+npm run sync-guangdong-dengue # 只检查广东省登革热月报并重建清洗表
 npm run sync-covid-variants  # 只抽新冠流行株周占比
 npm run qa-data              # 不重新下载，只重跑校正与校验
 npm run write-catalog        # 按当前 CSV 重写 catalog.json
@@ -90,6 +91,9 @@ npm run prepare-static       # 仅生成 public/download
 | `GET /download/notifiable_all.csv` | 法定传染病分病原月报（登革热、流感含 2024 年前历史） |
 | `GET /download/covid_variants.csv` | 新冠主要流行株周占比 |
 | `GET /download/cnic_influenza_weekly.csv` | 国家流感中心 ILI% 与 ILI 标本流感检测阳性率 |
+| `GET /download/guangdong_dengue_monthly_cleaned_2004_present.csv` | 广东省登革热月度清洗主表（约 2004 年起） |
+| `GET /download/guangdong_dengue_monthly.csv` | 广东省登革热 Dashboard 导出表（与预测站同 schema） |
+| `GET /download/guangdong_dengue_monthly_official.csv` | 广东省近年官方月报核验表 |
 | `GET /download/snapshots/{week}.csv` | 哨点单周快照，如 `2026-W34.csv` |
 | `GET /download/notifiable/{month}.csv` | 法定传染病单月快照，如 `2026-07.csv` |
 | `GET /download/charts/{id}.csv` | 与首页各图对应的完整序列 |
@@ -142,6 +146,19 @@ npm run backfill-cnic
 ## 新冠阳性率没有更早的同口径周序列
 
 门急诊 ILI 新冠核酸阳性率从 2022 年第 49 周（2022-12-05）起，与公开周报开始按这一口径报告的时间一致。没有找到更早的同一哨点 ILI 核酸阳性率周序列，所以没有把 2020–2022 年的每日确诊数并进阳性率图。流行株周占比仍是另一张表。
+
+## 广东省登革热月报
+
+全国法定传染病月报没有分省。广东省登革热另从[省卫健委疫情信息](https://wsjkw.gd.gov.cn/zwyw_yqxx/)和[省疾控](https://cdcp.gd.gov.cn/)公开月报抓取，粒度是**月度**；日常同步只检查是否有新月报，通常每月中下旬才会写入「上月」数字。清洗主表：`data/processed/guangdong_dengue_monthly_cleaned_2004_present.csv`。流程见 `docs/guangdong_dengue_weekly_update.md`。
+
+```bash
+pip install -r requirements-guangdong-dengue.txt
+npm run sync-guangdong-dengue
+```
+
+新月 `quality_status` 应为 `verified` / `verified_zero`；若是 `missing`，说明月报未出，不要手填 0。不写入全国 `notifiable_all.csv`。
+
+同步成功后还会写出 `data/export/guangdong_dengue_monthly.csv`（Forecast Dashboard 用 schema）。GitHub Actions 在有数据变更时，用仓库 secret `DASHBOARD_DEPLOY_KEY` 推送到 [China-Infectious-Disease-Forecast-Dashboard](https://github.com/dailypartita/China-Infectious-Disease-Forecast-Dashboard) 的 `pages/resources/guangdong_dengue_monthly.csv`，触发站点重建；专页为 `guangdong-dengue.html`。未配置该 secret 时推送步骤会跳过。
 
 ## 未收录
 

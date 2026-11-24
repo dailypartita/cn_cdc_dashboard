@@ -6,10 +6,12 @@
  * 2. Apply local table-1 / OCR corrections and rebuild week snapshots
  * 3. Recrawl notifiable monthly tables and COVID variant shares
  * 4. Merge the 2022– COVID positivity long series
- * 5. Write data/catalog.json only when a dataset period actually changed
- * 6. Fail the job if the sentinel listing's newest week is missing from
+ * 5. Check Guangdong provincial dengue monthly bulletins (cases are monthly;
+ *    the daily job just detects a new month when the bulletin posts)
+ * 6. Write data/catalog.json only when a dataset period actually changed
+ * 7. Fail the job if the sentinel listing's newest week is missing from
  *    the parsed table (do not exit 0 with "no new periods")
- * 7. Fail the job if the newest COVID variant bulletin was not parsed
+ * 8. Fail the job if the newest COVID variant bulletin was not parsed
  *    into the week it claims (do not exit 0 with crawl=ok)
  */
 import { appendFileSync, mkdirSync, readFileSync } from "node:fs";
@@ -47,12 +49,13 @@ function emitGithubOutput(catalog, before, { changed }) {
 mkdirSync(DATA, { recursive: true });
 const snapshotsOnly = process.argv.includes("--snapshots-only");
 const before = readCatalog();
-  const crawl = {
+const crawl = {
   sentinel: { crawl: "ok" },
   notifiable: { crawl: "ok" },
   covid_variants: { crawl: "ok" },
   covid_positivity: { crawl: "ok" },
   cnic: { crawl: "ok" },
+  guangdong_dengue: { crawl: "ok" },
 };
 
 if (!snapshotsOnly) {
@@ -115,6 +118,14 @@ if (!snapshotsOnly) {
     crawl.cnic = { crawl: "skipped", error: err.message };
     githubWarning(`cnic crawl skipped: ${err.message}`);
   }
+  try {
+    const { syncGuangdongDengue } = await import("./sync-guangdong-dengue.mjs");
+    const result = syncGuangdongDengue();
+    console.log("guangdong dengue", result.cleaned);
+  } catch (err) {
+    crawl.guangdong_dengue = { crawl: "skipped", error: err.message };
+    githubWarning(`guangdong dengue crawl skipped: ${err.message}`);
+  }
 }
 
 const catalog = buildCatalog({ previous: before, crawl });
@@ -142,6 +153,9 @@ if (catalog.notifiable?.crawl === "skipped") {
 }
 if (catalog.covid_variants?.crawl === "skipped") {
   console.log("covid variants skipped", catalog.covid_variants.error);
+}
+if (catalog.guangdong_dengue?.crawl === "skipped") {
+  console.log("guangdong dengue skipped", catalog.guangdong_dengue.error);
 }
 if (variantCrawlBlocksSync(crawl.covid_variants)) {
   githubError(`covid variant sync stalled: ${crawl.covid_variants.error}`);

@@ -1,0 +1,274 @@
+﻿month,location,cases,source_primary,quality_status,cases_phsci,cases_zenodo,cases_official,source_url,notes
+2004-01,GD,,,missing,,,,,无可用来源，未补 0、未插值
+2004-02,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2004-03,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2004-04,GD,,,missing,,,,,无可用来源，未补 0、未插值
+2004-05,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2004-06,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2004-07,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2004-08,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2004-09,GD,37,phsciencedata,verified,37,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2004-10,GD,7,phsciencedata,verified,7,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2004-11,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2004-12,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2005-01,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2005-02,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2005-03,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2005-04,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2005-05,GD,,,missing,,,,,无可用来源，未补 0、未插值
+2005-06,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2005-07,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2005-08,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2005-09,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2005-10,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2005-11,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2005-12,GD,,,missing,,,,,无可用来源，未补 0、未插值
+2006-01,GD,,,missing,,,,,无可用来源，未补 0、未插值
+2006-02,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2006-03,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2006-04,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2006-05,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2006-06,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2006-07,GD,10,phsciencedata,verified,10,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2006-08,GD,275,phsciencedata,verified,275,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2006-09,GD,425,phsciencedata,verified,425,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2006-10,GD,223,phsciencedata,verified,223,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2006-11,GD,73,phsciencedata,verified,73,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2006-12,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-01,GD,,,missing,,,,,无可用来源，未补 0、未插值
+2007-02,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-03,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-04,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-05,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-06,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-07,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-08,GD,38,phsciencedata,verified,38,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-09,GD,111,phsciencedata,verified,111,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-10,GD,237,phsciencedata,verified,237,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-11,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2007-12,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2008-01,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2008-02,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2008-03,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2008-04,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2008-05,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2008-06,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2008-07,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2008-08,GD,7,phsciencedata,verified,7,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2008-09,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2008-10,GD,44,phsciencedata,verified,44,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2008-11,GD,22,phsciencedata,verified,22,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2008-12,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2009-01,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2009-02,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2009-03,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2009-04,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2009-05,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2009-06,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2009-07,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2009-08,GD,5,phsciencedata,verified,5,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2009-09,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2009-10,GD,5,phsciencedata,verified,5,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2009-11,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2009-12,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2010-01,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2010-02,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2010-03,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2010-04,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2010-05,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2010-06,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2010-07,GD,4,phsciencedata,verified,4,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2010-08,GD,11,phsciencedata,verified,11,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2010-09,GD,44,phsciencedata,verified,44,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2010-10,GD,66,phsciencedata,verified,66,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2010-11,GD,9,phsciencedata,verified,9,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2010-12,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-01,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2011-02,GD,,,missing,,,,,无可用来源，未补 0、未插值
+2011-03,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-04,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-05,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-06,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-07,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-08,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-09,GD,7,phsciencedata,verified,7,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-10,GD,26,phsciencedata,verified,26,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-11,GD,8,phsciencedata,verified,8,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2011-12,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-01,GD,0,phsciencedata,verified,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-02,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-03,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-04,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-05,GD,4,phsciencedata,verified,4,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-06,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-07,GD,10,phsciencedata,verified,10,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-08,GD,20,phsciencedata,verified,20,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-09,GD,123,phsciencedata,verified,123,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-10,GD,227,phsciencedata,verified,227,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-11,GD,84,phsciencedata,verified,84,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2012-12,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2013-01,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2013-02,GD,5,phsciencedata,verified,5,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-03,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-04,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-05,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-06,GD,8,phsciencedata,verified,8,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-07,GD,151,phsciencedata,verified,151,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-08,GD,196,phsciencedata,verified,196,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-09,GD,727,phsciencedata,verified,727,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-10,GD,1449,phsciencedata,verified,1449,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-11,GD,349,phsciencedata,verified,349,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2013-12,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-01,GD,2,phsciencedata,verified,2,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-02,GD,0,phsciencedata,imputed_zero_no_gd_row,0,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2014-03,GD,1,phsciencedata,verified,1,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-04,GD,3,phsciencedata,verified,3,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-05,GD,5,phsciencedata,verified,5,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-06,GD,24,phsciencedata,verified,24,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-07,GD,252,phsciencedata,verified,252,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-08,GD,1841,phsciencedata,verified,1841,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-09,GD,18582,phsciencedata,verified,18582,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-10,GD,22755,phsciencedata,verified,22755,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-11,GD,1646,phsciencedata,verified,1646,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2014-12,GD,78,phsciencedata,verified,78,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-01,GD,8,phsciencedata,verified,8,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-02,GD,6,phsciencedata,verified,6,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-03,GD,6,phsciencedata,verified,6,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-04,GD,5,phsciencedata,verified,5,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-05,GD,8,phsciencedata,verified,8,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-06,GD,6,phsciencedata,verified,6,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-07,GD,15,phsciencedata,verified,15,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-08,GD,58,phsciencedata,verified,58,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-09,GD,1141,phsciencedata,verified,1141,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-10,GD,344,phsciencedata,verified,344,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-11,GD,77,phsciencedata,verified,77,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2015-12,GD,9,phsciencedata,verified,9,,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-01,GD,7,phsciencedata,verified,7,7,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-02,GD,15,phsciencedata,verified,15,15,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-03,GD,9,phsciencedata,verified,9,9,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-04,GD,7,phsciencedata,verified,7,7,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-05,GD,12,phsciencedata,verified,12,12,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-06,GD,10,phsciencedata,verified,10,10,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-07,GD,38,phsciencedata,verified,38,38,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-08,GD,56,phsciencedata,verified,56,56,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-09,GD,224,phsciencedata,verified,224,224,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-10,GD,112,phsciencedata,verified,112,112,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-11,GD,49,phsciencedata,verified,49,49,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2016-12,GD,5,phsciencedata,verified,5,5,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-01,GD,9,phsciencedata,verified,9,9,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-02,GD,6,phsciencedata,verified,6,6,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-03,GD,6,phsciencedata,verified,6,6,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-04,GD,10,phsciencedata,verified,10,10,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-05,GD,11,phsciencedata,verified,11,11,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-06,GD,23,phsciencedata,verified,23,23,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-07,GD,39,phsciencedata,verified,39,39,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-08,GD,196,phsciencedata,verified,196,196,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-09,GD,385,phsciencedata,verified,385,385,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-10,GD,758,phsciencedata,verified,758,758,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-11,GD,208,phsciencedata,verified,208,208,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2017-12,GD,11,phsciencedata,verified,11,11,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-01,GD,2,phsciencedata,verified,2,2,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-02,GD,3,phsciencedata,verified,3,3,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-03,GD,2,phsciencedata,verified,2,2,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-04,GD,8,phsciencedata,verified,8,8,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-05,GD,24,phsciencedata,verified,24,24,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-06,GD,31,phsciencedata,verified,31,31,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-07,GD,74,phsciencedata,verified,74,74,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-08,GD,349,phsciencedata,verified,349,349,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-09,GD,1211,phsciencedata,verified,1211,1211,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-10,GD,1262,phsciencedata,verified,1262,1262,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-11,GD,315,phsciencedata,verified,315,315,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2018-12,GD,34,phsciencedata,verified,34,34,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-01,GD,34,phsciencedata,verified,34,34,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-02,GD,13,phsciencedata,verified,13,13,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-03,GD,19,phsciencedata,verified,19,19,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-04,GD,39,phsciencedata,verified,39,39,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-05,GD,89,phsciencedata,verified,89,89,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-06,GD,265,phsciencedata,verified,265,265,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-07,GD,428,phsciencedata,verified,428,428,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-08,GD,1347,phsciencedata,verified,1347,1347,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-09,GD,1517,phsciencedata,verified,1517,1517,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-10,GD,1786,phsciencedata,verified,1786,1786,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-11,GD,473,phsciencedata,verified,473,473,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2019-12,GD,32,phsciencedata,verified,32,32,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-01,GD,8,phsciencedata,verified,8,8,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-02,GD,6,phsciencedata,verified,6,6,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-03,GD,3,phsciencedata,verified,3,3,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-04,GD,0,phsciencedata,imputed_zero_no_gd_row,0,1,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0；zenodo_diff=1；重叠月优先 phsciencedata（与官方年合计更一致）
+2020-05,GD,0,phsciencedata,imputed_zero_no_gd_row,0,0,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2020-06,GD,2,phsciencedata,verified,2,2,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-07,GD,8,phsciencedata,verified,8,8,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-08,GD,5,phsciencedata,verified,5,5,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-09,GD,7,phsciencedata,verified,7,7,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-10,GD,14,phsciencedata,verified,14,14,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-11,GD,3,phsciencedata,verified,3,3,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2020-12,GD,2,phsciencedata,verified,2,2,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2021-01,GD,3,phsciencedata,verified,3,2,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,zenodo_diff=2；重叠月优先 phsciencedata（与官方年合计更一致）
+2021-02,GD,1,phsciencedata,verified,1,2,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,zenodo_diff=2；重叠月优先 phsciencedata（与官方年合计更一致）
+2021-03,GD,0,zenodo_2016_2024,external_open,,0,,https://doi.org/10.5281/zenodo.18391003,
+2021-04,GD,2,phsciencedata,verified,2,2,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2021-05,GD,3,phsciencedata,verified,3,3,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,
+2021-06,GD,1,official_bulletin,verified,1,1,1,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3347405.html,脚注：登革热病例均为境外输入
+2021-07,GD,1,official_bulletin,verified,1,1,1,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3482638.html,脚注：登革热病例均为境外输入
+2021-08,GD,3,phsciencedata,verified,3,2,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,zenodo_diff=2；重叠月优先 phsciencedata（与官方年合计更一致）
+2021-09,GD,2,phsciencedata,verified,2,3,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,zenodo_diff=3；重叠月优先 phsciencedata（与官方年合计更一致）
+2021-10,GD,0,phsciencedata,imputed_zero_no_gd_row,0,0,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2021-11,GD,0,phsciencedata,imputed_zero_no_gd_row,0,0,,https://www.phsciencedata.cn/Share/ky_sjml.jsp,全国有表但无广东省行，记为 0
+2021-12,GD,1,official_bulletin,verified,1,1,1,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3768057.html,脚注：登革热病例均为境外输入
+2022-01,GD,0,official_bulletin,verified_zero,,0,0,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3823980.html,
+2022-02,GD,0,official_bulletin,verified_zero,,0,0,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3881277.html,
+2022-03,GD,0,official_bulletin,verified_zero,,0,0,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3913911.html,
+2022-04,GD,0,official_bulletin,verified_zero,,0,0,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3934278.html,
+2022-05,GD,1,official_bulletin,verified,,1,1,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3950041.html,
+2022-06,GD,0,official_bulletin,verified_zero,,0,0,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3976043.html,
+2022-07,GD,1,official_bulletin,verified,,1,1,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_3997571.html,脚注：登革热病例均为境外输入
+2022-08,GD,1,official_bulletin,verified,,1,1,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4015235.html,脚注：登革热病例均为境外输入
+2022-09,GD,4,official_bulletin,verified,,4,4,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4034216.html,脚注：登革热病例均为境外输入
+2022-10,GD,2,official_bulletin,verified,,2,2,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4054286.html,脚注：登革热病例均为境外输入
+2022-11,GD,1,official_bulletin,verified,,1,1,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4073150.html,脚注：登革热病例均为境外输入
+2022-12,GD,0,official_bulletin,verified_zero,,0,0,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4090800.html,
+2023-01,GD,0,official_bulletin,verified_zero,,0,0,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4135377.html,
+2023-02,GD,2,official_bulletin,verified,,2,2,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4140994.html,脚注：登革热病例均为境外输入
+2023-03,GD,2,official_bulletin,verified,,2,2,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4175282.html,脚注：登革热病例均为境外输入
+2023-04,GD,2,official_bulletin,verified,,2,2,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4198389.html,脚注：登革热病例均为境外输入
+2023-05,GD,9,official_bulletin,verified,,9,9,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4214999.html,脚注：登革热病例均为境外输入
+2023-06,GD,10,official_bulletin,verified,,10,10,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4224097.html,
+2023-07,GD,43,official_bulletin,verified,,43,43,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4241515.html,
+2023-08,GD,184,official_bulletin,verified,,184,184,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4259289.html,
+2023-09,GD,650,official_bulletin,verified,,650,650,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4276120.html,
+2023-10,GD,2037,official_bulletin,verified,,2037,2037,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4285731.html,
+2023-11,GD,1147,official_bulletin,verified,,1147,1147,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4305583.html,
+2023-12,GD,109,official_bulletin,verified,,109,109,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4336110.html,
+2024-01,GD,6,official_bulletin,verified,,6,6,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4385843.html,
+2024-02,GD,6,official_bulletin,verified,,6,6,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4395931.html,脚注：登革热病例均为境外输入
+2024-03,GD,6,official_bulletin,verified,,6,6,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4431655.html,脚注：登革热病例均为境外输入
+2024-04,GD,17,official_bulletin,verified,,17,17,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4431662.html,脚注：登革热病例均为境外输入
+2024-05,GD,35,official_bulletin,verified,,35,35,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4442215.html,脚注分项：本地12，境外输入23，分项合计与本期发病数一致
+2024-06,GD,53,official_bulletin,verified,,53,53,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4456984.html,脚注分项：本地29，境外输入24，分项合计与本期发病数一致
+2024-07,GD,233,official_bulletin,verified,,233,233,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4475152.html,脚注分项：本地212，境外输入19，省外输入2，分项合计与本期发病数一致
+2024-08,GD,1220,official_bulletin,verified,,1220,1220,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4495843.html,脚注分项：本地1185，境外输入34，省外输入1，分项合计与本期发病数一致
+2024-09,GD,3711,official_bulletin,verified,,3711,3711,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4512299.html,
+2024-10,GD,8425,official_bulletin,verified,,8425,8425,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4581880.html,
+2024-11,GD,3703,official_bulletin,verified,,3703,3703,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4635933.html,
+2024-12,GD,342,official_bulletin,verified,,342,342,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4653282.html,
+2025-01,GD,15,official_bulletin,verified,,,15,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4672085.html,
+2025-02,GD,10,official_bulletin,verified,,,10,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4682559.html,
+2025-03,GD,6,official_bulletin,verified,,,6,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4696458.html,
+2025-04,GD,15,official_bulletin,verified,,,15,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4709620.html,脚注只写明1例登革热本地病例，其余14例未说明，未把差额记为输入病例
+2025-05,GD,32,official_bulletin,verified,,,32,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4725043.html,
+2025-06,GD,94,official_bulletin,verified,,,94,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4746128.html,
+2025-07,GD,394,official_bulletin,verified,,,394,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4759034.html,
+2025-08,GD,671,official_bulletin,verified,,,671,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4772999.html,
+2025-09,GD,658,official_bulletin,verified,,,658,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4784334.html,脚注说明法定传染病目录按2025年修订版调整为40种，登革热仍在表内，未见单独修订登革热统计
+2025-10,GD,1610,official_bulletin,verified,,,1610,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4796639.html,脚注说明法定传染病目录按2025年修订版调整为40种，登革热仍在表内，未见单独修订登革热统计
+2025-11,GD,425,official_bulletin,verified,,,425,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4833662.html,脚注说明法定传染病目录按2025年修订版调整为40种，登革热仍在表内，未见单独修订登革热统计
+2025-12,GD,61,official_bulletin,verified,,,61,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4843083.html,脚注说明法定传染病目录按2025年修订版调整为40种，登革热仍在表内，未见单独修订登革热统计
+2026-01,GD,18,official_bulletin,verified,,,18,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4856842.html,一致来源：https://cdcp.gd.gov.cn/zwgk/sjfb/content/post_4859216.html；https://cdcp.gd.gov.cn/zwgk/yqxx/content/post_4856844.html
+2026-02,GD,14,official_bulletin,verified,,,14,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4866088.html,一致来源：https://cdcp.gd.gov.cn/zwgk/sjfb/content/post_4866947.html；https://cdcp.gd.gov.cn/zwgk/yqxx/content/post_4866090.html
+2026-03,GD,16,official_bulletin,verified,,,16,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4884583.html,一致来源：https://cdcp.gd.gov.cn/zwgk/sjfb/content/post_4885928.html；https://cdcp.gd.gov.cn/zwgk/yqxx/content/post_4884585.html
+2026-04,GD,36,official_bulletin,verified,,,36,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4897042.html,一致来源：https://cdcp.gd.gov.cn/zwgk/sjfb/content/post_4897578.html；https://cdcp.gd.gov.cn/zwgk/yqxx/content/post_4897046.html
+2026-05,GD,46,official_bulletin,verified,,,46,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4912647.html,一致来源：https://cdcp.gd.gov.cn/zwgk/sjfb/content/post_4915382.html；https://cdcp.gd.gov.cn/zwgk/yqxx/content/post_4912683.html
+2026-06,GD,50,official_bulletin,verified,,,50,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4924693.html,一致来源：https://cdcp.gd.gov.cn/zwgk/sjfb/content/post_4925213.html；https://cdcp.gd.gov.cn/zwgk/yqxx/content/post_4924708.html
+2026-07,GD,100,official_bulletin,verified,,,100,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4942475.html,一致来源：https://cdcp.gd.gov.cn/zwgk/sjfb/content/post_4943410.html；https://cdcp.gd.gov.cn/zwgk/yqxx/content/post_4942477.html
+2026-08,GD,150,official_bulletin,verified,,,150,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4953802.html,一致来源：https://cdcp.gd.gov.cn/zwgk/sjfb/content/post_4954432.html；https://cdcp.gd.gov.cn/zwgk/yqxx/content/post_4953804.html
+2026-09,GD,155,official_bulletin,verified,,,155,https://wsjkw.gd.gov.cn/zwyw_yqxx/content/post_4967020.html,一致来源：https://cdcp.gd.gov.cn/zwgk/sjfb/content/post_4978855.html；https://cdcp.gd.gov.cn/zwgk/yqxx/content/post_4967023.html

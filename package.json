@@ -16,6 +16,7 @@
     "backfill-notifiable": "node scripts/backfill-notifiable.mjs",
     "sync-cnic": "node scripts/sync-cnic.mjs",
     "backfill-cnic": "node scripts/backfill-cnic.mjs",
+    "sync-guangdong-dengue": "node scripts/sync-guangdong-dengue.mjs",
     "sync-sentinel": "node scripts/sync-sentinel.mjs",
     "qa-data": "node scripts/qa-data.mjs",
     "test": "node --test scripts/*.test.mjs",

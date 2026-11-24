@@ -29,16 +29,21 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Install poppler for CNIC weekly PDFs
         run: sudo apt-get update && sudo apt-get install -y poppler-utils
-      - name: Ingest sentinel, notifiable, variant, and CNIC CSVs
+      - name: Install Python deps for Guangdong dengue monthly check
+        run: pip install -r requirements-guangdong-dengue.txt
+      - name: Ingest sentinel, notifiable, variant, CNIC, and Guangdong dengue CSVs
         id: ingest
         run: node scripts/sync-data.mjs
       - uses: stefanzweifel/git-auto-commit-action@v6
         id: commit
         with:
           commit_message: "chore: ingest CDC data (${{ steps.ingest.outputs.summary }})"
-          file_pattern: data
+          file_pattern: data docs
       # A GITHUB_TOKEN push does not start workflows in another repository.
       # The deploy key writes .github/cncdc-sync-request on the hub, and that
       # push starts Sync target data. Friday/Sunday hub cron remains a backup.
@@ -51,3 +56,14 @@ jobs:
           REF: "${{ steps.commit.outputs.commit_hash }}"
           COMMIT_MESSAGE: "ci: sync target data from cn_cdc_dashboard"
         run: bash .github/scripts/request-downstream.sh
+      # Deploy-key push of the CSV starts Rebuild Site on the dashboard.
+      # Secret may be missing on forks; the script then no-ops.
+      - name: Push Guangdong dengue series to forecast dashboard
+        if: steps.commit.outputs.changes_detected == 'true'
+        env:
+          DEPLOY_KEY: ${{ secrets.DASHBOARD_DEPLOY_KEY }}
+          TARGET_REPO: dailypartita/China-Infectious-Disease-Forecast-Dashboard
+          TARGET_PATH: pages/resources/guangdong_dengue_monthly.csv
+          SOURCE_CSV: data/export/guangdong_dengue_monthly.csv
+          REF: "${{ steps.commit.outputs.commit_hash }}"
+        run: bash .github/scripts/push-guangdong-dengue-to-dashboard.sh

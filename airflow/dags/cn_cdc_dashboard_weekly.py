@@ -9,8 +9,10 @@ Environment (Airflow worker):
   CDC_DASHBOARD_REMOTE git remote (default origin)
   GIT_AUTHOR_NAME / GIT_AUTHOR_EMAIL  used only if git user.* is unset on the worker
 
-The worker needs Node 18+, git, and push access to GitHub (SSH deploy key or HTTPS token).
-After a successful push, .github/workflows/pages.yml builds and deploys GitHub Pages.
+The worker needs Node 18+, Python 3 with pandas/requests
+(requirements-guangdong-dengue.txt), git, and push access to GitHub
+(SSH deploy key or HTTPS token). After a successful push,
+.github/workflows/pages.yml builds and deploys GitHub Pages.
 """
 
 from __future__ import annotations

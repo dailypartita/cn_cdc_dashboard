@@ -3,7 +3,7 @@
  * Copy committed CSVs into public/download and emit Parquet siblings
  * so `output: "export"` can serve them as static files.
  */
-import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parquetWriteFile } from "hyparquet-writer";
@@ -207,6 +207,25 @@ mkdirSync(OUT, { recursive: true });
 for (const file of MAIN_FILES) copyMain(file);
 copyDir("snapshots");
 copyDir("notifiable");
+
+const gdCleaned = join(DATA, "processed", "guangdong_dengue_monthly_cleaned_2004_present.csv");
+const gdOfficial = join(DATA, "processed", "guangdong_dengue_monthly.csv");
+const gdExport = join(DATA, "export", "guangdong_dengue_monthly.csv");
+if (existsSync(gdCleaned)) {
+  writeCsvAndParquet(
+    "guangdong_dengue_monthly_cleaned_2004_present.csv",
+    readFileSync(gdCleaned, "utf8"),
+  );
+}
+if (existsSync(gdOfficial)) {
+  writeCsvAndParquet(
+    "guangdong_dengue_monthly_official.csv",
+    readFileSync(gdOfficial, "utf8"),
+  );
+}
+if (existsSync(gdExport)) {
+  writeCsvAndParquet("guangdong_dengue_monthly.csv", readFileSync(gdExport, "utf8"));
+}
 
 writeCsvAndParquet("charts/notifiable-cases.csv", notifiableMetricCsv("cases"));
 writeCsvAndParquet("charts/notifiable-deaths.csv", notifiableMetricCsv("deaths"));

@@ -13,14 +13,19 @@ if ! command -v node >/dev/null; then
   echo "node is required (18+)" >&2
   exit 1
 fi
+if ! command -v python3 >/dev/null; then
+  echo "python3 is required for Guangdong dengue monthly check" >&2
+  exit 1
+fi
 
 git fetch "$REMOTE" "$BRANCH"
 git checkout "$BRANCH"
 git pull --ff-only "$REMOTE" "$BRANCH"
 
+python3 -m pip install -q -r requirements-guangdong-dengue.txt
 node scripts/sync-data.mjs
 
-git add data
+git add data docs
 if git diff --cached --quiet; then
   echo "No data changes; skip push."
   exit 0

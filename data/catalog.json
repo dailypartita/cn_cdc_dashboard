@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-11-24T02:54:23.747Z",
+  "synced_at": "2026-11-27T00:28:08.622Z",
   "source": {
     "sentinel": "https://www.chinacdc.cn/jksj/jksj04_14275/",
     "notifiable": "https://www.chinacdc.cn/jksj/jksj01/",
@@ -13,17 +13,17 @@
     "guangdong_dengue_cdcp": "https://cdcp.gd.gov.cn/"
   },
   "sentinel": {
-    "latest_key": "2026-W46",
-    "latest_label": "2026年第46周",
-    "reference_date": "2026-11-09",
-    "target_end_date": "2026-11-15",
-    "report_week": 46,
-    "weeks": 105,
-    "rows": 1155,
+    "latest_key": "2026-W47",
+    "latest_label": "2026年第47周",
+    "reference_date": "2026-11-16",
+    "target_end_date": "2026-11-22",
+    "report_week": 47,
+    "weeks": 106,
+    "rows": 1166,
     "crawl": "ok",
     "error": null,
-    "unchanged": true,
-    "synced_at": "2026-11-19T22:57:59.165Z"
+    "unchanged": false,
+    "synced_at": "2026-11-27T00:28:08.622Z"
   },
   "notifiable": {
     "latest_month": "2026-10",
@@ -103,17 +103,17 @@
     "synced_at": "2026-11-11T22:32:04.577Z"
   },
   "covid_positivity": {
-    "latest_key": "2026-W46",
-    "latest_label": "2026年第46周",
-    "reference_date": "2026-11-09",
-    "target_end_date": "2026-11-15",
-    "report_week": 46,
-    "weeks": 206,
-    "rows": 206,
+    "latest_key": "2026-W47",
+    "latest_label": "2026年第47周",
+    "reference_date": "2026-11-16",
+    "target_end_date": "2026-11-22",
+    "report_week": 47,
+    "weeks": 207,
+    "rows": 207,
     "crawl": "ok",
     "error": null,
-    "unchanged": true,
-    "synced_at": "2026-11-19T22:57:59.165Z",
+    "unchanged": false,
+    "synced_at": "2026-11-27T00:28:08.622Z",
     "history_note": "门急诊 ILI 新冠核酸阳性率自 2022-W49 起。没有找到更早的同一口径周序列，未并入 2020–2022 年每日确诊数。"
   },
   "guangdong_dengue": {
@@ -128,7 +128,7 @@
     "definition_note": "广东省卫健委 / 疾控局法定传染病月报中的登革热本期发病数（含输入，除非脚注另有说明）。病例粒度是月度；日常同步只检查是否有新月报。缺失月留空，不插值、不用全国数代替。清洗主表优先官方月报，其次 Zenodo（≥2022-01），更早用公共卫生科学数据中心。",
     "crawl": "ok",
     "error": null,
-    "unchanged": false,
+    "unchanged": true,
     "synced_at": "2026-11-24T02:54:23.747Z"
   }
 }
